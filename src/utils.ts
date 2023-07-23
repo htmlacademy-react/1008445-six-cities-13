@@ -5,14 +5,14 @@ const TAG_DATE_FORMAT = 'YYYY-MM-DD';
 const getHumanDate = (date: string): string => {
   if (date) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-    return dayjs(date).format(DATE_FORMAT) as string;
+    return dayjs(date).format(DATE_FORMAT);
   }
   return '';
 };
 const getTagDate = (date: string): string => {
   if (date) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-    return dayjs(date).format(TAG_DATE_FORMAT) as string;
+    return dayjs(date).format(TAG_DATE_FORMAT);
   }
   return '';
 };
