@@ -1,19 +1,18 @@
 import React from 'react';
-import { StarValues } from '../../../const.ts';
+import { RatingStarValues } from '../../../const.ts';
 import { Comment } from '../../../types/offer.ts';
 
-type commentState = {
+type RatingStarListProps = {
   comment: Comment;
   setComment: React.Dispatch<React.SetStateAction<{ rating: number; review: string }>>;
 }
-type StarInput = {
+
+type RatingStarProps = RatingStarListProps & {
   starValue: number;
   title: string;
 }
 
-type Star = StarInput & commentState
-
-function InputStar({ starValue, title, comment, setComment }: Star) {
+function RatingStar({ starValue, title, comment, setComment }: RatingStarProps) {
   return (
     <>
       <input
@@ -40,13 +39,13 @@ function InputStar({ starValue, title, comment, setComment }: Star) {
   );
 }
 
-export default function InputStarList({ comment, setComment }: commentState) {
+export default function RatingStarList({ comment, setComment }: RatingStarListProps) {
   return (
     <div className="reviews__rating-form form__rating">
       {
-        (StarValues.map(({ value, title }) =>
+        (RatingStarValues.map(({ value, title }) =>
           (
-            <InputStar
+            <RatingStar
               key={ value }
               starValue={ value }
               title={ title }

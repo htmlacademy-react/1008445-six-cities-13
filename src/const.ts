@@ -1,10 +1,12 @@
-import {LayoutOption} from './types/layout.ts';
+import { LayoutClassOptions } from './types/layout.ts';
 
 enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer/:id',
+  AnyOffer = '/offer/',
+  NotFound = '/page-not-found'
 }
 enum AuthorizationStatus {
   Auth = 'AUTH',
@@ -42,30 +44,40 @@ const nearOfferItemClassOptions = {
   placeCardBookmarkButtonClass: 'place-card__bookmark-button--active'
 };
 
-const LayoutClassOptions: LayoutOption[] = [
-  {
-    path: AppRoute.Main,
+const LayoutClassOptions: LayoutClassOptions = {
+  [ AppRoute.Main ] : {
     pageClass: 'page--gray page--main',
-    mainClass: 'page__main--index'
+    mainClass: 'page__main--index',
+    isNavVisible: true
   },
-  {
-    path: '/offer',
+  [ AppRoute.AnyOffer ]: {
     pageClass: 'page',
-    mainClass: 'page__main--offer'
+    mainClass: 'page__main--offer',
+    isNavVisible: true
   },
-  {
-    path: AppRoute.Login,
+  [ AppRoute.Offer ]: {
+    pageClass: 'page',
+    mainClass: 'page__main--offer',
+    isNavVisible: true
+  },
+  [ AppRoute.Login ]: {
     pageClass: 'page--gray page--login',
-    mainClass: 'page__main--login'
+    mainClass: 'page__main--login',
+    isNavVisible: false
   },
-  {
-    path: AppRoute.Favorites,
+  [ AppRoute.Favorites ]: {
     pageClass: 'page',
-    mainClass: 'page__main--favorites'
+    mainClass: 'page__main--favorites',
+    isNavVisible: true
+  },
+  [ AppRoute.NotFound ]: {
+    pageClass: 'page--gray page--login',
+    mainClass: 'page__main--login',
+    isNavVisible: false
   }
-];
+};
 
-const StarValues = [
+const RatingStarValues = [
   {
     value: 5,
     title: 'perfect'
@@ -88,7 +100,6 @@ const StarValues = [
   }
 ];
 
-
 export {
   AppRoute,
   AuthorizationStatus,
@@ -96,5 +107,5 @@ export {
   mainOfferItemClassOptions,
   nearOfferItemClassOptions,
   LayoutClassOptions,
-  StarValues
+  RatingStarValues
 };

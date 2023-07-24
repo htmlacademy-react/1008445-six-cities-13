@@ -41,6 +41,10 @@ function App({ offers, fullOffers, reviews } : AppProps) {
               element={ <LoginPage/> }
             />
             <Route
+              path={ AppRoute.NotFound }
+              element={ <NotFoundPage/> }
+            />
+            <Route
               path="*"
               element={ <NotFoundPage/> }
             />

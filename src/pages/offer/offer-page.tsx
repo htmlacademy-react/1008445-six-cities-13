@@ -1,10 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 import { FullOffer, Review } from '../../types/offer.ts';
-import { capitalizeFirstLetter } from '../../utils.ts';
 import ImageList from './components/image-list.tsx';
 import InsideItemList from './components/inside-item-list.tsx';
 import { Navigate, useParams } from 'react-router-dom';
-import {AppRoute, nearOfferItemClassOptions} from '../../const.ts';
+import { AppRoute, nearOfferItemClassOptions } from '../../const.ts';
 import OfferList from '../main/components/offer-list.tsx';
 import ReviewItemList from './components/review-item-list.tsx';
 import CommentForm from './components/comment-form.tsx';
@@ -16,10 +15,10 @@ type OfferPageProps = {
 
 function OfferPage({ offers, reviews }: OfferPageProps) {
   const params = useParams();
-  const fullOffer = offers.find(({ id }) => params.id === id);
+  const fullOffer = offers.find(({ id }) => id === params.id);
   if (!fullOffer) {
     return (
-      <Navigate to={ AppRoute.Main } />
+      <Navigate to={ AppRoute.NotFound } />
     );
   }
   const {
@@ -71,8 +70,8 @@ function OfferPage({ offers, reviews }: OfferPageProps) {
               <span className="offer__rating-value rating__value">{ rating }</span>
             </div>
             <ul className="offer__features">
-              <li className="offer__feature offer__feature--entire">
-                { capitalizeFirstLetter(type) }
+              <li className="offer__feature offer__feature--entire capitalize">
+                { type }
               </li>
               <li className="offer__feature offer__feature--bedrooms">
                 { bedrooms } Bedrooms

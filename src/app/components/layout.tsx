@@ -5,18 +5,17 @@ import { getLayoutClassOptions } from '../../utils.ts';
 
 export default function Layout () {
   const { pathname } = useLocation();
-  const { pageClass, mainClass, isLoginOrPageNotFound } = getLayoutClassOptions(pathname);
+  const { pageClass, mainClass, isNavVisible } = getLayoutClassOptions(pathname);
   return (
     <div className={ `page ${ pageClass }` }>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
             <Logo/>
-            { !isLoginOrPageNotFound && <Nav/> }
+            { isNavVisible && <Nav/> }
           </div>
         </div>
       </header>
-
       <main className={ `page__main ${ mainClass }` }>
         <Outlet/>
       </main>

@@ -1,5 +1,4 @@
 import { Offer, OfferItemClassOptions } from '../../../types/offer.ts';
-import { capitalizeFirstLetter } from '../../../utils.ts';
 import { Link } from 'react-router-dom';
 import {AppRoute} from '../../../const.ts';
 
@@ -72,7 +71,7 @@ export default function OfferItem({ offer, onOfferHoverHandler, classOptions }: 
         <h2 className="place-card__name">
           <Link to={ `${ AppRoute.Offer.slice(0, -3) }${ id }` }>{ title }</Link>
         </h2>
-        <p className="place-card__type">{ capitalizeFirstLetter(type) }</p>
+        <p className="place-card__type capitalize">{ type }</p>
       </div>
     </article>
   );

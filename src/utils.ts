@@ -1,54 +1,51 @@
-import { AppRoute } from './const.ts';
+import {AppRoute, LayoutClassOptions} from './const.ts';
 import * as dayjs from 'dayjs';
 const DATE_FORMAT = 'MMM D';
 const TAG_DATE_FORMAT = 'YYYY-MM-DD';
-const getHumanDate = (date: string): string => {
-  if (date) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-    return dayjs(date).format(DATE_FORMAT);
-  }
-  return '';
-};
-const getTagDate = (date: string): string => {
-  if (date) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-    return dayjs(date).format(TAG_DATE_FORMAT);
-  }
-  return '';
-};
-const capitalizeFirstLetter = (string: string) => string.charAt(0).toUpperCase() + string.slice(1);
+const getHumanDate = (date: string): string => date ? dayjs(date).format(DATE_FORMAT) : '';
+const getTagDate = (date: string): string => date ? dayjs(date).format(TAG_DATE_FORMAT) : '';
 const getLayoutClassOptions = (pathname: string) => {
+  if (pathname.includes(AppRoute.AnyOffer)) {
+    return LayoutClassOptions[ AppRoute.AnyOffer ];
+  }
+  switch (pathname) {
+    case AppRoute.Main:
+    case AppRoute.Favorites:
+    case AppRoute.Login: return LayoutClassOptions[ pathname ];
+    default: return LayoutClassOptions[ AppRoute.NotFound ];
+  }
+};
+/*const getLayoutClassOptions = (pathname: string) => {
   let pageClass = '';
   let mainClass = '';
-  let isLoginOrPageNotFound = false;
+  let isNavVisible = false;
   switch (pathname) {
     case AppRoute.Main:
       pageClass = 'page--gray page--main';
       mainClass = 'page__main--index';
+      isNavVisible = true;
       break;
     case AppRoute.Favorites:
       pageClass = '';
       mainClass = 'page__main--favorites';
+      isNavVisible = true;
       break;
     case AppRoute.Login:
       pageClass = 'page--gray page--login';
       mainClass = 'page__main--login';
-      isLoginOrPageNotFound = true;
       break;
     default:
       pageClass = 'page--gray page--login';
       mainClass = 'page__main--login';
-      isLoginOrPageNotFound = true;
   }
-  if (pathname.includes(AppRoute.Offer.slice(0, -3))) {
+  if (pathname.includes(AppRoute.AnyOffer)) {
     pageClass = '';
     mainClass = 'page__main--offer';
-    isLoginOrPageNotFound = false;
+    isNavVisible = true;
   }
-  return { pageClass, mainClass, isLoginOrPageNotFound };
-};
+  return { pageClass, mainClass, isNavVisible };
+};*/
 export {
-  capitalizeFirstLetter,
   getLayoutClassOptions,
   getHumanDate,
   getTagDate
