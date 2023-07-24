@@ -1,38 +1,54 @@
-import Main from '../pages/main/main.tsx';
+import MainPage from '../pages/main/main-page.tsx';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus, PLACES_COUNT } from '../const.ts';
-import Login from '../pages/login/login.tsx';
-import Favorites from '../pages/favorites/favorites.tsx';
-import Offer from '../pages/offer/offer.tsx';
-import NotFoundPage from '../pages/404/not-found.tsx';
-import PrivateRoute from '../common-components/private-route.tsx';
+import { AppRoute, AuthorizationStatus } from '../const.ts';
+import LoginPage from '../pages/login/login-page.tsx';
+import FavoritesPage from '../pages/favorites/favorites-page.tsx';
+import OfferPage from '../pages/offer/offer-page.tsx';
+import NotFoundPage from '../pages/404/not-found-page.tsx';
+import PrivateRoute from './components/private-route.tsx';
 import { HelmetProvider } from 'react-helmet-async';
-function App() {
+import { Offer, FullOffer, Review } from '../types/offer.ts';
+import Layout from './components/layout.tsx';
+import LayoutFooter from './components/layout-footer.tsx';
+type AppProps = {
+  offers: Offer[];
+  fullOffers: FullOffer[];
+  reviews: Review[];
+}
+function App({ offers, fullOffers, reviews } : AppProps) {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route index element={ <Main placesCount = { PLACES_COUNT }/> }/>
-          <Route
-            path={ AppRoute.Offer }
-            element={ <Offer/> }
-          />
-          <Route
-            path={ AppRoute.Favorites }
-            element={
-              <PrivateRoute authorizationStatus={ AuthorizationStatus.NoAuth }>
-                <Favorites/>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={ AppRoute.Login }
-            element={ <Login/> }
-          />
-          <Route
-            path="*"
-            element={ <NotFoundPage/> }
-          />
+          <Route path="/" element={ <Layout/> }>
+            <Route index element={ <MainPage offers={ offers }/> }/>
+            <Route
+              path={ `${ AppRoute.Offer }/:offerId` }
+              element={ <OfferPage offers={ fullOffers } reviews={ reviews }/> }
+            />
+            <Route path={ AppRoute.Favorites } element={<LayoutFooter/>}>
+              <Route
+                index
+                element={
+                  <PrivateRoute authorizationStatus={ AuthorizationStatus.Auth }>
+                    <FavoritesPage offers={ offers }/>
+                  </PrivateRoute>
+                }
+              />
+            </Route>
+            <Route
+              path={ AppRoute.Login }
+              element={ <LoginPage/> }
+            />
+            <Route
+              path={ AppRoute.NotFound }
+              element={ <NotFoundPage/> }
+            />
+            <Route
+              path="*"
+              element={ <NotFoundPage/> }
+            />
+          </Route>
         </Routes>
       </BrowserRouter>
     </HelmetProvider>
