@@ -14,8 +14,8 @@ type OfferPageProps = {
 }
 
 function OfferPage({ offers, reviews }: OfferPageProps) {
-  const params = useParams();
-  const fullOffer = offers.find(({ id }) => id === params.id);
+  const { offerId } = useParams();
+  const fullOffer = offers.find(({ id }) => id === offerId);
   if (!fullOffer) {
     return (
       <Navigate to={ AppRoute.NotFound } />

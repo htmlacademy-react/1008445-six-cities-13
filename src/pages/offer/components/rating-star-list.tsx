@@ -44,15 +44,15 @@ export default function RatingStarList({ comment, setComment }: RatingStarListPr
   return (
     <div className="reviews__rating-form form__rating">
       {
-        (RatingStarScores.map(({ score, title }) =>
-          (
-            <RatingStar
-              key={ score }
-              score={ score }
-              title={ title }
-              comment={ comment }
-              setComment={ setComment }
-            />)))
+        RatingStarScores.map(({ score, title }) => (
+          <RatingStar
+            key={ score }
+            score={ score }
+            title={ title }
+            comment={ comment }
+            setComment={ setComment }
+          />)
+        )
       }
     </div>
   );

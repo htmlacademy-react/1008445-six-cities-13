@@ -4,8 +4,7 @@ enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Offer = '/offer/:id',
-  AnyOffer = '/offer/',
+  Offer = '/offer',
   NotFound = '/page-not-found'
 }
 enum AuthorizationStatus {
@@ -48,11 +47,6 @@ const LayoutClassOptions: LayoutClassOptions = {
   [ AppRoute.Main ] : {
     pageClass: 'page--gray page--main',
     mainClass: 'page__main--index',
-    isNavVisible: true
-  },
-  [ AppRoute.AnyOffer ]: {
-    pageClass: 'page',
-    mainClass: 'page__main--offer',
     isNavVisible: true
   },
   [ AppRoute.Offer ]: {

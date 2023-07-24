@@ -23,7 +23,7 @@ function App({ offers, fullOffers, reviews } : AppProps) {
           <Route path="/" element={ <Layout/> }>
             <Route index element={ <MainPage offers={ offers }/> }/>
             <Route
-              path={ AppRoute.Offer }
+              path={ `${ AppRoute.Offer }/:offerId` }
               element={ <OfferPage offers={ fullOffers } reviews={ reviews }/> }
             />
             <Route path={ AppRoute.Favorites } element={<LayoutFooter/>}>
