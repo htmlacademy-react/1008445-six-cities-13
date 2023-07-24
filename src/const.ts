@@ -77,27 +77,12 @@ const LayoutClassOptions: LayoutClassOptions = {
   }
 };
 
-const RatingStarValues = [
-  {
-    value: 5,
-    title: 'perfect'
-  },
-  {
-    value: 4,
-    title: 'good'
-  },
-  {
-    value: 3,
-    title: 'not bad'
-  },
-  {
-    value: 2,
-    title: 'badly'
-  },
-  {
-    value: 1,
-    title: 'terrible'
-  }
+const RatingStarScores = [
+  { score: 5, title: 'perfect' },
+  { score: 4, title: 'good'},
+  { score: 3, title: 'not bad' },
+  { score: 2, title: 'badly' },
+  { score: 1, title: 'terrible' }
 ];
 
 export {
@@ -107,5 +92,5 @@ export {
   mainOfferItemClassOptions,
   nearOfferItemClassOptions,
   LayoutClassOptions,
-  RatingStarValues
+  RatingStarScores
 };

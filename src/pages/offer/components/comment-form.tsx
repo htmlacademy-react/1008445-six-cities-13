@@ -14,6 +14,7 @@ export default function CommentForm() {
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
+        value={ comment.review }
         onChange={
           ({ target}) => {
             setComment({

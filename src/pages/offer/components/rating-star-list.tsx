@@ -1,5 +1,5 @@
 import React from 'react';
-import { RatingStarValues } from '../../../const.ts';
+import { RatingStarScores } from '../../../const.ts';
 import { Comment } from '../../../types/offer.ts';
 
 type RatingStarListProps = {
@@ -8,19 +8,20 @@ type RatingStarListProps = {
 }
 
 type RatingStarProps = RatingStarListProps & {
-  starValue: number;
+  score: number;
   title: string;
 }
 
-function RatingStar({ starValue, title, comment, setComment }: RatingStarProps) {
+function RatingStar({ score, title, comment, setComment }: RatingStarProps) {
   return (
     <>
       <input
         className="form__rating-input visually-hidden"
         name="rating"
-        value={ starValue }
-        id={ `${ starValue }-stars`}
+        value={ score }
+        id={ `${ score }-stars`}
         type="radio"
+        checked={ score === comment.rating }
         onChange={
           ({ target}) => {
             setComment({
@@ -30,7 +31,7 @@ function RatingStar({ starValue, title, comment, setComment }: RatingStarProps) 
           }
         }
       />
-      <label htmlFor={ `${ starValue }-stars`} className="reviews__rating-label form__rating-label" title={ title }>
+      <label htmlFor={ `${ score }-stars`} className="reviews__rating-label form__rating-label" title={ title }>
         <svg className="form__star-image" width="37" height="33">
           <use xlinkHref="#icon-star"></use>
         </svg>
@@ -43,11 +44,11 @@ export default function RatingStarList({ comment, setComment }: RatingStarListPr
   return (
     <div className="reviews__rating-form form__rating">
       {
-        (RatingStarValues.map(({ value, title }) =>
+        (RatingStarScores.map(({ score, title }) =>
           (
             <RatingStar
-              key={ value }
-              starValue={ value }
+              key={ score }
+              score={ score }
               title={ title }
               comment={ comment }
               setComment={ setComment }
