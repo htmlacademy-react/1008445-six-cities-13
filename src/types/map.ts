@@ -4,4 +4,10 @@ export type Point = {
   lng: number;
 };
 
+export type Location = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+}
+
 export type Points = Point[];

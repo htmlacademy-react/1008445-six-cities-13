@@ -2,11 +2,6 @@ import { City } from '../types/offer.ts';
 import { Points } from '../types/map.ts';
 const POINTS: Points = [
   {
-    title: 'Саундвью',
-    lat: 40.816881,
-    lng: -73.872768
-  },
-  {
     title: 'Ферри Поинт',
     lat: 52.3909553943508,
     lng: 4.85309666406198
