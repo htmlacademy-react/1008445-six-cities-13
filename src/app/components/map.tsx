@@ -10,9 +10,10 @@ type MapProps = {
   city: City;
   points: Points;
   selectedPoint: Point | undefined;
+  mapClass: string;
 }
 
-export default function Map({ city, points, selectedPoint }: MapProps) {
+export default function Map({ city, points, selectedPoint, mapClass }: MapProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -35,6 +36,6 @@ export default function Map({ city, points, selectedPoint }: MapProps) {
   }, [ map, points, selectedPoint ]);
 
   return (
-    <div id="map" ref={ mapRef }></div>
+    <div id="map" className={ mapClass } ref={ mapRef }></div>
   );
 }

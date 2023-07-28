@@ -18,8 +18,7 @@ export default function useMap(mapRef: MutableRefObject<HTMLElement | null>, cit
       });
 
       const layer = new TileLayer(
-        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        {
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }
       );

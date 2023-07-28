@@ -18,6 +18,11 @@ enum OfferListType {
   Near = 'near',
   Favorites = 'favorites',
 }
+
+enum MapType {
+  Main = 'main',
+  Offer = 'offer',
+}
 const ListClassOptions: ListClassOptions = {
   [ OfferListType.Main ]: {
     placeListClass: 'cities__places-list places__list tabs__content',
@@ -94,12 +99,20 @@ const currentCustomIcon = new Icon({
   iconSize: [40, 40],
   iconAnchor: [20, 40]
 });
+
+const MapClassOptions = {
+  [ MapType.Main ]: 'map-main',
+  [ MapType.Offer ]: 'map-offer'
+};
+
 export {
   AppRoute,
   OfferListType,
   AuthorizationStatus,
+  MapType,
   ListClassOptions,
   LayoutClassOptions,
+  MapClassOptions,
   RatingStarScores,
   defaultCustomIcon,
   currentCustomIcon
