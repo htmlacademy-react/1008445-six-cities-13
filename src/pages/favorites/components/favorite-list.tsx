@@ -1,5 +1,5 @@
 import OfferList from '../../main/components/offer-list.tsx';
-import { favoritesOfferItemClassOptions } from '../../../const.ts';
+import { ListClassOptions, OfferListType } from '../../../const.ts';
 import { Offer } from '../../../types/offer.ts';
 
 type FavoriteListProps = {
@@ -21,7 +21,7 @@ export default function FavoriteList({ offers }: FavoriteListProps) {
             </div>
             <OfferList
               offers={ offers.filter(({ city }) => city.name === location) }
-              classOption={ favoritesOfferItemClassOptions }
+              classOption={ ListClassOptions[ OfferListType.Favorites ] }
             />
           </li>
         ))

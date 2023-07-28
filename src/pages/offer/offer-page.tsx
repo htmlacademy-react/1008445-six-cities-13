@@ -3,7 +3,7 @@ import { FullOffer, Review } from '../../types/offer.ts';
 import ImageList from './components/image-list.tsx';
 import InsideItemList from './components/inside-item-list.tsx';
 import { Navigate, useParams } from 'react-router-dom';
-import { AppRoute, nearOfferItemClassOptions } from '../../const.ts';
+import { AppRoute, ListClassOptions, OfferListType } from '../../const.ts';
 import OfferList from '../main/components/offer-list.tsx';
 import ReviewItemList from './components/review-item-list.tsx';
 import CommentForm from './components/comment-form.tsx';
@@ -122,7 +122,7 @@ function OfferPage({ offers, reviews }: OfferPageProps) {
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OfferList offers={ offers } classOption={ nearOfferItemClassOptions }/>
+          <OfferList offers={ offers } classOption={ ListClassOptions[ OfferListType.Near ] }/>
         </section>
       </div>
     </>

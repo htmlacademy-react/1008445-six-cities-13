@@ -1,3 +1,5 @@
+import { Location } from './map.ts';
+
 export type Offer = {
   id: string;
   title: string;
@@ -25,12 +27,6 @@ export type FullOffer = Offer & OfferDescription
 export type City = {
   name: string;
   location: Location;
-}
-
-export type Location = {
-  latitude: number;
-  longitude: number;
-  zoom: number;
 }
 
 export type User = {

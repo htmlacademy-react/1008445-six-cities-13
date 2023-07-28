@@ -1,3 +1,8 @@
 .capitalize {
   text-transform: capitalize;
 }
+
+#map {
+  height: 720px;
+  width: 512px;
+}

@@ -1,4 +1,5 @@
-import { LayoutClassOptions } from './types/layout.ts';
+import { LayoutClassOptions, ListClassOptions } from './types/layout.ts';
+import { Icon } from 'leaflet';
 
 enum AppRoute {
   Main = '/',
@@ -12,37 +13,40 @@ enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
-
-const favoritesOfferItemClassOptions = {
-  placeListClass: 'favorites__places',
-  placeCardClass: 'favorites__card',
-  placeCardImageWrapperClass: 'favorites__image-wrapper',
-  imageWith: 150,
-  imageHeight: 110,
-  placeCardInfoClass: 'favorites__card-info',
-  placeCardBookmarkButtonClass: 'place-card__bookmark-button--active'
+enum OfferListType {
+  Main = 'main',
+  Near = 'near',
+  Favorites = 'favorites',
+}
+const ListClassOptions: ListClassOptions = {
+  [ OfferListType.Main ]: {
+    placeListClass: 'cities__places-list places__list tabs__content',
+    placeCardClass: 'cities__card',
+    placeCardImageWrapperClass: 'cities__image-wrapper',
+    imageWith: 260,
+    imageHeight: 200,
+    placeCardInfoClass: '',
+    placeCardBookmarkButtonClass: ''
+  },
+  [ OfferListType.Favorites ]: {
+    placeListClass: 'favorites__places',
+    placeCardClass: 'favorites__card',
+    placeCardImageWrapperClass: 'favorites__image-wrapper',
+    imageWith: 150,
+    imageHeight: 110,
+    placeCardInfoClass: 'favorites__card-info',
+    placeCardBookmarkButtonClass: 'place-card__bookmark-button--active'
+  },
+  [ OfferListType.Near ]: {
+    placeListClass: 'near-places__list places__list',
+    placeCardClass: 'near-places__card place-card',
+    placeCardImageWrapperClass: 'near-places__image-wrapper',
+    imageWith: 260,
+    imageHeight: 200,
+    placeCardInfoClass: '',
+    placeCardBookmarkButtonClass: 'place-card__bookmark-button--active'
+  },
 };
-
-const mainOfferItemClassOptions = {
-  placeListClass: 'cities__places-list places__list tabs__content',
-  placeCardClass: 'cities__card',
-  placeCardImageWrapperClass: 'cities__image-wrapper',
-  imageWith: 260,
-  imageHeight: 200,
-  placeCardInfoClass: '',
-  placeCardBookmarkButtonClass: ''
-};
-
-const nearOfferItemClassOptions = {
-  placeListClass: 'near-places__list places__list',
-  placeCardClass: 'near-places__card place-card',
-  placeCardImageWrapperClass: 'near-places__image-wrapper',
-  imageWith: 260,
-  imageHeight: 200,
-  placeCardInfoClass: '',
-  placeCardBookmarkButtonClass: 'place-card__bookmark-button--active'
-};
-
 const LayoutClassOptions: LayoutClassOptions = {
   [ AppRoute.Main ] : {
     pageClass: 'page--gray page--main',
@@ -79,12 +83,24 @@ const RatingStarScores = [
   { score: 1, title: 'terrible' }
 ];
 
+const defaultCustomIcon = new Icon({
+  iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40]
+});
+
+const currentCustomIcon = new Icon({
+  iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40]
+});
 export {
   AppRoute,
+  OfferListType,
   AuthorizationStatus,
-  favoritesOfferItemClassOptions,
-  mainOfferItemClassOptions,
-  nearOfferItemClassOptions,
+  ListClassOptions,
   LayoutClassOptions,
-  RatingStarScores
+  RatingStarScores,
+  defaultCustomIcon,
+  currentCustomIcon
 };
