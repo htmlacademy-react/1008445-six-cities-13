@@ -19,7 +19,7 @@ function RatingStar({ score, title, comment, setComment }: RatingStarProps) {
         className="form__rating-input visually-hidden"
         name="rating"
         value={ score }
-        id={ `${ score }-stars`}
+        id={ `${ score }-stars` }
         type="radio"
         checked={ score === comment.rating }
         onChange={

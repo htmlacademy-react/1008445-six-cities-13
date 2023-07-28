@@ -1,7 +1,9 @@
 import { Offer } from '../../types/offer.ts';
 import { useState} from 'react';
-import { mainOfferItemClassOptions } from '../../const.ts';
+import { ListClassOptions, OfferListType } from '../../const.ts';
 import OfferList from './components/offer-list.tsx';
+import Map from '../../app/components/map.tsx';
+import { POINTS, city } from '../../mock/points.ts';
 
 type MainPageProps = {
   offers: Offer[];
@@ -72,11 +74,13 @@ function MainPage({ offers }: MainPageProps) {
             <OfferList
               offers={ offers }
               onOfferHoverHandler={ setActiveOffer }
-              classOption={ mainOfferItemClassOptions }
+              classOption={ ListClassOptions[ OfferListType.Main ] }
             />
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <section className="cities__map map">
+              <Map points = { POINTS } city={ city } selectedPoint={ undefined }/>
+            </section>
           </div>
         </div>
       </div>
