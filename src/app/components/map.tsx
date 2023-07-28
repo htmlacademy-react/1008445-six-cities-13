@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import useMap from '../../hooks/useMap.tsx';
+import useMap from '../../hooks/use-map.tsx';
 import { layerGroup, Marker } from 'leaflet';
 import { City } from '../../types/offer.ts';
 import { Points ,Point } from '../../types/map.ts';
