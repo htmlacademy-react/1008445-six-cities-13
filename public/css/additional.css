@@ -2,17 +2,21 @@
   text-transform: capitalize;
 }
 
-.map-main {
-  height: 720px;
-  width: 512px;
+.map__main {
+  max-height: 720px;
+  max-width: 512px;
+  height: 100%;
+  width: 100%;
 }
 
-.map-offer {
-  height: 579px;
-  width: 1144px;
+.map__offer {
+  max-height: 579px;
+  max-width: 1144px;
+  height: 100%;
+  width: 100%;
   margin: 0 auto;
 }
 
-.map-clear {
+.map--clear {
   background-image: none;
 }

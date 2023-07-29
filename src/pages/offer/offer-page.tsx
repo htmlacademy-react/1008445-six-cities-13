@@ -119,7 +119,7 @@ function OfferPage({ offers, reviews }: OfferPageProps) {
             </section>
           </div>
         </div>
-        <section className="offer__map map map-clear">
+        <section className="offer__map map map--clear">
           <Map
             city={ city }
             points={ POINTS }

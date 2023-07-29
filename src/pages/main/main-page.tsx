@@ -78,7 +78,7 @@ function MainPage({ offers }: MainPageProps) {
             />
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map map-clear">
+            <section className="cities__map map map--clear">
               <Map
                 points = { POINTS }
                 city={ city }

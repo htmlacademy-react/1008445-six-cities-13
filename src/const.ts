@@ -101,8 +101,8 @@ const currentCustomIcon = new Icon({
 });
 
 const MapClassOptions = {
-  [ MapType.Main ]: 'map-main',
-  [ MapType.Offer ]: 'map-offer'
+  [ MapType.Main ]: 'map__main',
+  [ MapType.Offer ]: 'map__offer'
 };
 
 export {
