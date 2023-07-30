@@ -18,6 +18,11 @@ enum OfferListType {
   Near = 'near',
   Favorites = 'favorites',
 }
+
+enum MapType {
+  Main = 'main',
+  Offer = 'offer',
+}
 const ListClassOptions: ListClassOptions = {
   [ OfferListType.Main ]: {
     placeListClass: 'cities__places-list places__list tabs__content',
@@ -85,21 +90,29 @@ const RatingStarScores = [
 
 const defaultCustomIcon = new Icon({
   iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconSize: [ 40, 40 ],
+  iconAnchor: [ 20, 40 ]
 });
 
 const currentCustomIcon = new Icon({
   iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconSize: [ 40, 40 ],
+  iconAnchor: [ 20, 40 ]
 });
+
+const MapClassOptions = {
+  [ MapType.Main ]: 'map__main',
+  [ MapType.Offer ]: 'map__offer'
+};
+
 export {
   AppRoute,
   OfferListType,
   AuthorizationStatus,
+  MapType,
   ListClassOptions,
   LayoutClassOptions,
+  MapClassOptions,
   RatingStarScores,
   defaultCustomIcon,
   currentCustomIcon

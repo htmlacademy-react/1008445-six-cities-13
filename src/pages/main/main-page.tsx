@@ -1,6 +1,6 @@
 import { Offer } from '../../types/offer.ts';
 import { useState} from 'react';
-import { ListClassOptions, OfferListType } from '../../const.ts';
+import { ListClassOptions, MapClassOptions, MapType, OfferListType } from '../../const.ts';
 import OfferList from './components/offer-list.tsx';
 import Map from '../../app/components/map.tsx';
 import { POINTS, city } from '../../mock/points.ts';
@@ -78,8 +78,13 @@ function MainPage({ offers }: MainPageProps) {
             />
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map">
-              <Map points = { POINTS } city={ city } selectedPoint={ undefined }/>
+            <section className="cities__map map map--clear">
+              <Map
+                points = { POINTS }
+                city={ city }
+                selectedPoint={ undefined }
+                mapClass={ MapClassOptions[ MapType.Main ] }
+              />
             </section>
           </div>
         </div>

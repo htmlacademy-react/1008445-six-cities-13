@@ -3,10 +3,12 @@ import { FullOffer, Review } from '../../types/offer.ts';
 import ImageList from './components/image-list.tsx';
 import InsideItemList from './components/inside-item-list.tsx';
 import { Navigate, useParams } from 'react-router-dom';
-import { AppRoute, ListClassOptions, OfferListType } from '../../const.ts';
+import { AppRoute, ListClassOptions, OfferListType, MapType, MapClassOptions } from '../../const.ts';
 import OfferList from '../main/components/offer-list.tsx';
 import ReviewItemList from './components/review-item-list.tsx';
 import CommentForm from './components/comment-form.tsx';
+import Map from '../../app/components/map.tsx';
+import { city, POINTS } from '../../mock/points.ts';
 
 type OfferPageProps = {
   offers: FullOffer[];
@@ -117,7 +119,14 @@ function OfferPage({ offers, reviews }: OfferPageProps) {
             </section>
           </div>
         </div>
-        <section className="offer__map map"></section>
+        <section className="offer__map map map--clear">
+          <Map
+            city={ city }
+            points={ POINTS }
+            selectedPoint={ undefined }
+            mapClass={ MapClassOptions[ MapType.Offer ] }
+          />
+        </section>
       </section>
       <div className="container">
         <section className="near-places places">

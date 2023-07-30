@@ -8,19 +8,19 @@ export default function useMap(mapRef: MutableRefObject<HTMLElement | null>, cit
   useEffect(() => {
     if (mapRef.current !== null && !isMapRenderedRef.current) {
       const { location } = city;
-      const { latitude , longitude } = location;
+      const { latitude , longitude , zoom} = location;
       const instance = new Map(mapRef.current, {
         center: {
           lat: latitude,
           lng: longitude
         },
-        zoom: 10
+        zoom
       });
 
       const layer = new TileLayer(
-        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        {
-          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
         }
       );
       instance.addLayer(layer);
