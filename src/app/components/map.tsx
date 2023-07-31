@@ -16,7 +16,6 @@ type MapProps = {
 export default function Map({ city, points, selectedPoint, mapClass }: MapProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
-
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
@@ -27,7 +26,7 @@ export default function Map({ city, points, selectedPoint, mapClass }: MapProps)
           selectedPoint !== undefined && title === selectedPoint.title
             ? currentCustomIcon
             : defaultCustomIcon
-        ).addTo(map);
+        ).addTo(markerLayer);
       }
       return () => {
         map.removeLayer(markerLayer);
