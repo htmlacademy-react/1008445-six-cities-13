@@ -20,3 +20,7 @@
 .map--clear {
   background-image: none;
 }
+
+.places__sorting-caption {
+  padding-right: 5px;
+}

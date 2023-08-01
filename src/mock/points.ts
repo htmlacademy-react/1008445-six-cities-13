@@ -1,6 +1,6 @@
-import { City } from '../types/offer.ts';
-import { Points } from '../types/map.ts';
-const POINTS: Points = [
+import { TCity } from '../types/map.ts';
+import { Markers } from '../types/map.ts';
+const POINTS: Markers = [
   {
     title: 'Ферри Поинт',
     lat: 52.3909553943508,
@@ -23,7 +23,7 @@ const POINTS: Points = [
   }
 ];
 
-const city: City = {
+const city: TCity = {
   name: 'Amsterdam',
   location: {
     latitude: 52.4,

@@ -1,6 +1,10 @@
 import React from 'react';
 import { RatingStarScores } from '../../../const.ts';
-import { Comment } from '../../../types/offer.ts';
+
+type Comment = {
+  review: string;
+  rating: number;
+}
 
 type RatingStarListProps = {
   comment: Comment;

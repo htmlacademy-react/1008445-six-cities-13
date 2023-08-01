@@ -1,8 +1,8 @@
 import { getHumanDate, getTagDate } from '../../../utils.ts';
-import { Review } from '../../../types/offer.ts';
+import { TReview } from '../../../types/comment.ts';
 
 type ReviewItemProps = {
-  review: Review;
+  review: TReview;
 }
 export default function ReviewItem({ review }: ReviewItemProps) {
   const { id, user, rating, comment, date } = review;

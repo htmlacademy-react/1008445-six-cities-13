@@ -1,4 +1,4 @@
-import { FullOffer, Offer } from '../types/offer.ts';
+import { TOffer, TPreviewOffer } from '../types/offer.ts';
 const offerDescription = {
   description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
   bedrooms: 1,
@@ -24,7 +24,7 @@ const offerDescription = {
   maxAdults: 4
 };
 
-const offers: Offer[] = [
+const offers: TPreviewOffer[] = [
   {
     id: '6af6f711-c28d-4121-82cd-e0b462a27f00',
     title: 'Beautiful location',
@@ -118,7 +118,7 @@ const offers: Offer[] = [
     previewImage: 'https://loremflickr.com/320/240?lock=4'
   }
 ];
-const fullOffers: FullOffer[] = offers.map((offer) => ({ ...offer, ...offerDescription }));
+const fullOffers: TOffer[] = offers.map((offer) => ({ ...offer, ...offerDescription }));
 const reviews = [
   {
     id: 'b67ddfd5-b953-4a30-8c8d-bd083cd6b62a',

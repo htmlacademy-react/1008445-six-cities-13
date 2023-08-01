@@ -1,9 +1,9 @@
 import OfferList from '../../main/components/offer-list.tsx';
 import { ListClassOptions, OfferListType } from '../../../const.ts';
-import { Offer } from '../../../types/offer.ts';
+import { TPreviewOffer } from '../../../types/offer.ts';
 
 type FavoriteListProps = {
-  offers: Offer[];
+  offers: TPreviewOffer[];
 }
 export default function FavoriteList({ offers }: FavoriteListProps) {
   const locations = [ ...new Set(offers.map(({ city }) => city.name)) ];

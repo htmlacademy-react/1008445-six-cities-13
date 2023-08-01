@@ -1,10 +1,10 @@
 import OfferItem from './offer-item.tsx';
-import { Offer, OfferItemClassOptions } from '../../../types/offer.ts';
+import { TPreviewOffer, TOfferItemClassOptions } from '../../../types/offer.ts';
 
 type OfferListProps = {
-  offers: Offer[];
-  classOption: OfferItemClassOptions;
-  onOfferHoverHandler?: (id: string) => void;
+  offers: TPreviewOffer[];
+  classOption: TOfferItemClassOptions;
+  onOfferHoverHandler?: (offer: TPreviewOffer | null) => void;
 }
 
 export default function OfferList({ offers, classOption, onOfferHoverHandler }: OfferListProps) {
