@@ -1,11 +1,11 @@
-import { Offer, OfferItemClassOptions } from '../../../types/offer.ts';
+import { TPreviewOffer, TOfferItemClassOptions } from '../../../types/offer.ts';
 import { Link } from 'react-router-dom';
 import {AppRoute} from '../../../const.ts';
 
 type OfferItemProps = {
-  offer: Offer;
-  onOfferHoverHandler?: (id: string) => void;
-  classOptions: OfferItemClassOptions;
+  offer: TPreviewOffer;
+  onOfferHoverHandler?: (offer: TPreviewOffer | null) => void;
+  classOptions: TOfferItemClassOptions;
 }
 
 export default function OfferItem({ offer, onOfferHoverHandler, classOptions }: OfferItemProps) {
@@ -27,7 +27,7 @@ export default function OfferItem({ offer, onOfferHoverHandler, classOptions }: 
     rating,
   } = offer;
   const offerOnMouseOverHandler = onOfferHoverHandler
-    ? () => onOfferHoverHandler(id)
+    ? () => onOfferHoverHandler(offer)
     : () => undefined;
   return (
     <article

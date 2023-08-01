@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { FullOffer, Review } from '../../types/offer.ts';
+import { TOffer } from '../../types/offer.ts';
 import ImageList from './components/image-list.tsx';
 import InsideItemList from './components/inside-item-list.tsx';
 import { Navigate, useParams } from 'react-router-dom';
@@ -9,10 +9,11 @@ import ReviewItemList from './components/review-item-list.tsx';
 import CommentForm from './components/comment-form.tsx';
 import Map from '../../app/components/map.tsx';
 import { city, POINTS } from '../../mock/points.ts';
+import { TReview } from '../../types/comment.ts';
 
 type OfferPageProps = {
-  offers: FullOffer[];
-  reviews: Review[];
+  offers: TOffer[];
+  reviews: TReview[];
 }
 
 function OfferPage({ offers, reviews }: OfferPageProps) {
@@ -122,8 +123,7 @@ function OfferPage({ offers, reviews }: OfferPageProps) {
         <section className="offer__map map map--clear">
           <Map
             city={ city }
-            points={ POINTS }
-            selectedPoint={ undefined }
+            markers={ POINTS }
             mapClass={ MapClassOptions[ MapType.Offer ] }
           />
         </section>

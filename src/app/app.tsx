@@ -7,13 +7,14 @@ import OfferPage from '../pages/offer/offer-page.tsx';
 import NotFoundPage from '../pages/404/not-found-page.tsx';
 import PrivateRoute from './components/private-route.tsx';
 import { HelmetProvider } from 'react-helmet-async';
-import { Offer, FullOffer, Review } from '../types/offer.ts';
+import { TPreviewOffer, TOffer } from '../types/offer.ts';
 import Layout from './components/layout.tsx';
 import LayoutFooter from './components/layout-footer.tsx';
+import { TReview } from '../types/comment.ts';
 type AppProps = {
-  offers: Offer[];
-  fullOffers: FullOffer[];
-  reviews: Review[];
+  offers: TPreviewOffer[];
+  fullOffers: TOffer[];
+  reviews: TReview[];
 }
 function App({ offers, fullOffers, reviews } : AppProps) {
   return (

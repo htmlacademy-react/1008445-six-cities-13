@@ -1,5 +1,6 @@
-import { LayoutClassOptions, ListClassOptions } from './types/layout.ts';
+import { TLayoutClassOptions, TListClassOptions } from './types/layout.ts';
 import { Icon } from 'leaflet';
+import { TPreviewOffer } from './types/offer.ts';
 
 enum AppRoute {
   Main = '/',
@@ -18,12 +19,17 @@ enum OfferListType {
   Near = 'near',
   Favorites = 'favorites',
 }
-
 enum MapType {
   Main = 'main',
   Offer = 'offer',
 }
-const ListClassOptions: ListClassOptions = {
+enum SortType {
+  Popular = 'popular',
+  LowToHigh = 'Price: low to high',
+  HighToLow = 'Price: high to low',
+  TopRatedFirst = 'Top rated first'
+}
+const ListClassOptions: TListClassOptions = {
   [ OfferListType.Main ]: {
     placeListClass: 'cities__places-list places__list tabs__content',
     placeCardClass: 'cities__card',
@@ -52,7 +58,7 @@ const ListClassOptions: ListClassOptions = {
     placeCardBookmarkButtonClass: 'place-card__bookmark-button--active'
   },
 };
-const LayoutClassOptions: LayoutClassOptions = {
+const LayoutClassOptions: TLayoutClassOptions = {
   [ AppRoute.Main ] : {
     pageClass: 'page--gray page--main',
     mainClass: 'page__main--index',
@@ -79,7 +85,6 @@ const LayoutClassOptions: LayoutClassOptions = {
     isNavVisible: false
   }
 };
-
 const RatingStarScores = [
   { score: 5, title: 'perfect' },
   { score: 4, title: 'good'},
@@ -87,31 +92,39 @@ const RatingStarScores = [
   { score: 2, title: 'badly' },
   { score: 1, title: 'terrible' }
 ];
-
+const ICON_SIZE: [ number, number ] = [ 40, 40 ];
 const defaultCustomIcon = new Icon({
   iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
-  iconSize: [ 40, 40 ],
-  iconAnchor: [ 20, 40 ]
+  iconSize: ICON_SIZE,
+  iconAnchor: ICON_SIZE
 });
-
 const currentCustomIcon = new Icon({
   iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg',
-  iconSize: [ 40, 40 ],
-  iconAnchor: [ 20, 40 ]
+  iconSize: ICON_SIZE,
+  iconAnchor: ICON_SIZE
 });
-
 const MapClassOptions = {
   [ MapType.Main ]: 'map__main',
   [ MapType.Offer ]: 'map__offer'
 };
+const sortById = (a: TPreviewOffer, b: TPreviewOffer) => a.id.localeCompare(b.id);
+const sortByHighToLow = (a: TPreviewOffer, b: TPreviewOffer) => b.price - a.price;
+const sortByLowToHigh = (a: TPreviewOffer, b: TPreviewOffer) => a.price - b.price;
+const sortByTopRated = (a: TPreviewOffer, b: TPreviewOffer) => b.rating - a.rating;
 
+const SortOptions = {
+  [ SortType.Popular ]: sortById,
+  [ SortType.HighToLow ]: sortByHighToLow,
+  [ SortType.LowToHigh ]: sortByLowToHigh,
+  [ SortType.TopRatedFirst ]: sortByTopRated,
+};
 const CITIES = [
   'Paris',
   'Cologne',
   'Brussels',
   'Amsterdam',
   'Hamburg',
-  'Dusseldorf'
+  'Dusseldorf',
 ];
 
 export {
@@ -119,7 +132,9 @@ export {
   OfferListType,
   AuthorizationStatus,
   MapType,
+  SortType,
   CITIES,
+  SortOptions,
   ListClassOptions,
   LayoutClassOptions,
   MapClassOptions,

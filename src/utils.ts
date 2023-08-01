@@ -1,5 +1,6 @@
-import {AppRoute, LayoutClassOptions} from './const.ts';
+import { AppRoute, LayoutClassOptions } from './const.ts';
 import * as dayjs from 'dayjs';
+import { TPreviewOffer } from './types/offer.ts';
 const DATE_FORMAT = 'MMM D';
 const TAG_DATE_FORMAT = 'YYYY-MM-DD';
 const getHumanDate = (date: string): string => date ? dayjs(date).format(DATE_FORMAT) : '';
@@ -15,9 +16,16 @@ const getLayoutClassOptions = (pathname: string) => {
     default: return LayoutClassOptions[ AppRoute.NotFound ];
   }
 };
+const getMarkersFromOffers = (offers: TPreviewOffer[]) =>
+  offers.map(({ title, location }) => ({
+    title,
+    lat: location.latitude,
+    lng: location.longitude
+  }));
 
 export {
   getLayoutClassOptions,
   getHumanDate,
-  getTagDate
+  getTagDate,
+  getMarkersFromOffers
 };
