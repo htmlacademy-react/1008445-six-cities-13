@@ -21,7 +21,7 @@ function App({ offers, fullOffers, reviews } : AppProps) {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={ <Layout/> }>
-            <Route index element={ <MainPage offers={ offers }/> }/>
+            <Route index element={ <MainPage/> }/>
             <Route
               path={ `${ AppRoute.Offer }/:offerId` }
               element={ <OfferPage offers={ fullOffers } reviews={ reviews }/> }

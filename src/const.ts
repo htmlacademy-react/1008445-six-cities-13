@@ -105,11 +105,21 @@ const MapClassOptions = {
   [ MapType.Offer ]: 'map__offer'
 };
 
+const CITIES = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf'
+];
+
 export {
   AppRoute,
   OfferListType,
   AuthorizationStatus,
   MapType,
+  CITIES,
   ListClassOptions,
   LayoutClassOptions,
   MapClassOptions,

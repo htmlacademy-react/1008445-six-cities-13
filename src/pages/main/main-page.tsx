@@ -1,61 +1,42 @@
-import { Offer } from '../../types/offer.ts';
 import { useState} from 'react';
 import { ListClassOptions, MapClassOptions, MapType, OfferListType } from '../../const.ts';
 import OfferList from './components/offer-list.tsx';
 import Map from '../../app/components/map.tsx';
-import { POINTS, city } from '../../mock/points.ts';
+import CitiesList from './components/cities-list.tsx';
+import { CITIES } from '../../const.ts';
+import { useAppSelector } from '../../hooks';
 
-type MainPageProps = {
-  offers: Offer[];
-}
 
-function MainPage({ offers }: MainPageProps) {
+function MainPage() {
   const [ , setActiveOffer ] = useState('');
-  //console.log(activeOffer);
+  const selectedCityName = useAppSelector(({ city }) => city);
+  const selectedCityOffers = useAppSelector(({ offerList }) => offerList);
+  const offersMarkers
+    = selectedCityOffers.map(({ title, location }) => ({
+      title,
+      lat: location.latitude,
+      lng: location.longitude
+    }));
+
+  const selectedCityOffersCount = selectedCityOffers.length;
+  const [ offer ] = selectedCityOffers;
+  const selectedCity = offer?.city;
+
   return (
     <>
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">
-          <ul className="locations__list tabs__list">
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Paris</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Cologne</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Brussels</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item tabs__item--active">
-                <span>Amsterdam</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Hamburg</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Dusseldorf</span>
-              </a>
-            </li>
-          </ul>
+          <CitiesList cities={ CITIES } />
         </section>
       </div>
       <div className="cities">
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">312 places to stay in Amsterdam</b>
+            <b className="places__found">
+              { selectedCityOffersCount ? selectedCityOffersCount : 'No' } places to stay in { selectedCityName }
+            </b>
             <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>
               <span className="places__sorting-type" tabIndex={ 0 }>
@@ -71,17 +52,18 @@ function MainPage({ offers }: MainPageProps) {
                 <li className="places__option" tabIndex={ 0 }>Top rated first</li>
               </ul>
             </form>
-            <OfferList
-              offers={ offers }
-              onOfferHoverHandler={ setActiveOffer }
-              classOption={ ListClassOptions[ OfferListType.Main ] }
-            />
+            { !!selectedCityOffersCount &&
+              <OfferList
+                offers={ selectedCityOffers }
+                onOfferHoverHandler={ setActiveOffer }
+                classOption={ ListClassOptions[ OfferListType.Main ] }
+              /> }
           </section>
           <div className="cities__right-section">
             <section className="cities__map map map--clear">
               <Map
-                points = { POINTS }
-                city={ city }
+                points = { offersMarkers }
+                city={ selectedCity }
                 selectedPoint={ undefined }
                 mapClass={ MapClassOptions[ MapType.Main ] }
               />

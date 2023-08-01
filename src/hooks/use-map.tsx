@@ -9,6 +9,7 @@ export default function useMap(mapRef: MutableRefObject<HTMLElement | null>, cit
     if (mapRef.current !== null && !isMapRenderedRef.current) {
       const { location } = city;
       const { latitude , longitude , zoom} = location;
+      //console.log(latitude , longitude , zoom);
       const instance = new Map(mapRef.current, {
         center: {
           lat: latitude,

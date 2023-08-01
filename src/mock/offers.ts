@@ -33,15 +33,15 @@ const offers: Offer[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.35514938496378,
-        longitude: 4.673877537499948,
-        zoom: 8
+        latitude: 52.4,
+        longitude: 4.9,
+        zoom: 10
       }
     },
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
-      zoom: 8
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 10
     },
     isFavorite: false,
     isPremium: false,
@@ -54,17 +54,17 @@ const offers: Offer[] = [
     type: 'private room',
     price: 140,
     city: {
-      name: 'London',
+      name: 'Brussels',
       location: {
         latitude: 51.35514938496378,
         longitude: 4.673877537499948,
-        zoom: 3
+        zoom: 10
       }
     },
     location: {
       latitude: 52.35544938496378,
       longitude: 4.673877537499948,
-      zoom: 8
+      zoom: 10
     },
     isFavorite: true,
     isPremium: true,
@@ -77,22 +77,45 @@ const offers: Offer[] = [
     type: 'apartment',
     price: 100,
     city: {
-      name: 'New York',
+      name: 'Paris',
       location: {
-        latitude: 51.35514938496378,
-        longitude: 4.673877537499948,
-        zoom: 3
+        latitude: 52.4,
+        longitude: 4.9,
+        zoom: 10
       }
     },
     location: {
       latitude: 52.35544938496378,
       longitude: 4.673877537499948,
-      zoom: 8
+      zoom: 10
     },
     isFavorite: false,
     isPremium: true,
     rating: 5,
     previewImage: 'https://loremflickr.com/320/240?lock=3'
+  },
+  {
+    id: '6af6f711-c28d-4121-82cd-e0b462a27f12',
+    title: 'Luxurious studio at great location Yo',
+    type: 'apartment',
+    price: 101,
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 52.4,
+        longitude: 4.9,
+        zoom: 10
+      }
+    },
+    location: {
+      latitude: 52.45544038496378,
+      longitude: 4.773873537499948,
+      zoom: 10
+    },
+    isFavorite: true,
+    isPremium: false,
+    rating: 3,
+    previewImage: 'https://loremflickr.com/320/240?lock=4'
   }
 ];
 const fullOffers: FullOffer[] = offers.map((offer) => ({ ...offer, ...offerDescription }));
