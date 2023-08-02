@@ -4,11 +4,11 @@ import {AppRoute} from '../../../const.ts';
 
 type OfferItemProps = {
   offer: TPreviewOffer;
-  onOfferHoverHandler?: (offer: TPreviewOffer | null) => void;
+  setCurrentOffer?: (offer: TPreviewOffer | null) => void;
   classOptions: TOfferItemClassOptions;
 }
 
-export default function OfferItem({ offer, onOfferHoverHandler, classOptions }: OfferItemProps) {
+export default function OfferItem({ offer, setCurrentOffer, classOptions }: OfferItemProps) {
   const {
     placeCardClass,
     placeCardImageWrapperClass,
@@ -26,8 +26,8 @@ export default function OfferItem({ offer, onOfferHoverHandler, classOptions }: 
     type,
     rating,
   } = offer;
-  const offerOnMouseOverHandler = onOfferHoverHandler
-    ? () => onOfferHoverHandler(offer)
+  const offerOnMouseOverHandler = setCurrentOffer
+    ? () => setCurrentOffer(offer)
     : () => undefined;
   return (
     <article

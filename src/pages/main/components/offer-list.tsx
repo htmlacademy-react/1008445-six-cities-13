@@ -4,10 +4,10 @@ import { TPreviewOffer, TOfferItemClassOptions } from '../../../types/offer.ts';
 type OfferListProps = {
   offers: TPreviewOffer[];
   classOption: TOfferItemClassOptions;
-  onOfferHoverHandler?: (offer: TPreviewOffer | null) => void;
+  setCurrentOffer?: (offer: TPreviewOffer | null) => void;
 }
 
-export default function OfferList({ offers, classOption, onOfferHoverHandler }: OfferListProps) {
+export default function OfferList({ offers, classOption, setCurrentOffer }: OfferListProps) {
   const { placeListClass } = classOption;
   return (
     <div className={ placeListClass }>
@@ -16,7 +16,7 @@ export default function OfferList({ offers, classOption, onOfferHoverHandler }: 
           key={ offer.id }
           offer={ offer }
           classOptions={ classOption }
-          onOfferHoverHandler = { onOfferHoverHandler }
+          setCurrentOffer= { setCurrentOffer }
         />))}
     </div>
   );

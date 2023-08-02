@@ -13,6 +13,7 @@ const getLayoutClassOptions = (pathname: string) => {
     case AppRoute.Main:
     case AppRoute.Favorites:
     case AppRoute.Login: return LayoutClassOptions[ pathname ];
+    case AppRoute.NoOffer: return LayoutClassOptions[ AppRoute.NoOffer ];
     default: return LayoutClassOptions[ AppRoute.NotFound ];
   }
 };

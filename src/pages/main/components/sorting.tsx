@@ -1,19 +1,21 @@
 import { SortType } from '../../../const.ts';
-import { useAppDispatch } from '../../../hooks';
-import { changeSortOption } from '../../../store/action.ts';
 import * as classNames from 'classnames';
 import { useRef, useState } from 'react';
 import useOutsideClick from '../../../hooks/use-outside-click.ts';
 
 type SortingProps = {
-  selectedSortOption: string;
+  currentSorting: string;
+  setSorting: (sorting: SortType) => void;
 }
 
-export default function Sorting({ selectedSortOption }: SortingProps) {
-  const dispatch = useAppDispatch();
+export default function Sorting({ currentSorting, setSorting }: SortingProps) {
   const [ isOpened, setOpened ] = useState(false);
   const sortingRef = useRef(null);
   useOutsideClick(sortingRef, isOpened, setOpened);
+  const sortingOnClickHandler = (option: SortType) => {
+    setSorting(option);
+    setOpened(false);
+  };
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -22,7 +24,7 @@ export default function Sorting({ selectedSortOption }: SortingProps) {
         className="places__sorting-type"
         onClick={ () => setOpened(!isOpened) }
       >
-        { selectedSortOption }
+        { currentSorting }
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
@@ -32,16 +34,13 @@ export default function Sorting({ selectedSortOption }: SortingProps) {
         ref={ sortingRef }
       >
         {
-          Object.values(SortType).map((option) => (
+          Object.values(SortType).map((sorting) => (
             <li
-              key={ option }
-              className={ classNames('places__option', { 'places__option--active': selectedSortOption === option }) }
-              onClick={ () => {
-                dispatch(changeSortOption(option));
-                setOpened(false);
-              }}
+              key={ sorting }
+              className={ classNames('places__option', { 'places__option--active': currentSorting === sorting }) }
+              onClick={ () => sortingOnClickHandler(sorting) }
             >
-              { option }
+              { sorting }
             </li>
           ))
         }

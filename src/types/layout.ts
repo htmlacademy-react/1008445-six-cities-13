@@ -6,7 +6,7 @@ export type TLayoutClassOptions = Record<AppRoute, {
   isNavVisible: boolean;
 }>
 
-export type TListClassOptions = Record<OfferListType,{
+export type TOfferListClassOptions = Record<OfferListType, {
   placeListClass: string;
   placeCardClass: string;
   placeCardImageWrapperClass: string;
