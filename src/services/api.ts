@@ -32,7 +32,7 @@ const createAPI = (): AxiosInstance => {
     (response) => response,
     (error: AxiosError<DetailMessageType>) => {
       if (error.response && shouldDisplayError(error.response)) {
-        const { message } = (error.response.data);
+        const { message } = error.response.data;
         toast.warning(message);
       }
 

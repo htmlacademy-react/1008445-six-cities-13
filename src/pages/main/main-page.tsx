@@ -40,7 +40,7 @@ export default function MainPage() {
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">
-              { placesFoundTitle}
+              { placesFoundTitle }
             </b>
             <Sorting currentSorting={ currentSorting } setSorting={ setCurrentSorting }/>
             <OfferList
