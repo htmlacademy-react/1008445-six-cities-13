@@ -1,32 +1,36 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, fillOfferList, changeSortOption } from './action.ts';
-import { CITIES, SortType } from '../const.ts';
-import { TPreviewOffer } from '../types/offer.ts';
-import { offers } from '../mock/offers.ts';
-const [ Paris ] = CITIES;
+import { selectCity, getOffers, requireAuth, setOffersLoadingStatus } from './action.ts';
+import { AuthorizationStatus, City, CityMap } from '../const.ts';
+import { TPreviewOffers } from '../types/offer.ts';
+import { TCity } from '../types/map.ts';
 
 type State = {
-  city: string;
-  offerList: TPreviewOffer[];
-  sortOption: SortType;
+  city: TCity;
+  offers: TPreviewOffers;
+  authStatus: AuthorizationStatus;
+  isOffersLoading: boolean;
 }
 
 const initState: State = {
-  city: Paris,
-  offerList: offers.filter(({ city }) => city.name === Paris),
-  sortOption: SortType.Popular
+  city: CityMap[ City.Paris ],
+  offers: [],
+  authStatus: AuthorizationStatus.Unknown,
+  isOffersLoading: false
 };
 
 const reducer = createReducer(initState, (builder) => {
   builder
-    .addCase(changeCity, (state, action) => {
+    .addCase(selectCity, (state, action) => {
       state.city = action.payload;
     })
-    .addCase(fillOfferList, (state, action) => {
-      state.offerList = action.payload;
+    .addCase(getOffers, (state, action) => {
+      state.offers = action.payload;
     })
-    .addCase(changeSortOption, (state, action) => {
-      state.sortOption = action.payload;
+    .addCase(requireAuth, (state, action) => {
+      state.authStatus = action.payload;
+    })
+    .addCase(setOffersLoadingStatus, (state, action) => {
+      state.isOffersLoading = action.payload;
     });
 });
 

@@ -1,13 +1,15 @@
-import { TLayoutClassOptions, TListClassOptions } from './types/layout.ts';
+import { TLayoutClassOptions, TOfferListClassOptions } from './types/layout.ts';
 import { Icon } from 'leaflet';
 import { TPreviewOffer } from './types/offer.ts';
+import { TCity } from './types/map.ts';
 
 enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
-  NotFound = '/page-not-found'
+  NotFound = '/page-not-found',
+  NoOffer = '/no-offer'
 }
 enum AuthorizationStatus {
   Auth = 'AUTH',
@@ -19,17 +21,81 @@ enum OfferListType {
   Near = 'near',
   Favorites = 'favorites',
 }
+enum APIRoute {
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout'
+}
 enum MapType {
   Main = 'main',
   Offer = 'offer',
 }
 enum SortType {
-  Popular = 'popular',
+  Popular = 'Popular',
   LowToHigh = 'Price: low to high',
   HighToLow = 'Price: high to low',
   TopRatedFirst = 'Top rated first'
 }
-const ListClassOptions: TListClassOptions = {
+enum City {
+  Paris = 'Paris',
+  Cologne = 'Cologne',
+  Brussels = 'Brussels',
+  Amsterdam = 'Amsterdam',
+  Hamburg = 'Hamburg',
+  Dusseldorf = 'Dusseldorf',
+}
+
+const CityMap: Record<City, TCity> = {
+  [ City.Paris ]: {
+    name: City.Paris,
+    location: {
+      latitude: 48.85661,
+      longitude: 2.351499,
+      zoom: 12
+    }
+  },
+  [ City.Cologne ]: {
+    name: City.Cologne,
+    location: {
+      latitude: 50.938361,
+      longitude: 6.959974,
+      zoom: 12
+    }
+  },
+  [ City.Brussels ]: {
+    name: City.Brussels,
+    location: {
+      latitude: 50.846557,
+      longitude: 4.351697,
+      zoom: 12
+    }
+  },
+  [ City.Amsterdam ]: {
+    name: City.Amsterdam,
+    location: {
+      latitude: 52.37454,
+      longitude: 4.897976,
+      zoom: 12
+    }
+  },
+  [ City.Hamburg ]: {
+    name: City.Hamburg,
+    location: {
+      latitude: 53.550341,
+      longitude: 10.000654,
+      zoom: 12
+    }
+  },
+  [ City.Dusseldorf ]: {
+    name: City.Dusseldorf,
+    location: {
+      latitude: 51.225402,
+      longitude: 6.776314,
+      zoom: 12
+    }
+  },
+};
+const OfferListClassOptions: TOfferListClassOptions = {
   [ OfferListType.Main ]: {
     placeListClass: 'cities__places-list places__list tabs__content',
     placeCardClass: 'cities__card',
@@ -65,8 +131,13 @@ const LayoutClassOptions: TLayoutClassOptions = {
     isNavVisible: true
   },
   [ AppRoute.Offer ]: {
-    pageClass: 'page',
+    pageClass: '',
     mainClass: 'page__main--offer',
+    isNavVisible: true
+  },
+  [ AppRoute.NoOffer ]: {
+    pageClass: 'page--gray page--main',
+    mainClass: 'page__main--index page__main--index-empty',
     isNavVisible: true
   },
   [ AppRoute.Login ]: {
@@ -75,7 +146,7 @@ const LayoutClassOptions: TLayoutClassOptions = {
     isNavVisible: false
   },
   [ AppRoute.Favorites ]: {
-    pageClass: 'page',
+    pageClass: '',
     mainClass: 'page__main--favorites',
     isNavVisible: true
   },
@@ -107,25 +178,16 @@ const MapClassOptions = {
   [ MapType.Main ]: 'map__main',
   [ MapType.Offer ]: 'map__offer'
 };
-const sortById = (a: TPreviewOffer, b: TPreviewOffer) => a.id.localeCompare(b.id);
 const sortByHighToLow = (a: TPreviewOffer, b: TPreviewOffer) => b.price - a.price;
 const sortByLowToHigh = (a: TPreviewOffer, b: TPreviewOffer) => a.price - b.price;
 const sortByTopRated = (a: TPreviewOffer, b: TPreviewOffer) => b.rating - a.rating;
 
 const SortOptions = {
-  [ SortType.Popular ]: sortById,
-  [ SortType.HighToLow ]: sortByHighToLow,
-  [ SortType.LowToHigh ]: sortByLowToHigh,
-  [ SortType.TopRatedFirst ]: sortByTopRated,
+  [ SortType.Popular ]: (offers: TPreviewOffer[]) => offers.slice(),
+  [ SortType.HighToLow ]: (offers: TPreviewOffer[]) => offers.slice().sort(sortByHighToLow),
+  [ SortType.LowToHigh ]: (offers: TPreviewOffer[]) => offers.slice().sort(sortByLowToHigh),
+  [ SortType.TopRatedFirst ]: (offers: TPreviewOffer[]) => offers.slice().sort(sortByTopRated),
 };
-const CITIES = [
-  'Paris',
-  'Cologne',
-  'Brussels',
-  'Amsterdam',
-  'Hamburg',
-  'Dusseldorf',
-];
 
 export {
   AppRoute,
@@ -133,9 +195,11 @@ export {
   AuthorizationStatus,
   MapType,
   SortType,
-  CITIES,
+  City,
+  APIRoute,
+  CityMap,
   SortOptions,
-  ListClassOptions,
+  OfferListClassOptions,
   LayoutClassOptions,
   MapClassOptions,
   RatingStarScores,

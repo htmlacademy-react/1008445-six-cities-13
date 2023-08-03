@@ -14,6 +14,8 @@ export type TPreviewOffer = {
   previewImage: string;
 }
 
+export type TPreviewOffers = TPreviewOffer[]
+
 export type TOffer = TPreviewOffer & {
   description: string;
   bedrooms: number;

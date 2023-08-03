@@ -3,12 +3,11 @@ import { TOffer } from '../../types/offer.ts';
 import ImageList from './components/image-list.tsx';
 import InsideItemList from './components/inside-item-list.tsx';
 import { Navigate, useParams } from 'react-router-dom';
-import { AppRoute, ListClassOptions, OfferListType, MapType, MapClassOptions } from '../../const.ts';
+import { AppRoute, OfferListClassOptions, OfferListType, MapType, MapClassOptions } from '../../const.ts';
 import OfferList from '../main/components/offer-list.tsx';
 import ReviewItemList from './components/review-item-list.tsx';
 import CommentForm from './components/comment-form.tsx';
 import Map from '../../app/components/map.tsx';
-import { city, POINTS } from '../../mock/points.ts';
 import { TReview } from '../../types/comment.ts';
 
 type OfferPageProps = {
@@ -36,6 +35,7 @@ function OfferPage({ offers, reviews }: OfferPageProps) {
     bedrooms,
     maxAdults,
     type,
+    location
   } = fullOffer;
   const { name, avatarUrl, isPro } = host;
 
@@ -122,8 +122,8 @@ function OfferPage({ offers, reviews }: OfferPageProps) {
         </div>
         <section className="offer__map map map--clear">
           <Map
-            city={ city }
-            markers={ POINTS }
+            location={ location }
+            offers={ [] }
             mapClass={ MapClassOptions[ MapType.Offer ] }
           />
         </section>
@@ -131,7 +131,7 @@ function OfferPage({ offers, reviews }: OfferPageProps) {
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OfferList offers={ offers } classOption={ ListClassOptions[ OfferListType.Near ] }/>
+          <OfferList offers={ offers } classOption={ OfferListClassOptions[ OfferListType.Near ] }/>
         </section>
       </div>
     </>
