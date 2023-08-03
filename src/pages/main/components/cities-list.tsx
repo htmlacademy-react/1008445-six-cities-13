@@ -1,6 +1,6 @@
 import { useAppDispatch } from '../../../hooks';
 import { selectCity } from '../../../store/action.ts';
-import * as classNames from 'classnames';
+import cn from 'classnames';
 import { AppRoute, CityMap } from '../../../const.ts';
 import { Link } from 'react-router-dom';
 
@@ -15,7 +15,7 @@ export default function CitiesList({ currentCityName }: citiesListProps) {
       { Object.entries(CityMap).map(([ , city]) => (
         <li key={ city.name } className="locations__item">
           <Link
-            className={ classNames('locations__item-link tabs__item', { 'tabs__item--active': currentCityName === city.name }) }
+            className={ cn('locations__item-link tabs__item', { 'tabs__item--active': currentCityName === city.name }) }
             onClick={ () => dispatch(selectCity(city)) }
             to={ AppRoute.Main }
           >

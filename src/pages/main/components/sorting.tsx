@@ -1,5 +1,5 @@
 import { SortType } from '../../../const.ts';
-import * as classNames from 'classnames';
+import cn from 'classnames';
 import { useRef, useState } from 'react';
 import useOutsideClick from '../../../hooks/use-outside-click.ts';
 
@@ -37,7 +37,7 @@ export default function Sorting({ currentSorting, setSorting }: SortingProps) {
           Object.values(SortType).map((sorting) => (
             <li
               key={ sorting }
-              className={ classNames('places__option', { 'places__option--active': currentSorting === sorting }) }
+              className={ cn('places__option', { 'places__option--active': currentSorting === sorting }) }
               onClick={ () => sortingOnClickHandler(sorting) }
             >
               { sorting }
