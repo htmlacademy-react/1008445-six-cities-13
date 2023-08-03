@@ -19,8 +19,7 @@ import { Navigate } from 'react-router-dom';
 export default function MainPage() {
   const [ currentOffer, setCurrentOffer ] = useState<TPreviewOffer | null>(null);
   const [ currentSorting, setCurrentSorting ] = useState<SortType>(SortType.Popular);
-  const currentCity = useAppSelector(({ city }) => city);
-  const { name, location } = currentCity;
+  const { name, location } = useAppSelector(({ city }) => city);
   const allOffers = useAppSelector(({ offers }) => offers);
   const cityOffers = allOffers.filter(({ city }) => city.name === name);
   const cityOffersCount = cityOffers.length;

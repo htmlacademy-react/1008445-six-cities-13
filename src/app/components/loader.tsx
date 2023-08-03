@@ -1,10 +1,6 @@
 import { CSSProperties } from 'react';
 import SyncLoader from 'react-spinners/SyncLoader';
 
-type LoaderProps = {
-  isLoading: boolean;
-}
-
 const override: CSSProperties = {
   display: 'flex',
   justifyContent: 'center',
@@ -12,11 +8,11 @@ const override: CSSProperties = {
   height: '100vh'
 };
 
-export default function Loader({ isLoading }: LoaderProps) {
+export default function Loader() {
   return (
     <SyncLoader
       color='#4481c3'
-      loading={ isLoading }
+      loading
       cssOverride={ override }
       size={ 15 }
     />

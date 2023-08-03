@@ -14,18 +14,23 @@ import { TReview } from '../types/comment.ts';
 import MainEmptyPage from '../pages/main-empty/main-empty-page.tsx';
 import { useAppSelector } from '../hooks';
 import Loader from './components/loader.tsx';
+import { checkAuthAction, getOffersAction } from '../store/api-actions.ts';
+import { store } from '../store';
 
 type AppProps = {
   offers: TPreviewOffer[];
   fullOffers: TOffer[];
   reviews: TReview[];
 }
+
 function App({ offers, fullOffers, reviews } : AppProps) {
+  store.dispatch(checkAuthAction());
+  store.dispatch(getOffersAction());
   const authorizationStatus = useAppSelector(({ authStatus }) => authStatus);
   const isOffersDataLoading = useAppSelector(({ isOffersLoading }) => isOffersLoading);
   if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
     return (
-      <Loader isLoading/>
+      <Loader/>
     );
   }
   return (
