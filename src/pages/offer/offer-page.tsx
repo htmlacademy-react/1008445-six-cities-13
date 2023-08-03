@@ -1,5 +1,4 @@
 import { Helmet } from 'react-helmet-async';
-import { TOffer } from '../../types/offer.ts';
 import ImageList from './components/image-list.tsx';
 import InsideItemList from './components/inside-item-list.tsx';
 import { Navigate, useParams } from 'react-router-dom';
@@ -8,16 +7,12 @@ import OfferList from '../main/components/offer-list.tsx';
 import ReviewItemList from './components/review-item-list.tsx';
 import CommentForm from './components/comment-form.tsx';
 import Map from '../../app/components/map.tsx';
-import { TReview } from '../../types/comment.ts';
+import { fullOffers, reviews, offers } from '../../mock/offers.ts';
 
-type OfferPageProps = {
-  offers: TOffer[];
-  reviews: TReview[];
-}
-
-function OfferPage({ offers, reviews }: OfferPageProps) {
+function OfferPage() {
   const { offerId } = useParams();
-  const fullOffer = offers.find(({ id }) => id === offerId);
+  //const allOffers = useAppSelector(({ offers }) => offers);
+  const fullOffer = fullOffers.find(({ id }) => id === offerId);
   if (!fullOffer) {
     return (
       <Navigate to={ AppRoute.NotFound } />

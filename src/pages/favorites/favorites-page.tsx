@@ -1,12 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 import FavoriteList from './components/favorite-list.tsx';
-import { TPreviewOffer } from '../../types/offer.ts';
+import { offers } from '../../mock/offers.ts';
 
-type FavoritesPageProps = {
-  offers: TPreviewOffer[];
-}
-
-function FavoritesPage({ offers }: FavoritesPageProps) {
+function FavoritesPage() {
   return (
     <>
       <Helmet>

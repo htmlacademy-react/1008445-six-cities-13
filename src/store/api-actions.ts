@@ -1,12 +1,13 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TAppDispatch, TState } from '../types/state.js';
-import { setToken, removeToken } from '../services/token';
-import { APIRoute, AuthorizationStatus } from '../const';
+import { removeToken, setToken } from '../services/token';
+import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { TAuthData } from '../types/auth-data';
 import { TUserData } from '../types/user-data';
 import { TPreviewOffers } from '../types/offer.ts';
-import { getOffers, requireAuth, setOffersLoadingStatus } from './action.ts';
+import { getOffers, redirectToRoute, requireAuth, setOffersLoadingStatus } from './action.ts';
+import { toast } from 'react-toastify';
 
 const getOffersAction = createAsyncThunk<void, undefined, {
   dispatch: TAppDispatch;
@@ -44,15 +45,12 @@ const loginAction = createAsyncThunk<void, TAuthData, {
   extra: AxiosInstance;
 }>(
   'user/login',
-  async ({ login: email, password }, {dispatch, extra: api}) => {
-    const { data: { token } } = await api.post<TUserData>(
-      APIRoute.Login,
-      {
-        email,
-        password
-      });
+  async ({ login: email, password }, { dispatch, extra: api}) => {
+    const { data: { token } } = await api.post<TUserData>(APIRoute.Login, { email, password });
     setToken(token);
     dispatch(requireAuth(AuthorizationStatus.Auth));
+    dispatch(redirectToRoute(AppRoute.Main));
+    toast.success('Successfully login');
   },
 );
 
@@ -66,6 +64,7 @@ const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     removeToken();
     dispatch(requireAuth(AuthorizationStatus.NoAuth));
+    toast.success('Successfully logout');
   },
 );
 

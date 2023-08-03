@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './app/app.tsx';
-import { offers, fullOffers, reviews } from './mock/offers.ts';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { ToastContainer } from 'react-toastify';
@@ -15,11 +14,7 @@ root.render(
   <React.StrictMode>
     <Provider store={ store }>
       <ToastContainer/>
-      <App
-        offers={ offers }
-        fullOffers={ fullOffers }
-        reviews={ reviews }
-      />
+      <App/>
     </Provider>
   </React.StrictMode>
 );

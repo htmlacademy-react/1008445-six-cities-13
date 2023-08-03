@@ -23,6 +23,7 @@ export default function MainPage() {
   const allOffers = useAppSelector(({ offers }) => offers);
   const cityOffers = allOffers.filter(({ city }) => city.name === name);
   const cityOffersCount = cityOffers.length;
+  const placesFoundTitle = `${ cityOffersCount } places to stay in ${ name }`;
   if (!cityOffersCount) {
     return <Navigate to={ AppRoute.NoOffer }/>;
   }
@@ -39,7 +40,7 @@ export default function MainPage() {
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">
-              { cityOffersCount } places to stay in { name }
+              { placesFoundTitle}
             </b>
             <Sorting currentSorting={ currentSorting } setSorting={ setCurrentSorting }/>
             <OfferList
