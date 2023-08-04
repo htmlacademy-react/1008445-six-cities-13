@@ -2,8 +2,13 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Logo from './logo.tsx';
 import Nav from './nav.tsx';
 import { getLayoutClassOptions } from '../../utils.ts';
+import { AuthorizationStatus } from '../../const.ts';
 
-export default function Layout () {
+type LayoutProps = {
+  authorizationStatus: AuthorizationStatus;
+}
+
+export default function Layout ({ authorizationStatus }: LayoutProps) {
   const { pathname } = useLocation();
   const { pageClass, mainClass, isNavVisible } = getLayoutClassOptions(pathname);
   return (
@@ -12,7 +17,7 @@ export default function Layout () {
         <div className="container">
           <div className="header__wrapper">
             <Logo/>
-            { isNavVisible && <Nav/> }
+            { isNavVisible && <Nav authorizationStatus={ authorizationStatus }/> }
           </div>
         </div>
       </header>
