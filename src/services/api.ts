@@ -12,7 +12,7 @@ const BACKEND_URL = 'https://13.design.pages.academy/six-cities';
 const REQUEST_TIMEOUT = 5000;
 const StatusCodeMapping: Record<number, boolean> = {
   [ StatusCodes.BAD_REQUEST ]: true,
-  [ StatusCodes.UNAUTHORIZED ]: true,
+  [ StatusCodes.UNAUTHORIZED ]: false,
   [ StatusCodes.NOT_FOUND ]: true
 };
 const shouldDisplayError = (response: AxiosResponse) => StatusCodeMapping[ response.status ];
@@ -33,7 +33,7 @@ const createAPI = (): AxiosInstance => {
     (error: AxiosError<DetailMessageType>) => {
       if (error.response && shouldDisplayError(error.response)) {
         const { message } = error.response.data;
-        toast.warning(message);
+        toast.error(message);
       }
 
       throw error;

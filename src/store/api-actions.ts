@@ -5,9 +5,19 @@ import { removeToken, setToken } from '../services/token';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { TAuthData } from '../types/auth-data';
 import { TUserData } from '../types/user-data';
-import { TPreviewOffers } from '../types/offer.ts';
-import { getOffers, redirectToRoute, requireAuth, setOffersLoadingStatus } from './action.ts';
+import { TOffer, TOfferRequestData, TPreviewOffers } from '../types/offer.ts';
+import {
+  getOffers,
+  redirectToRoute,
+  requireAuth,
+  setIsLoading,
+  getOffer,
+  getReviews,
+  getNearOffers,
+  addReview
+} from './actions.ts';
 import { toast } from 'react-toastify';
+import { TReview, TReviewRequestData, TReviews } from '../types/comment.ts';
 
 const getOffersAction = createAsyncThunk<void, undefined, {
   dispatch: TAppDispatch;
@@ -16,10 +26,46 @@ const getOffersAction = createAsyncThunk<void, undefined, {
 }>(
   'data/getOffers',
   async (_arg, { dispatch, extra: api }) => {
-    dispatch(setOffersLoadingStatus(true));
+    dispatch(setIsLoading(true));
     const { data} = await api.get<TPreviewOffers>(APIRoute.Offers);
-    dispatch(setOffersLoadingStatus(false));
+    dispatch(setIsLoading(false));
     dispatch(getOffers(data));
+  },
+);
+
+const getOfferAction = createAsyncThunk<void, TOfferRequestData, {
+  dispatch: TAppDispatch;
+  state: TState;
+  extra: AxiosInstance;
+}>(
+  'data/getOffer',
+  async ({ offerId }, { dispatch, extra: api }) => {
+    const { data } = await api.get<TOffer>(`${ APIRoute.Offers }/${ offerId }`);
+    dispatch(getOffer(data));
+  },
+);
+
+const getReviewsAction = createAsyncThunk<void, TOfferRequestData, {
+  dispatch: TAppDispatch;
+  state: TState;
+  extra: AxiosInstance;
+}>(
+  'data/getReviews',
+  async ({ offerId }, { dispatch, extra: api }) => {
+    const { data} = await api.get<TReviews>(`${ APIRoute.Reviews }/${ offerId }`);
+    dispatch(getReviews(data));
+  },
+);
+
+const getNearOffersAction = createAsyncThunk<void, TOfferRequestData, {
+  dispatch: TAppDispatch;
+  state: TState;
+  extra: AxiosInstance;
+}>(
+  'data/getNearOffers',
+  async ({ offerId }, { dispatch, extra: api }) => {
+    const { data} = await api.get<TPreviewOffers>(`${ APIRoute.Offers }/${ offerId }/nearby`);
+    dispatch(getNearOffers(data));
   },
 );
 
@@ -36,6 +82,19 @@ const checkAuthAction = createAsyncThunk<void, undefined, {
     } catch {
       dispatch(requireAuth(AuthorizationStatus.NoAuth));
     }
+  },
+);
+
+const addReviewAction = createAsyncThunk<void, TReviewRequestData & TOfferRequestData, {
+  dispatch: TAppDispatch;
+  state: TState;
+  extra: AxiosInstance;
+}>(
+  'user/login',
+  async ({ offerId, rating, comment }, { dispatch, extra: api}) => {
+    const { data} = await api.post<TReview>(`${ APIRoute.Reviews }/${ offerId }`, { rating, comment });
+    dispatch(addReview(data));
+    toast.success('Your review successfully added');
   },
 );
 
@@ -70,9 +129,13 @@ const logoutAction = createAsyncThunk<void, undefined, {
 
 export {
   getOffersAction,
+  getOfferAction,
   checkAuthAction,
   loginAction,
   logoutAction,
+  getReviewsAction,
+  getNearOffersAction,
+  addReviewAction,
 };
 
 

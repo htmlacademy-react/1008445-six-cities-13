@@ -1,6 +1,7 @@
 import { AppRoute, LayoutClassOptions } from './const.ts';
 import * as dayjs from 'dayjs';
 import { TPreviewOffer } from './types/offer.ts';
+import { TReview } from './types/comment.ts';
 const DATE_FORMAT = 'MMM D';
 const TAG_DATE_FORMAT = 'YYYY-MM-DD';
 const getHumanDate = (date: string): string => date ? dayjs(date).format(DATE_FORMAT) : '';
@@ -17,16 +18,27 @@ const getLayoutClassOptions = (pathname: string) => {
     default: return LayoutClassOptions[ AppRoute.NotFound ];
   }
 };
-const getMarkersFromOffers = (offers: TPreviewOffer[]) =>
-  offers.map(({ title, location }) => ({
-    title,
-    lat: location.latitude,
-    lng: location.longitude
-  }));
+
+const sortByHighToLow = (a: TPreviewOffer, b: TPreviewOffer) => b.price - a.price;
+const sortByLowToHigh = (a: TPreviewOffer, b: TPreviewOffer) => a.price - b.price;
+const sortByTopRated = (a: TPreviewOffer, b: TPreviewOffer) => b.rating - a.rating;
+const sortReviewsByDateDesc = (a: TReview, b: TReview) => {
+  const dateA = dayjs(a.date);
+  const dateB = dayjs(b.date);
+  if (dateA.isSame(dateB, 'D')) {
+    return 0;
+  }
+  return dateA.isAfter(dateB, 'D') ? -1 : 1;
+};
+const sortByRandom = () => 0.5 - Math.random();
 
 export {
   getLayoutClassOptions,
   getHumanDate,
   getTagDate,
-  getMarkersFromOffers
+  sortByHighToLow,
+  sortByLowToHigh,
+  sortByTopRated,
+  sortReviewsByDateDesc,
+  sortByRandom,
 };

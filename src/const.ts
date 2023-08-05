@@ -1,7 +1,10 @@
-import { TLayoutClassOptions, TOfferListClassOptions } from './types/layout.ts';
+import { TLayoutClassOptions} from './types/layout.ts';
+import { TOfferListClassOptions } from './types/offer.ts';
 import { Icon } from 'leaflet';
 import { TPreviewOffer } from './types/offer.ts';
 import { TCity } from './types/map.ts';
+import { TReviewData } from './types/comment.ts';
+import { sortByHighToLow, sortByTopRated, sortByLowToHigh } from './utils.ts';
 
 enum AppRoute {
   Main = '/',
@@ -24,7 +27,8 @@ enum OfferListType {
 enum APIRoute {
   Offers = '/offers',
   Login = '/login',
-  Logout = '/logout'
+  Logout = '/logout',
+  Reviews = '/comments',
 }
 enum MapType {
   Main = 'main',
@@ -44,6 +48,13 @@ enum City {
   Hamburg = 'Hamburg',
   Dusseldorf = 'Dusseldorf',
 }
+
+const OfferType: { [ key: string ]: string} = {
+  'apartment': 'Apartment',
+  'house': 'House',
+  'room': 'Private room',
+  'hotel': 'Hotel'
+};
 
 const CityMap: Record<City, TCity> = {
   [ City.Paris ]: {
@@ -103,7 +114,6 @@ const OfferListClassOptions: TOfferListClassOptions = {
     imageWith: 260,
     imageHeight: 200,
     placeCardInfoClass: '',
-    placeCardBookmarkButtonClass: ''
   },
   [ OfferListType.Favorites ]: {
     placeListClass: 'favorites__places',
@@ -112,7 +122,6 @@ const OfferListClassOptions: TOfferListClassOptions = {
     imageWith: 150,
     imageHeight: 110,
     placeCardInfoClass: 'favorites__card-info',
-    placeCardBookmarkButtonClass: 'place-card__bookmark-button--active'
   },
   [ OfferListType.Near ]: {
     placeListClass: 'near-places__list places__list',
@@ -121,7 +130,6 @@ const OfferListClassOptions: TOfferListClassOptions = {
     imageWith: 260,
     imageHeight: 200,
     placeCardInfoClass: '',
-    placeCardBookmarkButtonClass: 'place-card__bookmark-button--active'
   },
 };
 const LayoutClassOptions: TLayoutClassOptions = {
@@ -178,9 +186,6 @@ const MapClassOptions = {
   [ MapType.Main ]: 'map__main',
   [ MapType.Offer ]: 'map__offer'
 };
-const sortByHighToLow = (a: TPreviewOffer, b: TPreviewOffer) => b.price - a.price;
-const sortByLowToHigh = (a: TPreviewOffer, b: TPreviewOffer) => a.price - b.price;
-const sortByTopRated = (a: TPreviewOffer, b: TPreviewOffer) => b.rating - a.rating;
 
 const SortOptions = {
   [ SortType.Popular ]: (offers: TPreviewOffer[]) => offers.slice(),
@@ -188,13 +193,28 @@ const SortOptions = {
   [ SortType.LowToHigh ]: (offers: TPreviewOffer[]) => offers.slice().sort(sortByLowToHigh),
   [ SortType.TopRatedFirst ]: (offers: TPreviewOffer[]) => offers.slice().sort(sortByTopRated),
 };
-
+const MAX_COMMENT_LENGTH = 300;
+const MIN_COMMENT_LENGTH = 50;
+const DEFAULT_RATING = 0;
+const DEFAULT_REVIEW: TReviewData = {
+  rating: DEFAULT_RATING,
+  comment: ''
+};
+const MAX_REVIEWS_COUNT = 10;
+const MAX_NEAR_OFFERS_COUNT = 3;
 export {
+  DEFAULT_REVIEW,
+  MAX_COMMENT_LENGTH,
+  MIN_COMMENT_LENGTH,
+  DEFAULT_RATING,
+  MAX_REVIEWS_COUNT,
+  MAX_NEAR_OFFERS_COUNT,
   AppRoute,
   OfferListType,
   AuthorizationStatus,
   MapType,
   SortType,
+  OfferType,
   City,
   APIRoute,
   CityMap,
@@ -204,5 +224,5 @@ export {
   MapClassOptions,
   RatingStarScores,
   defaultCustomIcon,
-  currentCustomIcon
+  currentCustomIcon,
 };

@@ -1,7 +1,3 @@
-.capitalize {
-  text-transform: capitalize;
-}
-
 .map__main {
   max-height: 720px;
   max-width: 512px;

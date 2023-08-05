@@ -1,14 +1,10 @@
 import React from 'react';
 import { RatingStarScores } from '../../../const.ts';
-
-type Comment = {
-  review: string;
-  rating: number;
-}
+import { TReviewData } from '../../../types/comment.ts';
 
 type RatingStarListProps = {
-  comment: Comment;
-  setComment: React.Dispatch<React.SetStateAction<{ rating: number; review: string }>>;
+  review: TReviewData;
+  setReview: React.Dispatch<React.SetStateAction<TReviewData>>;
 }
 
 type RatingStarProps = RatingStarListProps & {
@@ -16,7 +12,7 @@ type RatingStarProps = RatingStarListProps & {
   title: string;
 }
 
-function RatingStar({ score, title, comment, setComment }: RatingStarProps) {
+function RatingStar({ score, title, review, setReview }: RatingStarProps) {
   return (
     <>
       <input
@@ -25,11 +21,11 @@ function RatingStar({ score, title, comment, setComment }: RatingStarProps) {
         value={ score }
         id={ `${ score }-stars` }
         type="radio"
-        checked={ score === comment.rating }
+        checked={ score === review.rating }
         onChange={
           ({ target}) => {
-            setComment({
-              ...comment,
+            setReview({
+              ...review,
               rating: +target.value
             });
           }
@@ -44,7 +40,7 @@ function RatingStar({ score, title, comment, setComment }: RatingStarProps) {
   );
 }
 
-export default function RatingStarList({ comment, setComment }: RatingStarListProps) {
+export default function RatingStarList({ review, setReview }: RatingStarListProps) {
   return (
     <div className="reviews__rating-form form__rating">
       {
@@ -53,8 +49,8 @@ export default function RatingStarList({ comment, setComment }: RatingStarListPr
             key={ score }
             score={ score }
             title={ title }
-            comment={ comment }
-            setComment={ setComment }
+            review={ review }
+            setReview={ setReview }
           />)
         )
       }

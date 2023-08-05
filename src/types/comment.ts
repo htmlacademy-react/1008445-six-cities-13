@@ -11,3 +11,12 @@ export type TUser = {
   avatarUrl: string;
   isPro: boolean;
 }
+
+export type TReviewData = {
+  rating: number;
+  comment: string;
+}
+
+export type TReviewRequestData = TReviewData
+
+export type TReviews = TReview[]

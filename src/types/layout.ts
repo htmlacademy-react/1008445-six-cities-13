@@ -1,4 +1,4 @@
-import { AppRoute, OfferListType } from '../const.ts';
+import { AppRoute } from '../const.ts';
 
 export type TLayoutClassOptions = Record<AppRoute, {
   pageClass:string;
@@ -6,12 +6,3 @@ export type TLayoutClassOptions = Record<AppRoute, {
   isNavVisible: boolean;
 }>
 
-export type TOfferListClassOptions = Record<OfferListType, {
-  placeListClass: string;
-  placeCardClass: string;
-  placeCardImageWrapperClass: string;
-  imageWith: number;
-  imageHeight: number;
-  placeCardInfoClass: string;
-  placeCardBookmarkButtonClass: string;
-}>

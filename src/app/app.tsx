@@ -22,8 +22,8 @@ store.dispatch(getOffersAction());
 
 function App() {
   const authorizationStatus = useAppSelector(({ authStatus }) => authStatus);
-  const isOffersDataLoading = useAppSelector(({ isOffersLoading }) => isOffersLoading);
-  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+  const isOffersLoading = useAppSelector(({ isLoading }) => isLoading);
+  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersLoading) {
     return (
       <Loader/>
     );
