@@ -12,9 +12,8 @@ import {
   OfferListClassOptions,
   OfferListType,
   OfferType,
-  sortReviewsByDateDesc,
-  sortByRandom
 } from '../../const.ts';
+import { sortReviewsByDateDesc, sortByRandom } from '../../utils.ts';
 import OfferList from '../main/components/offer-list.tsx';
 import ReviewItemList from './components/review-item-list.tsx';
 import CommentForm from './components/comment-form.tsx';

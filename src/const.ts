@@ -3,7 +3,8 @@ import { TOfferListClassOptions } from './types/offer.ts';
 import { Icon } from 'leaflet';
 import { TPreviewOffer } from './types/offer.ts';
 import { TCity } from './types/map.ts';
-import { TReview, TReviewData } from './types/comment.ts';
+import { TReviewData } from './types/comment.ts';
+import { sortByHighToLow, sortByTopRated, sortByLowToHigh } from './utils.ts';
 
 enum AppRoute {
   Main = '/',
@@ -186,11 +187,6 @@ const MapClassOptions = {
   [ MapType.Offer ]: 'map__offer'
 };
 
-const sortByHighToLow = (a: TPreviewOffer, b: TPreviewOffer) => b.price - a.price;
-const sortByLowToHigh = (a: TPreviewOffer, b: TPreviewOffer) => a.price - b.price;
-const sortByTopRated = (a: TPreviewOffer, b: TPreviewOffer) => b.rating - a.rating;
-const sortReviewsByDateDesc = (a: TReview, b: TReview) => (new Date(b.date)).getTime() - (new Date(a.date)).getTime();
-const sortByRandom = () => 0.5 - Math.random();
 const SortOptions = {
   [ SortType.Popular ]: (offers: TPreviewOffer[]) => offers.slice(),
   [ SortType.HighToLow ]: (offers: TPreviewOffer[]) => offers.slice().sort(sortByHighToLow),
@@ -229,6 +225,4 @@ export {
   RatingStarScores,
   defaultCustomIcon,
   currentCustomIcon,
-  sortReviewsByDateDesc,
-  sortByRandom
 };
