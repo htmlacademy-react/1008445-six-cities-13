@@ -1,18 +1,28 @@
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/use-map.tsx';
-import { layerGroup, Marker } from 'leaflet';
-import { TLocation, TMarker } from '../../types/map.ts';
+import { Icon, layerGroup, Marker } from 'leaflet';
+import { TLocation } from '../../types/map.ts';
 import { defaultCustomIcon, currentCustomIcon } from '../../const.ts';
 import 'leaflet/dist/leaflet.css';
-import { TPreviewOffer } from '../../types/offer.ts';
-import { getMarkersFromOffers } from '../../utils.ts';
+import { TMapOffer, TMapOffers, TOffer, TPreviewOffer } from '../../types/offer.ts';
 
 type MapProps = {
   location: TLocation;
-  offers: TPreviewOffer[];
-  currentOffer?: TPreviewOffer | null;
+  offers: TMapOffers;
+  currentOffer?: TPreviewOffer | TOffer;
   mapClass: string;
 }
+
+const getCurrentIcon = (currentOffer: TPreviewOffer | undefined, offer: TMapOffer): Icon => {
+  if (!currentOffer) {
+    return defaultCustomIcon;
+  }
+  const { title, location: { latitude, longitude} } = offer;
+  const isFocusedMarker = currentOffer.title === title &&
+    currentOffer.location.latitude === latitude &&
+      currentOffer.location.longitude === longitude;
+  return isFocusedMarker ? currentCustomIcon : defaultCustomIcon;
+};
 
 export default function Map({ location, offers, currentOffer, mapClass }: MapProps) {
   const mapRef = useRef(null);
@@ -20,18 +30,18 @@ export default function Map({ location, offers, currentOffer, mapClass }: MapPro
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
-      const markers: TMarker[] = getMarkersFromOffers(offers);
-      for (const { title, lat, lng } of markers) {
-        const marker = new Marker({ lat, lng });
-        marker
-          .setIcon(title === currentOffer?.title ? currentCustomIcon : defaultCustomIcon)
-          .addTo(markerLayer);
+      for (const offer of offers) {
+        const { location: { latitude, longitude} } = offer;
+        const marker = new Marker({ lat: latitude, lng: longitude });
+        marker.setIcon(getCurrentIcon(currentOffer, offer)).addTo(markerLayer);
       }
+      const { latitude , longitude , zoom} = location;
+      map.setView({ lat: latitude, lng: longitude }, zoom);
       return () => {
         map.removeLayer(markerLayer);
       };
     }
-  }, [ map, offers, currentOffer ]);
+  }, [ map, offers, currentOffer, location ]);
 
   return (
     <div id="map" className={ mapClass } ref={ mapRef }></div>

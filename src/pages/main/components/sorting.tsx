@@ -5,15 +5,15 @@ import useOutsideClick from '../../../hooks/use-outside-click.ts';
 
 type SortingProps = {
   currentSorting: string;
-  setSorting: (sorting: SortType) => void;
+  setCurrentSorting: (sorting: SortType) => void;
 }
 
-export default function Sorting({ currentSorting, setSorting }: SortingProps) {
+export default function Sorting({ currentSorting, setCurrentSorting }: SortingProps) {
   const [ isOpened, setOpened ] = useState(false);
   const sortingRef = useRef(null);
   useOutsideClick(sortingRef, isOpened, setOpened);
   const sortingOnClickHandler = (option: SortType) => {
-    setSorting(option);
+    setCurrentSorting(option);
     setOpened(false);
   };
 

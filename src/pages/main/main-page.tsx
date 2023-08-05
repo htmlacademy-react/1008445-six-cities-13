@@ -17,7 +17,7 @@ import { TPreviewOffer } from '../../types/offer.ts';
 import { Navigate } from 'react-router-dom';
 
 export default function MainPage() {
-  const [ currentOffer, setCurrentOffer ] = useState<TPreviewOffer | null>(null);
+  const [ currentOffer, setCurrentOffer ] = useState<TPreviewOffer | undefined>(undefined);
   const [ currentSorting, setCurrentSorting ] = useState<SortType>(SortType.Popular);
   const { name, location } = useAppSelector(({ city }) => city);
   const allOffers = useAppSelector(({ offers }) => offers);
@@ -42,7 +42,7 @@ export default function MainPage() {
             <b className="places__found">
               { placesFoundTitle }
             </b>
-            <Sorting currentSorting={ currentSorting } setSorting={ setCurrentSorting }/>
+            <Sorting currentSorting={ currentSorting } setCurrentSorting={ setCurrentSorting }/>
             <OfferList
               offers={ SortOptions[ currentSorting ](cityOffers) }
               setCurrentOffer={ setCurrentOffer }

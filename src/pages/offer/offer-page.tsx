@@ -1,23 +1,41 @@
 import { Helmet } from 'react-helmet-async';
 import ImageList from './components/image-list.tsx';
 import InsideItemList from './components/inside-item-list.tsx';
-import { Navigate, useParams } from 'react-router-dom';
-import { AppRoute, OfferListClassOptions, OfferListType, MapType, MapClassOptions } from '../../const.ts';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
+import {
+  AppRoute,
+  AuthorizationStatus,
+  MapClassOptions,
+  MapType,
+  MAX_REVIEWS_COUNT,
+  MAX_NEAR_OFFERS_COUNT,
+  OfferListClassOptions,
+  OfferListType,
+  OfferType,
+  sortReviewsByDateDesc,
+  sortByRandom
+} from '../../const.ts';
 import OfferList from '../main/components/offer-list.tsx';
 import ReviewItemList from './components/review-item-list.tsx';
 import CommentForm from './components/comment-form.tsx';
 import Map from '../../app/components/map.tsx';
-import { fullOffers, reviews, offers } from '../../mock/offers.ts';
+import { TMapOffer, TOfferRequestData } from '../../types/offer.ts';
+import * as cn from 'classnames';
+import useOffer from '../../hooks/use-offer.ts';
+import { useAppSelector } from '../../hooks';
 
 function OfferPage() {
-  const { offerId } = useParams();
-  //const allOffers = useAppSelector(({ offers }) => offers);
-  const fullOffer = fullOffers.find(({ id }) => id === offerId);
-  if (!fullOffer) {
-    return (
-      <Navigate to={ AppRoute.NotFound } />
-    );
+  const { offerId } = useParams<TOfferRequestData>();
+  const navigate = useNavigate();
+  const authorizationStatus = useAppSelector(({ authStatus }) => authStatus);
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const { offer, offerReviews, nearOffers } = useOffer(offerId);
+  if (!offerId || !offer) {
+    return <Navigate to={ AppRoute.NotFound }/>;
   }
+  const slicedOfferReviews = offerReviews.slice(0).sort(sortReviewsByDateDesc).slice(0, MAX_REVIEWS_COUNT);
+  const slicedNearOffers = nearOffers.slice(0).sort(sortByRandom).slice(0, MAX_NEAR_OFFERS_COUNT);
+  const slicedNearOffersPlusCurrentOffer: TMapOffer[] = slicedNearOffers.slice(0);
   const {
     title,
     rating,
@@ -30,10 +48,11 @@ function OfferPage() {
     bedrooms,
     maxAdults,
     type,
-    location
-  } = fullOffer;
+    location,
+    isFavorite
+  } = offer;
+  slicedNearOffersPlusCurrentOffer.push({ title, location });
   const { name, avatarUrl, isPro } = host;
-
   return (
     <>
       <Helmet>
@@ -53,7 +72,15 @@ function OfferPage() {
               <h1 className="offer__name">
                 { title }
               </h1>
-              <button className="offer__bookmark-button button" type="button">
+              <button
+                className={ cn('offer__bookmark-button button', { 'offer__bookmark-button--active' : isFavorite }) }
+                type="button"
+                onClick={ () => {
+                  if (!isAuth) {
+                    navigate(AppRoute.Login);
+                  }
+                }}
+              >
                 <svg className="offer__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
@@ -62,14 +89,14 @@ function OfferPage() {
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
-                <span style={{ width: '80%' }}></span>
+                <span style={{ width: `${ rating * 20 }%` }}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
               <span className="offer__rating-value rating__value">{ rating }</span>
             </div>
             <ul className="offer__features">
-              <li className="offer__feature offer__feature--entire capitalize">
-                { type }
+              <li className="offer__feature offer__feature--entire">
+                { OfferType[ type ] }
               </li>
               <li className="offer__feature offer__feature--bedrooms">
                 { bedrooms } Bedrooms
@@ -89,7 +116,7 @@ function OfferPage() {
             <div className="offer__host">
               <h2 className="offer__host-title">Meet the host</h2>
               <div className="offer__host-user user">
-                <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                <div className={ cn('offer__avatar-wrapper user__avatar-wrapper', { 'offer__avatar-wrapper--pro' : isPro }) }>
                   <img className="offer__avatar user__avatar" src={ avatarUrl } width="74" height="74"
                     alt="Host avatar"
                   />
@@ -109,16 +136,17 @@ function OfferPage() {
               </div>
             </div>
             <section className="offer__reviews reviews">
-              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{ reviews.length }</span></h2>
-              <ReviewItemList reviews={ reviews }/>
-              <CommentForm/>
+              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{ offerReviews.length }</span></h2>
+              <ReviewItemList reviews={ slicedOfferReviews }/>
+              { isAuth && <CommentForm offerId={ offerId }/> }
             </section>
           </div>
         </div>
         <section className="offer__map map map--clear">
           <Map
             location={ location }
-            offers={ [] }
+            offers={ slicedNearOffersPlusCurrentOffer }
+            currentOffer={ offer }
             mapClass={ MapClassOptions[ MapType.Offer ] }
           />
         </section>
@@ -126,7 +154,7 @@ function OfferPage() {
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OfferList offers={ offers } classOption={ OfferListClassOptions[ OfferListType.Near ] }/>
+          <OfferList offers={ slicedNearOffers } classOption={ OfferListClassOptions[ OfferListType.Near ] }/>
         </section>
       </div>
     </>

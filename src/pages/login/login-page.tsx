@@ -1,14 +1,16 @@
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { FormEvent, useRef } from 'react';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions.ts';
-import { AppRoute } from '../../const.ts';
+import { AppRoute, AuthorizationStatus } from '../../const.ts';
 
 function LoginPage() {
   const dispatch = useAppDispatch();
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const authorizationStatus = useAppSelector(({ authStatus }) => authStatus);
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
   const formSubmitHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (loginRef.current && passwordRef.current) {
@@ -18,6 +20,9 @@ function LoginPage() {
       }));
     }
   };
+  if (isAuth) {
+    return <Navigate to={ AppRoute.Main }/>;
+  }
   return (
     <>
       <Helmet>
