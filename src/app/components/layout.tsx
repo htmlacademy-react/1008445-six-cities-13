@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import Logo from './logo.tsx';
-import Nav from './nav.tsx';
+import { MemoizedLogo } from './logo.tsx';
+import { MemoizedNav } from './nav.tsx';
 import { getLayoutClassOptions } from '../../utils.ts';
 import { AuthorizationStatus } from '../../const.ts';
 
@@ -16,8 +16,8 @@ export default function Layout ({ authorizationStatus }: LayoutProps) {
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
-            <Logo/>
-            { isNavVisible && <Nav authorizationStatus={ authorizationStatus }/> }
+            <MemoizedLogo/>
+            { isNavVisible && <MemoizedNav authorizationStatus={ authorizationStatus }/> }
           </div>
         </div>
       </header>
@@ -27,5 +27,3 @@ export default function Layout ({ authorizationStatus }: LayoutProps) {
     </div>
   );
 }
-
-

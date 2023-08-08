@@ -2,12 +2,13 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const.ts';
 import { logoutAction } from '../../store/api-actions.ts';
 import { useAppDispatch } from '../../hooks';
+import { memo } from 'react';
 
 type NavProps = {
   authorizationStatus: AuthorizationStatus;
 }
 
-export default function Nav({ authorizationStatus }: NavProps) {
+function Nav({ authorizationStatus }: NavProps) {
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
   const dispatch = useAppDispatch();
   return (
@@ -48,3 +49,4 @@ export default function Nav({ authorizationStatus }: NavProps) {
     </nav>
   );
 }
+export const MemoizedNav = memo(Nav);

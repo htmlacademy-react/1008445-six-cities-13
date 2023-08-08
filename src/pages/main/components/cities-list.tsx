@@ -1,8 +1,8 @@
 import { useAppDispatch } from '../../../hooks';
-import { setCity } from '../../../store/actions.ts';
 import cn from 'classnames';
 import { AppRoute, CityMap } from '../../../const.ts';
 import { Link } from 'react-router-dom';
+import { setCity } from '../../../store/app-process/app-process.ts';
 
 type citiesListProps = {
   currentCityName: string;

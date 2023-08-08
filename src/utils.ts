@@ -2,12 +2,14 @@ import { AppRoute, LayoutClassOptions } from './const.ts';
 import * as dayjs from 'dayjs';
 import { TPreviewOffer } from './types/offer.ts';
 import { TReview } from './types/comment.ts';
+import { matchPath } from 'react-router-dom';
 const DATE_FORMAT = 'MMM D';
 const TAG_DATE_FORMAT = 'YYYY-MM-DD';
+const RANDOM_INIT_VALUE = 0.5;
 const getHumanDate = (date: string): string => date ? dayjs(date).format(DATE_FORMAT) : '';
 const getTagDate = (date: string): string => date ? dayjs(date).format(TAG_DATE_FORMAT) : '';
 const getLayoutClassOptions = (pathname: string) => {
-  if (pathname.includes(AppRoute.Offer)) {
+  if (matchPath(`${ AppRoute.Offer }/:offerId`,pathname)) {
     return LayoutClassOptions[ AppRoute.Offer ];
   }
   switch (pathname) {
@@ -23,14 +25,11 @@ const sortByHighToLow = (a: TPreviewOffer, b: TPreviewOffer) => b.price - a.pric
 const sortByLowToHigh = (a: TPreviewOffer, b: TPreviewOffer) => a.price - b.price;
 const sortByTopRated = (a: TPreviewOffer, b: TPreviewOffer) => b.rating - a.rating;
 const sortReviewsByDateDesc = (a: TReview, b: TReview) => {
-  const dateA = dayjs(a.date);
-  const dateB = dayjs(b.date);
-  if (dateA.isSame(dateB, 'D')) {
-    return 0;
-  }
-  return dateA.isAfter(dateB, 'D') ? -1 : 1;
+  const dateA = new Date(a.date);
+  const dateB = new Date(b.date);
+  return dateB.getTime() - dateA.getTime();
 };
-const sortByRandom = () => 0.5 - Math.random();
+const sortByRandom = () => RANDOM_INIT_VALUE - Math.random();
 
 export {
   getLayoutClassOptions,
