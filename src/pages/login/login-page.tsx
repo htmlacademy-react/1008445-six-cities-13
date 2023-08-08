@@ -55,7 +55,8 @@ export default function LoginPage() {
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <a
+            <button
+              type="button"
               className="locations__item-link"
               style={{ cursor: 'pointer' }}
               onClick={ () => {
@@ -64,7 +65,7 @@ export default function LoginPage() {
               }}
             >
               <span>Amsterdam</span>
-            </a>
+            </button>
           </div>
         </section>
       </div>

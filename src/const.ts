@@ -200,9 +200,11 @@ const DEFAULT_REVIEW: TReviewData = {
   rating: DEFAULT_RATING,
   comment: ''
 };
-const MAX_REVIEWS_VISIBLE_COUNT = 10;
-const MAX_NEAR_OFFERS_VISIBLE_COUNT = 3;
-const MAX_VISIBLE_IMAGES = 6;
+const OfferLimits = {
+  reviewsVisibleCount: 10,
+  nearOffersVisibleCount: 3,
+  imageVisibleCount: 6,
+};
 
 export enum AppNameSpace {
   AppData = 'DATA',
@@ -214,9 +216,7 @@ export {
   MAX_COMMENT_LENGTH,
   MIN_COMMENT_LENGTH,
   DEFAULT_RATING,
-  MAX_REVIEWS_VISIBLE_COUNT,
-  MAX_NEAR_OFFERS_VISIBLE_COUNT,
-  MAX_VISIBLE_IMAGES,
+  OfferLimits,
   AppRoute,
   OfferListType,
   AuthorizationStatus,

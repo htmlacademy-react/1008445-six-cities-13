@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TAppDispatch, TState } from '../types/state.js';
 import { removeToken, setToken } from '../services/token';
-import { APIRoute, AppRoute, MAX_NEAR_OFFERS_VISIBLE_COUNT, MAX_REVIEWS_VISIBLE_COUNT } from '../const';
+import { APIRoute, AppRoute, OfferLimits } from '../const';
 import { TAuthData } from '../types/auth-data';
 import { TUserData } from '../types/user-data';
 import { TOffer, TOfferRequestData, TOfferResponseData, TPreviewOffers } from '../types/offer.ts';
@@ -34,8 +34,8 @@ const getOfferAction = createAsyncThunk<TOfferResponseData, TOfferRequestData, {
     const reviews = await api.get<TReviews>(`${ APIRoute.Reviews }/${ offerId }`);
     const nearOffers = await api.get<TPreviewOffers>(`${ APIRoute.Offers }/${ offerId }/nearby`);
 
-    const slicedReviews = reviews.data.slice(0).sort(sortReviewsByDateDesc).slice(0, MAX_REVIEWS_VISIBLE_COUNT);
-    const slicedNearOffers = nearOffers.data.slice(0).sort(sortByRandom).slice(0, MAX_NEAR_OFFERS_VISIBLE_COUNT);
+    const slicedReviews = reviews.data.slice(0).sort(sortReviewsByDateDesc).slice(0, OfferLimits.reviewsVisibleCount);
+    const slicedNearOffers = nearOffers.data.slice(0).sort(sortByRandom).slice(0, OfferLimits.nearOffersVisibleCount);
     dispatch(setCurrentFocusedOffer(offer.data));
     return { offer: offer.data, reviews: slicedReviews, nearOffers: slicedNearOffers };
   },

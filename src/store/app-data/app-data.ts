@@ -1,4 +1,4 @@
-import { AppNameSpace, MAX_REVIEWS_VISIBLE_COUNT } from '../../const.ts';
+import { AppNameSpace, OfferLimits } from '../../const.ts';
 import { AppData } from '../../types/state.ts';
 import { createSlice } from '@reduxjs/toolkit';
 import { addReviewAction, getOfferAction, getOffersAction } from '../api-actions.ts';
@@ -41,7 +41,7 @@ export const appData = createSlice({
       })
       .addCase(addReviewAction.fulfilled, (state, action) => {
         state.offer?.reviews.unshift(action.payload);
-        state.offer?.reviews.splice(MAX_REVIEWS_VISIBLE_COUNT, 1);
+        state.offer?.reviews.splice(OfferLimits.reviewsVisibleCount, 1);
         toast.success('Your review successfully added');
       });
   }
