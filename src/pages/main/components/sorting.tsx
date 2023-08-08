@@ -1,6 +1,6 @@
 import { SortType } from '../../../const.ts';
 import cn from 'classnames';
-import { useRef, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 import useOutsideClick from '../../../hooks/use-outside-click.ts';
 
 type SortingProps = {
@@ -8,7 +8,7 @@ type SortingProps = {
   setCurrentSorting: (sorting: SortType) => void;
 }
 
-export default function Sorting({ currentSorting, setCurrentSorting }: SortingProps) {
+function Sorting({ currentSorting, setCurrentSorting }: SortingProps) {
   const [ isOpened, setOpened ] = useState(false);
   const sortingRef = useRef(null);
   useOutsideClick(sortingRef, isOpened, setOpened);
@@ -48,3 +48,5 @@ export default function Sorting({ currentSorting, setCurrentSorting }: SortingPr
     </form>
   );
 }
+
+export const MemoizedSorting = memo(Sorting);

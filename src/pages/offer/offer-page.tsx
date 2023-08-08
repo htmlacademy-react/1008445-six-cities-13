@@ -4,37 +4,39 @@ import InsideItemList from './components/inside-item-list.tsx';
 import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import {
   AppRoute,
-  AuthorizationStatus,
   MapClassOptions,
   MapType,
-  MAX_REVIEWS_COUNT,
-  MAX_NEAR_OFFERS_COUNT,
   OfferListClassOptions,
   OfferListType,
   OfferType,
 } from '../../const.ts';
-import { sortReviewsByDateDesc, sortByRandom } from '../../utils.ts';
 import OfferList from '../main/components/offer-list.tsx';
 import ReviewItemList from './components/review-item-list.tsx';
 import CommentForm from './components/comment-form.tsx';
 import Map from '../../app/components/map.tsx';
 import { TMapOffer, TOfferRequestData } from '../../types/offer.ts';
-import * as cn from 'classnames';
+import cn from 'classnames';
 import useOffer from '../../hooks/use-offer.ts';
 import { useAppSelector } from '../../hooks';
+import Loader from '../../app/components/loader.tsx';
+import { getAuthCheckedStatus } from '../../store/auth-process/selectors.ts';
+import { getOfferLoadingStatus } from '../../store/app-data/selectors.ts';
+import { useEffect } from 'react';
 
-function OfferPage() {
+export default function OfferPage() {
   const { offerId } = useParams<TOfferRequestData>();
   const navigate = useNavigate();
-  const authorizationStatus = useAppSelector(({ authStatus }) => authStatus);
-  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
-  const { offer, offerReviews, nearOffers } = useOffer(offerId);
-  if (!offerId || !offer) {
+  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
+  const offerData = useOffer(offerId);
+  const isLoading = useAppSelector(getOfferLoadingStatus);
+  useEffect(() => window.scrollTo(0,0), [ offerId ]);
+  if (isLoading) {
+    return <Loader/>;
+  }
+  if (!offerData || !offerId) {
     return <Navigate to={ AppRoute.NotFound }/>;
   }
-  const slicedOfferReviews = offerReviews.slice(0).sort(sortReviewsByDateDesc).slice(0, MAX_REVIEWS_COUNT);
-  const slicedNearOffers = nearOffers.slice(0).sort(sortByRandom).slice(0, MAX_NEAR_OFFERS_COUNT);
-  const slicedNearOffersPlusCurrentOffer: TMapOffer[] = slicedNearOffers.slice(0);
+  const { offer, reviews, nearOffers } = offerData;
   const {
     title,
     rating,
@@ -50,8 +52,9 @@ function OfferPage() {
     location,
     isFavorite
   } = offer;
-  slicedNearOffersPlusCurrentOffer.push({ title, location });
   const { name, avatarUrl, isPro } = host;
+  const slicedNearOffersPlusCurrentOffer: TMapOffer[] = nearOffers.slice(0);
+  slicedNearOffersPlusCurrentOffer.push({ title, location });
   return (
     <>
       <Helmet>
@@ -75,7 +78,7 @@ function OfferPage() {
                 className={ cn('offer__bookmark-button button', { 'offer__bookmark-button--active' : isFavorite }) }
                 type="button"
                 onClick={ () => {
-                  if (!isAuth) {
+                  if (!isAuthChecked) {
                     navigate(AppRoute.Login);
                   }
                 }}
@@ -94,15 +97,9 @@ function OfferPage() {
               <span className="offer__rating-value rating__value">{ rating }</span>
             </div>
             <ul className="offer__features">
-              <li className="offer__feature offer__feature--entire">
-                { OfferType[ type ] }
-              </li>
-              <li className="offer__feature offer__feature--bedrooms">
-                { bedrooms } Bedrooms
-              </li>
-              <li className="offer__feature offer__feature--adults">
-                Max { maxAdults } adults
-              </li>
+              <li className="offer__feature offer__feature--entire">{ OfferType[ type ] }</li>
+              <li className="offer__feature offer__feature--bedrooms">{ bedrooms } Bedrooms</li>
+              <li className="offer__feature offer__feature--adults">Max { maxAdults } adults</li>
             </ul>
             <div className="offer__price">
               <b className="offer__price-value">&euro;{ price }</b>
@@ -116,17 +113,10 @@ function OfferPage() {
               <h2 className="offer__host-title">Meet the host</h2>
               <div className="offer__host-user user">
                 <div className={ cn('offer__avatar-wrapper user__avatar-wrapper', { 'offer__avatar-wrapper--pro' : isPro }) }>
-                  <img className="offer__avatar user__avatar" src={ avatarUrl } width="74" height="74"
-                    alt="Host avatar"
-                  />
+                  <img className="offer__avatar user__avatar" src={ avatarUrl } width="74" height="74" alt="Host avatar"/>
                 </div>
-                <span className="offer__user-name">
-                  { name }
-                </span>
-                { isPro &&
-                  <span className="offer__user-status">
-                    Pro
-                  </span> }
+                <span className="offer__user-name">{ name }</span>
+                { isPro && <span className="offer__user-status">Pro</span> }
               </div>
               <div className="offer__description">
                 <p className="offer__text">
@@ -135,9 +125,9 @@ function OfferPage() {
               </div>
             </div>
             <section className="offer__reviews reviews">
-              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{ offerReviews.length }</span></h2>
-              <ReviewItemList reviews={ slicedOfferReviews }/>
-              { isAuth && <CommentForm offerId={ offerId }/> }
+              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{ reviews.length }</span></h2>
+              <ReviewItemList reviews={ reviews }/>
+              { isAuthChecked && <CommentForm offerId={ offerId }/> }
             </section>
           </div>
         </div>
@@ -145,7 +135,6 @@ function OfferPage() {
           <Map
             location={ location }
             offers={ slicedNearOffersPlusCurrentOffer }
-            currentOffer={ offer }
             mapClass={ MapClassOptions[ MapType.Offer ] }
           />
         </section>
@@ -153,11 +142,9 @@ function OfferPage() {
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OfferList offers={ slicedNearOffers } classOption={ OfferListClassOptions[ OfferListType.Near ] }/>
+          <OfferList offers={ nearOffers } classOption={ OfferListClassOptions[ OfferListType.Near ] }/>
         </section>
       </div>
     </>
   );
 }
-
-export default OfferPage;

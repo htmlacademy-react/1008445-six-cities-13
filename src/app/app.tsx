@@ -16,17 +16,17 @@ import { checkAuthAction, getOffersAction } from '../store/api-actions.ts';
 import { store } from '../store';
 import HistoryRouter from '../history-route/history-route.tsx';
 import { browserHistory } from '../browser-history.ts';
+import { getAuthStatus } from '../store/auth-process/selectors.ts';
+import { getOffersLoadingStatus } from '../store/app-data/selectors.ts';
 
 store.dispatch(checkAuthAction());
 store.dispatch(getOffersAction());
 
-function App() {
-  const authorizationStatus = useAppSelector(({ authStatus }) => authStatus);
-  const isOffersLoading = useAppSelector(({ isLoading }) => isLoading);
-  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersLoading) {
-    return (
-      <Loader/>
-    );
+export default function App() {
+  const authorizationStatus = useAppSelector(getAuthStatus);
+  const isLoading = useAppSelector(getOffersLoadingStatus);
+  if (authorizationStatus === AuthorizationStatus.Unknown || isLoading) {
+    return <Loader/>;
   }
   return (
     <HelmetProvider>
@@ -70,5 +70,3 @@ function App() {
     </HelmetProvider>
   );
 }
-
-export default App;

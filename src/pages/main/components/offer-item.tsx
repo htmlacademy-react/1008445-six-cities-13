@@ -1,16 +1,18 @@
 import { TPreviewOffer, TOfferItemClassOptions } from '../../../types/offer.ts';
 import { Link, useNavigate } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus, OfferType } from '../../../const.ts';
-import * as cn from 'classnames';
-import { useAppSelector } from '../../../hooks';
+import { AppRoute, OfferType } from '../../../const.ts';
+import cn from 'classnames';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { getAuthCheckedStatus } from '../../../store/auth-process/selectors.ts';
+import { setCurrentFocusedOffer } from '../../../store/app-process/app-process.ts';
 
 type OfferItemProps = {
   offer: TPreviewOffer;
-  setCurrentOffer?: (offer: TPreviewOffer | undefined) => void;
   classOptions: TOfferItemClassOptions;
 }
 
-export default function OfferItem({ offer, setCurrentOffer, classOptions }: OfferItemProps) {
+export default function OfferItem({ offer, classOptions }: OfferItemProps) {
+  const dispatch = useAppDispatch();
   const {
     placeCardClass,
     placeCardImageWrapperClass,
@@ -26,18 +28,15 @@ export default function OfferItem({ offer, setCurrentOffer, classOptions }: Offe
     title,
     type,
     rating,
-    isFavorite
+    isFavorite,
   } = offer;
   const navigate = useNavigate();
-  const authorizationStatus = useAppSelector(({ authStatus }) => authStatus);
-  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
-  const offerOnMouseOverHandler = setCurrentOffer
-    ? () => setCurrentOffer(offer)
-    : () => undefined;
+  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   return (
     <article
       className={ `${ placeCardClass } place-card` }
-      onMouseOver={ offerOnMouseOverHandler }
+      onMouseOver={ () => dispatch(setCurrentFocusedOffer(offer)) }
+      onMouseOut={ () => dispatch(setCurrentFocusedOffer(undefined)) }
     >
       { isPremium &&
         <div className="place-card__mark">
@@ -64,7 +63,7 @@ export default function OfferItem({ offer, setCurrentOffer, classOptions }: Offe
             type="button"
             className={ cn('place-card__bookmark-button button', { 'place-card__bookmark-button--active' : isFavorite }) }
             onClick={ () => {
-              if (!isAuth) {
+              if (!isAuthChecked) {
                 navigate(AppRoute.Login);
               }
             }}

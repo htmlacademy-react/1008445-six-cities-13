@@ -1,3 +1,5 @@
+import { OfferLimits } from '../../../const.ts';
+
 type ImagesProps = {
   images: string[];
 }
@@ -5,7 +7,7 @@ type ImagesProps = {
 export default function ImageList({ images }: ImagesProps) {
   return (
     <div className="offer__gallery">
-      { images.slice(0, 6).map((imageUrl) => (
+      { images.slice(0, OfferLimits.imageVisibleCount).map((imageUrl) => (
         <div key={ imageUrl } className="offer__image-wrapper">
           <img className="offer__image" src={ imageUrl } alt="Photo studio"/>
         </div>

@@ -1,16 +1,18 @@
 import { Helmet } from 'react-helmet-async';
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { FormEvent, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions.ts';
-import { AppRoute, AuthorizationStatus } from '../../const.ts';
+import { AppRoute, CityMap } from '../../const.ts';
+import { setCity } from '../../store/app-process/app-process.ts';
+import { getAuthCheckedStatus } from '../../store/auth-process/selectors.ts';
 
-function LoginPage() {
+export default function LoginPage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  const authorizationStatus = useAppSelector(({ authStatus }) => authStatus);
-  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const formSubmitHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (loginRef.current && passwordRef.current) {
@@ -20,7 +22,7 @@ function LoginPage() {
       }));
     }
   };
-  if (isAuth) {
+  if (isAuthChecked) {
     return <Navigate to={ AppRoute.Main }/>;
   }
   return (
@@ -53,14 +55,20 @@ function LoginPage() {
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <Link to={ AppRoute.Main } className="locations__item-link" style={{ cursor: 'pointer' }}>
+            <button
+              type="button"
+              className="locations__item-link"
+              style={{ cursor: 'pointer' }}
+              onClick={ () => {
+                dispatch(setCity(CityMap.Amsterdam));
+                navigate(AppRoute.Main);
+              }}
+            >
               <span>Amsterdam</span>
-            </Link>
+            </button>
           </div>
         </section>
       </div>
     </>
   );
 }
-
-export default LoginPage;

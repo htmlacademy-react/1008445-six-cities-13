@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-function NotFoundPage() {
+export default function NotFoundPage() {
   return (
     <>
       <Helmet>
@@ -21,5 +21,3 @@ function NotFoundPage() {
     </>
   );
 }
-
-export default NotFoundPage;

@@ -4,12 +4,13 @@ import { Icon, layerGroup, Marker } from 'leaflet';
 import { TLocation } from '../../types/map.ts';
 import { defaultCustomIcon, currentCustomIcon } from '../../const.ts';
 import 'leaflet/dist/leaflet.css';
-import { TMapOffer, TMapOffers, TOffer, TPreviewOffer } from '../../types/offer.ts';
+import { TMapOffer, TMapOffers, TPreviewOffer } from '../../types/offer.ts';
+import { useAppSelector } from '../../hooks';
+import { getCurrentFocusedOffer } from '../../store/app-process/selectors.ts';
 
 type MapProps = {
   location: TLocation;
   offers: TMapOffers;
-  currentOffer?: TPreviewOffer | TOffer;
   mapClass: string;
 }
 
@@ -24,9 +25,10 @@ const getCurrentIcon = (currentOffer: TPreviewOffer | undefined, offer: TMapOffe
   return isFocusedMarker ? currentCustomIcon : defaultCustomIcon;
 };
 
-export default function Map({ location, offers, currentOffer, mapClass }: MapProps) {
+export default function Map({ location, offers, mapClass }: MapProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, location);
+  const currentOffer = useAppSelector(getCurrentFocusedOffer);
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);

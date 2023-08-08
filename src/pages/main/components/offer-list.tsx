@@ -4,10 +4,9 @@ import { TPreviewOffer, TOfferItemClassOptions } from '../../../types/offer.ts';
 type OfferListProps = {
   offers: TPreviewOffer[];
   classOption: TOfferItemClassOptions;
-  setCurrentOffer?: (offer: TPreviewOffer | undefined) => void;
 }
 
-export default function OfferList({ offers, classOption, setCurrentOffer }: OfferListProps) {
+export default function OfferList({ offers, classOption }: OfferListProps) {
   const { placeListClass } = classOption;
   return (
     <div className={ placeListClass }>
@@ -16,7 +15,6 @@ export default function OfferList({ offers, classOption, setCurrentOffer }: Offe
           key={ offer.id }
           offer={ offer }
           classOptions={ classOption }
-          setCurrentOffer= { setCurrentOffer }
         />))}
     </div>
   );

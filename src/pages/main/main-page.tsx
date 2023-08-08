@@ -12,19 +12,17 @@ import OfferList from './components/offer-list.tsx';
 import Map from '../../app/components/map.tsx';
 import CitiesList from './components/cities-list.tsx';
 import { useAppSelector } from '../../hooks';
-import Sorting from './components/sorting.tsx';
-import { TPreviewOffer } from '../../types/offer.ts';
+import { MemoizedSorting } from './components/sorting.tsx';
 import { Navigate } from 'react-router-dom';
+import { getFilteredByCityOffers } from '../../store/app-data/selectors.ts';
+import { getCity } from '../../store/app-process/selectors.ts';
 
 export default function MainPage() {
-  const [ currentOffer, setCurrentOffer ] = useState<TPreviewOffer | undefined>(undefined);
   const [ currentSorting, setCurrentSorting ] = useState<SortType>(SortType.Popular);
-  const { name, location } = useAppSelector(({ city }) => city);
-  const allOffers = useAppSelector(({ offers }) => offers);
-  const cityOffers = allOffers.filter(({ city }) => city.name === name);
-  const cityOffersCount = cityOffers.length;
-  const placesFoundTitle = `${ cityOffersCount } places to stay in ${ name }`;
-  if (!cityOffersCount) {
+  const { name, location } = useAppSelector(getCity);
+  const previewOffers = useAppSelector(getFilteredByCityOffers);
+  const placesFoundTitle = `${ previewOffers.length } places to stay in ${ name }`;
+  if (!previewOffers.length) {
     return <Navigate to={ AppRoute.NoOffer }/>;
   }
   return (
@@ -42,19 +40,17 @@ export default function MainPage() {
             <b className="places__found">
               { placesFoundTitle }
             </b>
-            <Sorting currentSorting={ currentSorting } setCurrentSorting={ setCurrentSorting }/>
+            <MemoizedSorting currentSorting={ currentSorting } setCurrentSorting={ setCurrentSorting }/>
             <OfferList
-              offers={ SortOptions[ currentSorting ](cityOffers) }
-              setCurrentOffer={ setCurrentOffer }
+              offers={ SortOptions[ currentSorting ](previewOffers) }
               classOption={ OfferListClassOptions[ OfferListType.Main ] }
             />
           </section>
           <div className="cities__right-section">
             <section className="cities__map map map--clear">
               <Map
-                offers={ cityOffers }
+                offers={ previewOffers }
                 location={ location }
-                currentOffer={ currentOffer }
                 mapClass={ MapClassOptions[ MapType.Main ] }
               />
             </section>
