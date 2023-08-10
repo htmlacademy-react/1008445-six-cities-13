@@ -1,29 +1,18 @@
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/use-map.tsx';
-import { Icon, layerGroup, Marker } from 'leaflet';
+import { layerGroup, Marker } from 'leaflet';
 import { TLocation } from '../../types/map.ts';
-import { defaultCustomIcon, currentCustomIcon } from '../../const.ts';
 import 'leaflet/dist/leaflet.css';
-import { TMapOffer, TMapOffers, TPreviewOffer } from '../../types/offer.ts';
+import { TMapOffers } from '../../types/offer.ts';
 import { useAppSelector } from '../../hooks';
 import { getCurrentFocusedOffer } from '../../store/app-process/selectors.ts';
+import { getCurrentIcon } from '../../utils.ts';
 
 type MapProps = {
   location: TLocation;
   offers: TMapOffers;
   mapClass: string;
 }
-
-const getCurrentIcon = (currentOffer: TPreviewOffer | undefined, offer: TMapOffer): Icon => {
-  if (!currentOffer) {
-    return defaultCustomIcon;
-  }
-  const { title, location: { latitude, longitude} } = offer;
-  const isFocusedMarker = currentOffer.title === title &&
-    currentOffer.location.latitude === latitude &&
-      currentOffer.location.longitude === longitude;
-  return isFocusedMarker ? currentCustomIcon : defaultCustomIcon;
-};
 
 export default function Map({ location, offers, mapClass }: MapProps) {
   const mapRef = useRef(null);

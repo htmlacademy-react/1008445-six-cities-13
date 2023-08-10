@@ -1,6 +1,6 @@
 import { store } from '../store';
-import { AuthorizationStatus } from '../const.ts';
-import { TOffer, TOfferResponseData, TPreviewOffer, TPreviewOffers } from './offer.ts';
+import { AuthorizationStatus, RequestStatus } from '../const.ts';
+import { TOffer, TPreviewOffer, TPreviewOffers } from './offer.ts';
 import { TReviews } from './comment.ts';
 import { TCity } from './map.ts';
 
@@ -10,16 +10,20 @@ export type TAppDispatch = typeof store.dispatch;
 
 export type AuthProcess = {
   authStatus: AuthorizationStatus;
+  loginLoadingStatus: RequestStatus;
 }
 
 export type AppData = {
   offers: TPreviewOffers;
-  isOffersLoading: boolean;
-  isOfferLoading: boolean;
-  offer: TOfferResponseData | undefined;
+  favoriteOffers: TPreviewOffers;
+  offersLoadingStatus: RequestStatus;
+  offerLoadingStatus: RequestStatus;
+  reviewsLoadingStatus: RequestStatus;
+  nearOffersLoadingStatus: RequestStatus;
+  favoriteOffersLoadingStatus: RequestStatus;
+  offer: TOffer | undefined;
   reviews: TReviews;
   nearOffers: TPreviewOffers;
-  hasError: boolean;
 }
 
 export type AppProcess = {

@@ -12,7 +12,8 @@ enum AppRoute {
   Favorites = '/favorites',
   Offer = '/offer',
   NotFound = '/page-not-found',
-  NoOffer = '/no-offer'
+  NoOffers = '/no-offers',
+  NoFavorites = '/no-favorites'
 }
 enum AuthorizationStatus {
   Auth = 'AUTH',
@@ -29,6 +30,7 @@ enum APIRoute {
   Login = '/login',
   Logout = '/logout',
   Reviews = '/comments',
+  Favorites = '/favorite',
 }
 enum MapType {
   Main = 'main',
@@ -136,32 +138,44 @@ const LayoutClassOptions: TLayoutClassOptions = {
   [ AppRoute.Main ] : {
     pageClass: 'page--gray page--main',
     mainClass: 'page__main--index',
-    isNavVisible: true
+    isNavVisible: true,
+    isFooterVisible: false,
   },
   [ AppRoute.Offer ]: {
     pageClass: '',
     mainClass: 'page__main--offer',
-    isNavVisible: true
+    isNavVisible: true,
+    isFooterVisible: false,
   },
-  [ AppRoute.NoOffer ]: {
+  [ AppRoute.NoOffers ]: {
     pageClass: 'page--gray page--main',
     mainClass: 'page__main--index page__main--index-empty',
-    isNavVisible: true
+    isNavVisible: true,
+    isFooterVisible: false,
   },
   [ AppRoute.Login ]: {
     pageClass: 'page--gray page--login',
     mainClass: 'page__main--login',
-    isNavVisible: false
+    isNavVisible: false,
+    isFooterVisible: false,
   },
   [ AppRoute.Favorites ]: {
     pageClass: '',
     mainClass: 'page__main--favorites',
-    isNavVisible: true
+    isNavVisible: true,
+    isFooterVisible: true,
+  },
+  [ AppRoute.NoFavorites ]: {
+    pageClass: 'page--favorites-empty',
+    mainClass: 'page__main--favorites page__main--favorites-empty',
+    isNavVisible: true,
+    isFooterVisible: true,
   },
   [ AppRoute.NotFound ]: {
     pageClass: 'page--gray page--login',
     mainClass: 'page__main--login',
-    isNavVisible: false
+    isNavVisible: false,
+    isFooterVisible: false,
   }
 };
 const RatingStarScores = [
@@ -206,17 +220,42 @@ const OfferLimits = {
   imageVisibleCount: 6,
 };
 
+enum RequestStatus {
+  Idle = 'Idle',
+  Error = 'Error',
+  Success = 'Success',
+  Pending = 'Pending',
+}
+
 export enum AppNameSpace {
   AppData = 'DATA',
   Auth = 'AUTH',
   App = 'APPLICATION'
 }
+
+export enum ErrorCause {
+  NearOffers = 'NearOffers',
+  Offers = 'Offers',
+  Offer = 'Offer',
+  Reviews = 'Reviews',
+  Favorites = 'Favorites',
+}
+
+const ErrorMessageTitle = {
+  [ ErrorCause.NearOffers ]: 'Near offers',
+  [ ErrorCause.Offers ]: 'Offers',
+  [ ErrorCause.Offer ]: 'Offer',
+  [ ErrorCause.Reviews ]: 'Reviews',
+  [ ErrorCause.Favorites ]: 'Favorites',
+};
+
 export {
   DEFAULT_REVIEW,
   MAX_COMMENT_LENGTH,
   MIN_COMMENT_LENGTH,
   DEFAULT_RATING,
   OfferLimits,
+  RequestStatus,
   AppRoute,
   OfferListType,
   AuthorizationStatus,
@@ -233,4 +272,5 @@ export {
   RatingStarScores,
   defaultCustomIcon,
   currentCustomIcon,
+  ErrorMessageTitle
 };

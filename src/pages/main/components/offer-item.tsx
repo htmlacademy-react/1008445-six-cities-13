@@ -5,6 +5,7 @@ import cn from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getAuthCheckedStatus } from '../../../store/auth-process/selectors.ts';
 import { setCurrentFocusedOffer } from '../../../store/app-process/app-process.ts';
+import { setPreviewOfferFavoriteAction } from '../../../store/api-actions.ts';
 
 type OfferItemProps = {
   offer: TPreviewOffer;
@@ -32,6 +33,13 @@ export default function OfferItem({ offer, classOptions }: OfferItemProps) {
   } = offer;
   const navigate = useNavigate();
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
+  const favoriteButtonClickHandler = () => {
+    if (isAuthChecked) {
+      dispatch(setPreviewOfferFavoriteAction({ offerId: id, favoriteStatus: isFavorite ? 0 : 1}));
+    } else {
+      navigate(AppRoute.Login);
+    }
+  };
   return (
     <article
       className={ `${ placeCardClass } place-card` }
@@ -62,11 +70,7 @@ export default function OfferItem({ offer, classOptions }: OfferItemProps) {
           <button
             type="button"
             className={ cn('place-card__bookmark-button button', { 'place-card__bookmark-button--active' : isFavorite }) }
-            onClick={ () => {
-              if (!isAuthChecked) {
-                navigate(AppRoute.Login);
-              }
-            }}
+            onClick={ favoriteButtonClickHandler }
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

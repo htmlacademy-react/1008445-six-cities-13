@@ -1,5 +1,5 @@
 import { useAppSelector } from '../../hooks';
-import CityList from '../main/components/cities-list.tsx';
+import CitiesList from '../main/components/cities-list.tsx';
 import { Helmet } from 'react-helmet-async';
 import { getCity } from '../../store/app-process/selectors.ts';
 
@@ -13,7 +13,7 @@ export default function MainEmptyPage() {
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">
-          <CityList currentCityName={ name }/>
+          <CitiesList currentCityName={ name }/>
         </section>
       </div>
       <div className="cities">

@@ -1,60 +1,35 @@
 import { Helmet } from 'react-helmet-async';
 import ImageList from './components/image-list.tsx';
-import InsideItemList from './components/inside-item-list.tsx';
-import { useParams, useNavigate, Navigate } from 'react-router-dom';
-import {
-  AppRoute,
-  MapClassOptions,
-  MapType,
-  OfferListClassOptions,
-  OfferListType,
-  OfferType,
-} from '../../const.ts';
-import OfferList from '../main/components/offer-list.tsx';
-import ReviewItemList from './components/review-item-list.tsx';
-import CommentForm from './components/comment-form.tsx';
+import { Navigate, useParams } from 'react-router-dom';
+import { AppRoute, ErrorCause, MapClassOptions, MapType, RequestStatus } from '../../const.ts';
 import Map from '../../app/components/map.tsx';
-import { TMapOffer, TOfferRequestData } from '../../types/offer.ts';
-import cn from 'classnames';
+import { TOfferRequestData } from '../../types/offer.ts';
 import useOffer from '../../hooks/use-offer.ts';
 import { useAppSelector } from '../../hooks';
 import Loader from '../../app/components/loader.tsx';
-import { getAuthCheckedStatus } from '../../store/auth-process/selectors.ts';
-import { getOfferLoadingStatus } from '../../store/app-data/selectors.ts';
-import { useEffect } from 'react';
+import { getNearOffers, getOffer, getOfferLoadingStatus } from '../../store/app-data/selectors.ts';
+import { getMapOffers } from '../../utils.ts';
+import OfferInfo from './components/offer-info.tsx';
+import NearOffers from './components/near-offers.tsx';
+import ErrorRequestReloader from '../../app/components/error-request-reloader.tsx';
 
 export default function OfferPage() {
   const { offerId } = useParams<TOfferRequestData>();
-  const navigate = useNavigate();
-  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
-  const offerData = useOffer(offerId);
-  const isLoading = useAppSelector(getOfferLoadingStatus);
-  useEffect(() => window.scrollTo(0,0), [ offerId ]);
-  if (isLoading) {
+  const offerLoadingStatus = useAppSelector(getOfferLoadingStatus);
+  useOffer(offerId);
+  const offer = useAppSelector(getOffer);
+  const nearOffers = useAppSelector(getNearOffers);
+  if (offerLoadingStatus === RequestStatus.Error) {
+    return <ErrorRequestReloader cause={ ErrorCause.Offer } offerId={ offerId }/>;
+  }
+  if ([ RequestStatus.Idle, RequestStatus.Pending ].includes(offerLoadingStatus)) {
     return <Loader/>;
   }
-  if (!offerData || !offerId) {
+  if (!offer || !offerId) {
     return <Navigate to={ AppRoute.NotFound }/>;
   }
-  const { offer, reviews, nearOffers } = offerData;
-  const {
-    title,
-    rating,
-    isPremium,
-    price,
-    host,
-    goods,
-    description,
-    images,
-    bedrooms,
-    maxAdults,
-    type,
-    location,
-    isFavorite
-  } = offer;
-  const { name, avatarUrl, isPro } = host;
-  const slicedNearOffersPlusCurrentOffer: TMapOffer[] = nearOffers.slice(0);
-  slicedNearOffersPlusCurrentOffer.push({ title, location });
+  const { images, location} = offer;
+  const mapOffers = getMapOffers(offer, nearOffers);
   return (
     <>
       <Helmet>
@@ -65,86 +40,20 @@ export default function OfferPage() {
           <ImageList images={ images }/>
         </div>
         <div className="offer__container container">
-          <div className="offer__wrapper">
-            { isPremium &&
-              <div className="offer__mark">
-                <span>Premium</span>
-              </div> }
-            <div className="offer__name-wrapper">
-              <h1 className="offer__name">
-                { title }
-              </h1>
-              <button
-                className={ cn('offer__bookmark-button button', { 'offer__bookmark-button--active' : isFavorite }) }
-                type="button"
-                onClick={ () => {
-                  if (!isAuthChecked) {
-                    navigate(AppRoute.Login);
-                  }
-                }}
-              >
-                <svg className="offer__bookmark-icon" width="31" height="33">
-                  <use xlinkHref="#icon-bookmark"></use>
-                </svg>
-                <span className="visually-hidden">To bookmarks</span>
-              </button>
-            </div>
-            <div className="offer__rating rating">
-              <div className="offer__stars rating__stars">
-                <span style={{ width: `${ rating * 20 }%` }}></span>
-                <span className="visually-hidden">Rating</span>
-              </div>
-              <span className="offer__rating-value rating__value">{ rating }</span>
-            </div>
-            <ul className="offer__features">
-              <li className="offer__feature offer__feature--entire">{ OfferType[ type ] }</li>
-              <li className="offer__feature offer__feature--bedrooms">{ bedrooms } Bedrooms</li>
-              <li className="offer__feature offer__feature--adults">Max { maxAdults } adults</li>
-            </ul>
-            <div className="offer__price">
-              <b className="offer__price-value">&euro;{ price }</b>
-              <span className="offer__price-text">&nbsp;night</span>
-            </div>
-            <div className="offer__inside">
-              <h2 className="offer__inside-title">What&apos;s inside</h2>
-              <InsideItemList goods={ goods }/>
-            </div>
-            <div className="offer__host">
-              <h2 className="offer__host-title">Meet the host</h2>
-              <div className="offer__host-user user">
-                <div className={ cn('offer__avatar-wrapper user__avatar-wrapper', { 'offer__avatar-wrapper--pro' : isPro }) }>
-                  <img className="offer__avatar user__avatar" src={ avatarUrl } width="74" height="74" alt="Host avatar"/>
-                </div>
-                <span className="offer__user-name">{ name }</span>
-                { isPro && <span className="offer__user-status">Pro</span> }
-              </div>
-              <div className="offer__description">
-                <p className="offer__text">
-                  { description }
-                </p>
-              </div>
-            </div>
-            <section className="offer__reviews reviews">
-              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{ reviews.length }</span></h2>
-              <ReviewItemList reviews={ reviews }/>
-              { isAuthChecked && <CommentForm offerId={ offerId }/> }
-            </section>
-          </div>
+          <OfferInfo offer={ offer }/>
         </div>
         <section className="offer__map map map--clear">
           <Map
             location={ location }
-            offers={ slicedNearOffersPlusCurrentOffer }
+            offers={ mapOffers }
             mapClass={ MapClassOptions[ MapType.Offer ] }
           />
         </section>
       </section>
-      <div className="container">
-        <section className="near-places places">
-          <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OfferList offers={ nearOffers } classOption={ OfferListClassOptions[ OfferListType.Near ] }/>
-        </section>
-      </div>
+      <NearOffers
+        nearOffers={ nearOffers }
+        offerId={ offerId }
+      />
     </>
   );
 }

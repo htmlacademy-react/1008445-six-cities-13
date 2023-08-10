@@ -1,5 +1,7 @@
 export type TUserData = {
-  id: number;
+  name: string;
   email: string;
   token: string;
+  isPro: boolean;
+  avatarUrl: string;
 };
