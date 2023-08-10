@@ -56,13 +56,13 @@ const validateEmail = (email: string) => email
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
 const validatePassword = (password: string) => password.match(/^(?=.*[a-z])(?=.*[0-9]).{2,64}$/);
-const toggleFavoriteOffer = (state: TAppData, offer: TPreviewOffer) => {
-  const oldFavoriteOffer = state.favoriteOffers.find(({ id }) => id === offer.id);
+const toggleFavoriteOffer = (state: TAppData, changedOffer: TPreviewOffer) => {
+  const oldFavoriteOffer = state.favoriteOffers.find(({ id }) => id === changedOffer.id);
   if (oldFavoriteOffer) {
     const favoriteOffersIndex = state.favoriteOffers.indexOf(oldFavoriteOffer);
     state.favoriteOffers.splice(favoriteOffersIndex, 1);
   } else {
-    state.favoriteOffers.push(offer);
+    state.favoriteOffers.push(changedOffer);
   }
 }
 export {
