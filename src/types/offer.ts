@@ -1,5 +1,5 @@
 import { TCity, TLocation } from './map.ts';
-import { TReviews, TUser } from './comment.ts';
+import { TUser } from './comment.ts';
 import { OfferListType } from '../const.ts';
 
 export type TOfferRequestData = {
@@ -30,7 +30,9 @@ export type TOffer = TPreviewOffer & {
   maxAdults: number;
 }
 
-export type TMapOffer = Pick<TPreviewOffer, 'title' | 'location'>
+export type TMapOffer = Pick<TPreviewOffer, 'title' | 'location'> & {
+  isCurrentOffer?: boolean;
+}
 
 export type TMapOffers = TMapOffer[]
 
@@ -52,8 +54,7 @@ export type TOfferListClassOptions = Record<OfferListType, {
   placeCardInfoClass: string;
 }>
 
-export type TOfferResponseData = {
-  offer: TOffer;
-  reviews: TReviews;
-  nearOffers: TPreviewOffers;
-}
+export type TFavoriteOfferRequestData = {
+  offerId: string;
+  favoriteStatus: number;
+};

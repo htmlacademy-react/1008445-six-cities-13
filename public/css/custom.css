@@ -20,3 +20,23 @@
 .places__sorting-caption {
   padding-right: 5px;
 }
+
+button.header__nav-link {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+button.locations__item-link {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.request__reloader {
+  width: fit-content;
+  margin: 15px auto;
+  cursor: pointer;
+}

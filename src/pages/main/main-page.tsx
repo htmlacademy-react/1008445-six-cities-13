@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import {
-  OfferListType,
-  SortType,
   AppRoute,
-  MapType,
+  AuthorizationStatus,
+  ErrorCause,
   MapClassOptions,
+  MapType,
+  OfferListClassOptions,
+  OfferListType,
+  RequestStatus,
   SortOptions,
-  OfferListClassOptions
+  SortType
 } from '../../const.ts';
 import OfferList from './components/offer-list.tsx';
 import Map from '../../app/components/map.tsx';
@@ -14,16 +17,27 @@ import CitiesList from './components/cities-list.tsx';
 import { useAppSelector } from '../../hooks';
 import { MemoizedSorting } from './components/sorting.tsx';
 import { Navigate } from 'react-router-dom';
-import { getFilteredByCityOffers } from '../../store/app-data/selectors.ts';
+import { getFilteredByCityOffers, getOffersLoadingStatus } from '../../store/app-data/selectors.ts';
 import { getCity } from '../../store/app-process/selectors.ts';
+import { getAuthStatus } from '../../store/auth-process/selectors.ts';
+import Loader from '../../app/components/loader.tsx';
+import ErrorRequestReloader from '../../app/components/error-request-reloader.tsx';
 
 export default function MainPage() {
+  const authorizationStatus = useAppSelector(getAuthStatus);
+  const offersLoadingStatus = useAppSelector(getOffersLoadingStatus);
   const [ currentSorting, setCurrentSorting ] = useState<SortType>(SortType.Popular);
   const { name, location } = useAppSelector(getCity);
   const previewOffers = useAppSelector(getFilteredByCityOffers);
   const placesFoundTitle = `${ previewOffers.length } places to stay in ${ name }`;
+  if (authorizationStatus === AuthorizationStatus.Unknown || [ RequestStatus.Idle, RequestStatus.Pending ].includes(offersLoadingStatus)) {
+    return <Loader/>;
+  }
+  if (offersLoadingStatus === RequestStatus.Error) {
+    return <ErrorRequestReloader cause={ ErrorCause.Offers }/>;
+  }
   if (!previewOffers.length) {
-    return <Navigate to={ AppRoute.NoOffer }/>;
+    return <Navigate to={ AppRoute.NoOffers }/>;
   }
   return (
     <>

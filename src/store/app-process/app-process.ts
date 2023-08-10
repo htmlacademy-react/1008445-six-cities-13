@@ -1,10 +1,10 @@
 import { AppNameSpace, City, CityMap } from '../../const.ts';
-import { AppProcess } from '../../types/state.ts';
+import { TAppProcess } from '../../types/state.ts';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TCity } from '../../types/map.ts';
 import { TPreviewOffer } from '../../types/offer.ts';
 
-const initialState : AppProcess = {
+const initialState : TAppProcess = {
   city: CityMap[ City.Paris ],
   currentFocusedOffer: undefined,
 };

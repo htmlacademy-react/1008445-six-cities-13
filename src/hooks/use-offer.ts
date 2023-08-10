@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
-import { getOfferAction } from '../store/api-actions.ts';
-import { useAppDispatch, useAppSelector } from './index.ts';
-import { getOffer } from '../store/app-data/selectors.ts';
+import { getNearOffersAction, getOfferAction, getReviewsAction } from '../store/api-actions.ts';
+import { useAppDispatch } from './index.ts';
 
 export default function useOffer(offerId: string | undefined) {
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (offerId) {
       dispatch(getOfferAction({ offerId }));
+      dispatch(getReviewsAction({ offerId }));
+      dispatch(getNearOffersAction({ offerId }));
+      window.scrollTo(0,0);
     }
-  }, [ offerId, dispatch ]);
-  return useAppSelector(getOffer);
+  }, [ dispatch, offerId ]);
 }
