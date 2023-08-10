@@ -1,10 +1,10 @@
 import { AppNameSpace, AuthorizationStatus, RequestStatus } from '../../const.ts';
-import { AuthProcess } from '../../types/state.ts';
+import { TAuthProcess } from '../../types/state.ts';
 import { createSlice } from '@reduxjs/toolkit';
 import { checkAuthAction, loginAction, logoutAction } from '../api-actions.ts';
 import { toast } from 'react-toastify';
 
-const initialState : AuthProcess = {
+const initialState : TAuthProcess = {
   authStatus: AuthorizationStatus.Unknown,
   loginLoadingStatus: RequestStatus.Idle,
 };

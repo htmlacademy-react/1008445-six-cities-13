@@ -8,12 +8,12 @@ export type TState = ReturnType<typeof store.getState>;
 
 export type TAppDispatch = typeof store.dispatch;
 
-export type AuthProcess = {
+export type TAuthProcess = {
   authStatus: AuthorizationStatus;
   loginLoadingStatus: RequestStatus;
 }
 
-export type AppData = {
+export type TAppData = {
   offers: TPreviewOffers;
   favoriteOffers: TPreviewOffers;
   offersLoadingStatus: RequestStatus;
@@ -26,7 +26,7 @@ export type AppData = {
   nearOffers: TPreviewOffers;
 }
 
-export type AppProcess = {
+export type TAppProcess = {
   city: TCity;
   currentFocusedOffer: TPreviewOffer | TOffer | undefined;
 }

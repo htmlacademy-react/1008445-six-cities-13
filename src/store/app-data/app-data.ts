@@ -1,5 +1,5 @@
 import { AppNameSpace, RequestStatus } from '../../const.ts';
-import { AppData } from '../../types/state.ts';
+import { TAppData } from '../../types/state.ts';
 import { createSlice } from '@reduxjs/toolkit';
 import {
   addReviewAction,
@@ -12,8 +12,9 @@ import {
   setPreviewOfferFavoriteAction
 } from '../api-actions.ts';
 import { toast } from 'react-toastify';
+import { toggleFavoriteOffer } from '../../utils.ts';
 
-const initialState: AppData = {
+const initialState: TAppData = {
   offers: [],
   favoriteOffers: [],
   offersLoadingStatus: RequestStatus.Idle,
@@ -77,8 +78,10 @@ export const appData = createSlice({
         toast.success('Your review successfully added');
       })
       .addCase(setOfferFavoriteAction.fulfilled, (state, action) => {
-        state.offer = action.payload;
-        toast.success(`Successfully ${ action.payload?.isFavorite ? 'added to ' : 'removed from' } favorites`);
+        const offer = action.payload;
+        state.offer = offer;
+        toggleFavoriteOffer(state, offer);
+        toast.success(`Successfully ${ offer?.isFavorite ? 'added to ' : 'removed from' } favorites`);
       })
       .addCase(setPreviewOfferFavoriteAction.fulfilled, (state, action) => {
         const offer = action.payload;
@@ -86,15 +89,7 @@ export const appData = createSlice({
         if (oldOffer) {
           const offersIndex = state.offers.indexOf(oldOffer);
           state.offers.splice(offersIndex, 1, offer);
-          if (!oldOffer.isFavorite) {
-            state.favoriteOffers.push(offer);
-          } else {
-            const oldFavoriteOffer = state.favoriteOffers.find(({ id }) => id === offer.id);
-            if (oldFavoriteOffer) {
-              const favoriteOffersIndex = state.favoriteOffers.indexOf(oldFavoriteOffer);
-              state.favoriteOffers.splice(favoriteOffersIndex, 1);
-            }
-          }
+          toggleFavoriteOffer(state, offer);
           toast.success(`Successfully ${ offer?.isFavorite ? 'added to ' : 'removed from' } favorites`);
         }
       })

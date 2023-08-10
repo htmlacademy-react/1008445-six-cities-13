@@ -4,6 +4,7 @@ import { TMapOffer, TMapOffers, TOffer, TPreviewOffer, TPreviewOffers } from './
 import { TReview } from './types/comment.ts';
 import { matchPath } from 'react-router-dom';
 import { Icon } from 'leaflet';
+import { TAppData } from './types/state.ts';
 const DATE_FORMAT = 'MMM D';
 const TAG_DATE_FORMAT = 'YYYY-MM-DD';
 const RANDOM_INIT_VALUE = 0.5;
@@ -55,7 +56,15 @@ const validateEmail = (email: string) => email
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
 const validatePassword = (password: string) => password.match(/^(?=.*[a-z])(?=.*[0-9]).{2,64}$/);
-
+const toggleFavoriteOffer = (state: TAppData, offer: TPreviewOffer) => {
+  const oldFavoriteOffer = state.favoriteOffers.find(({ id }) => id === offer.id);
+  if (oldFavoriteOffer) {
+    const favoriteOffersIndex = state.favoriteOffers.indexOf(oldFavoriteOffer);
+    state.favoriteOffers.splice(favoriteOffersIndex, 1);
+  } else {
+    state.favoriteOffers.push(offer);
+  }
+}
 export {
   validateEmail,
   validatePassword,
@@ -68,5 +77,6 @@ export {
   sortReviewsByDateDesc,
   sortByRandom,
   getMapOffers,
-  getCurrentIcon
+  getCurrentIcon,
+  toggleFavoriteOffer
 };
