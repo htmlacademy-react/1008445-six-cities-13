@@ -6,7 +6,8 @@ import { memo } from 'react';
 import { getAuthCheckedStatus } from '../../store/auth-process/selectors.ts';
 import { getUserData } from '../../services/user-data.ts';
 import { getFavoriteOffersCount } from '../../store/app-data/selectors.ts';
-
+import { MouseEvent } from 'react';
+import '../style.css';
 function Nav() {
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const favoriteOffersCount = useAppSelector(getFavoriteOffersCount);
@@ -15,6 +16,11 @@ function Nav() {
   const data = getUserData();
   const avatarUrl = data?.avatarUrl ?? '';
   const email = data?.email ?? '';
+  const singOutButtonClickHandler = (evt: MouseEvent) => {
+    evt.preventDefault();
+    navigate(AppRoute.Main);
+    dispatch(logoutAction());
+  };
   return (
     <nav className="header__nav">
       { isAuthChecked ?
@@ -32,11 +38,7 @@ function Nav() {
             <button
               type="button"
               className="header__nav-link"
-              onClick={ (evt) => {
-                evt.preventDefault();
-                navigate(AppRoute.Main);
-                dispatch(logoutAction());
-              }}
+              onClick={ singOutButtonClickHandler }
             >
               <span className="header__signout">Sign out</span>
             </button>

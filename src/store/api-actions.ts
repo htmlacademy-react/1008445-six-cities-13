@@ -4,7 +4,13 @@ import { TAppDispatch, TState } from '../types/state.js';
 import { APIRoute, AppNameSpace, AppRoute } from '../const';
 import { TAuthData } from '../types/auth-data';
 import { TUserData } from '../types/user-data';
-import { TFavoriteOfferRequestData, TOffer, TOfferRequestData, TPreviewOffers } from '../types/offer.ts';
+import {
+  TFavoriteOfferRequestData,
+  TFavoriteOfferResponseData,
+  TOffer,
+  TOfferRequestData,
+  TPreviewOffers
+} from '../types/offer.ts';
 import { TReview, TReviewRequestData, TReviews } from '../types/comment.ts';
 import { redirectToRoute } from './actions.ts';
 import { removeUserData, setUserData } from '../services/user-data.ts';
@@ -61,7 +67,7 @@ const getFavoriteOffersAction = createAsyncThunk<TPreviewOffers, undefined, {
 }>(
   `${ AppNameSpace.AppData }/getFavoritesOffers`,
   async (_arg, { extra: api }) => {
-    const { data } = await api.get<TPreviewOffers>(`${ APIRoute.Favorites }`);
+    const { data } = await api.get<TPreviewOffers>(APIRoute.Favorites);
     return data;
   },
 );
@@ -76,33 +82,16 @@ const addReviewAction = createAsyncThunk<TReview, TReviewRequestData & TOfferReq
     return data;
   },
 );
-const setOfferFavoriteAction = createAsyncThunk<TOffer, TFavoriteOfferRequestData, {
+const setOfferFavoriteAction = createAsyncThunk<TFavoriteOfferResponseData, TFavoriteOfferRequestData, {
   dispatch: TAppDispatch;
   state: TState;
   extra: AxiosInstance;
 }>(
   `${ AppNameSpace.AppData }/setOfferFavorite`,
-  async ({ offerId, favoriteStatus }, { extra: api}) => {
+  async ({ offerId, favoriteStatus, favoriteOfferType }, { extra: api}) => {
     try {
       const { data} = await api.post<TOffer>(`${ APIRoute.Favorites }/${ offerId }/${ favoriteStatus }`);
-      return data;
-    } catch (e) {
-      toast.error(
-        `Something wrong when trying to ${ favoriteStatus ? 'add to ' : 'remove from' } favorites, try again later`);
-      throw e;
-    }
-  },
-);
-const setPreviewOfferFavoriteAction = createAsyncThunk<TOffer, TFavoriteOfferRequestData, {
-  dispatch: TAppDispatch;
-  state: TState;
-  extra: AxiosInstance;
-}>(
-  `${ AppNameSpace.AppData }/setPreviewOfferFavorite`,
-  async ({ offerId, favoriteStatus }, { extra: api}) => {
-    try {
-      const { data} = await api.post<TOffer>(`${ APIRoute.Favorites }/${ offerId }/${ favoriteStatus }`);
-      return data;
+      return { offer: data, favoriteOfferType };
     } catch (e) {
       toast.error(
         `Something wrong when trying to ${ favoriteStatus ? 'add to ' : 'remove from' } favorites, try again later`);
@@ -131,6 +120,7 @@ const loginAction = createAsyncThunk<void, TAuthData, {
       const { data } = await api.post<TUserData>(APIRoute.Login, { email, password });
       setUserData(data);
       dispatch(redirectToRoute(AppRoute.Main));
+      dispatch(getFavoriteOffersAction());
     } catch (e) {
       toast.error('Error while login, please try again later');
       throw e;
@@ -166,7 +156,6 @@ export {
   addReviewAction,
   setOfferFavoriteAction,
   getFavoriteOffersAction,
-  setPreviewOfferFavoriteAction
 };
 
 

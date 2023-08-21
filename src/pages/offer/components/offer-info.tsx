@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { AppRoute, OfferType } from '../../../const.ts';
+import { AppRoute, FavoriteOfferUpdateType, OfferType } from '../../../const.ts';
 import InsideItemList from './inside-item-list.tsx';
 import { TOffer } from '../../../types/offer.ts';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -20,7 +20,11 @@ export default function OfferInfo({ offer }: TOfferInfo) {
   const { name, avatarUrl, isPro } = host;
   const favoriteButtonClickHandler = () => {
     if (isAuthChecked) {
-      dispatch(setOfferFavoriteAction({ offerId: id, favoriteStatus: isFavorite ? 0 : 1 }));
+      dispatch(setOfferFavoriteAction({
+        offerId: id,
+        favoriteStatus: isFavorite ? 0 : 1,
+        favoriteOfferType: FavoriteOfferUpdateType.Offer
+      }));
     } else {
       navigate(AppRoute.Login);
     }

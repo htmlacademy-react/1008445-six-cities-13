@@ -1,5 +1,4 @@
 import React, { MutableRefObject, useEffect } from 'react';
-
 export default function useOutsideClick(
   ref: MutableRefObject<HTMLElement | null>,
   isOpened: boolean,

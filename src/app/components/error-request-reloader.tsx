@@ -1,5 +1,5 @@
 import { useAppDispatch } from '../../hooks';
-import { ErrorCause, ErrorMessageTitle } from '../../const.ts';
+import { ErrorCause } from '../../const.ts';
 import {
   getFavoriteOffersAction,
   getNearOffersAction,
@@ -7,6 +7,7 @@ import {
   getOffersAction,
   getReviewsAction
 } from '../../store/api-actions.ts';
+import '../style.css';
 
 type RequestReloadProps = {
   cause: ErrorCause;
@@ -25,7 +26,7 @@ export default function ErrorRequestReloader({ cause, offerId }: RequestReloadPr
   const reloadButtonClickHandler = () => {
     ErrorFunction[ cause ]();
   };
-  const message = `${ ErrorMessageTitle[ cause ] } loading error, please try again`;
+  const message = `${ cause } loading error, please try again`;
   return (
     <div className="offer__mark request__reloader">
       <button

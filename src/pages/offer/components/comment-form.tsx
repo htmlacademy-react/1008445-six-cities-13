@@ -1,16 +1,25 @@
 import { useState } from 'react';
 import RatingStarList from './rating-star-list.tsx';
 import { addReviewAction } from '../../../store/api-actions.ts';
-import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, DEFAULT_REVIEW, DEFAULT_RATING } from '../../../const.ts';
-import { useAppDispatch } from '../../../hooks';
+import {
+  DEFAULT_RATING,
+  DEFAULT_REVIEW,
+  MAX_COMMENT_LENGTH,
+  MIN_COMMENT_LENGTH,
+  RequestStatus
+} from '../../../const.ts';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { TReviewData } from '../../../types/comment.ts';
 import { TOfferRequestData } from '../../../types/offer.ts';
+import { getReviewLoadingStatus } from '../../../store/app-data/selectors.ts';
 
 export default function CommentForm({ offerId }: TOfferRequestData) {
   const dispatch = useAppDispatch();
   const [ review, setReview] = useState<TReviewData>(DEFAULT_REVIEW);
   const { comment, rating } = review;
   const isEnabled = comment.length >= MIN_COMMENT_LENGTH && rating !== DEFAULT_RATING;
+  const reviewLoadingStatus = useAppSelector(getReviewLoadingStatus);
+  const buttonTitle = reviewLoadingStatus === RequestStatus.Pending ? 'Submitting...' : 'Submit';
   return (
     <form
       className="reviews__form form"
@@ -48,7 +57,7 @@ export default function CommentForm({ offerId }: TOfferRequestData) {
           type="submit"
           disabled={ !isEnabled }
         >
-          Submit
+          { buttonTitle }
         </button>
       </div>
     </form>

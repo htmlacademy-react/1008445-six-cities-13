@@ -1,17 +1,12 @@
-import MainPage from '../pages/main/main-page.tsx';
 import { Route, Routes } from 'react-router-dom';
+import { FavoritesPage, LoginPage, MainPage, NotFoundPage, OfferPage, FavoritesEmptyPage, MainEmptyPage } from '../pages/pages.ts';
 import { AppRoute } from '../const.ts';
-import LoginPage from '../pages/login/login-page.tsx';
-import FavoritesPage from '../pages/favorites/favorites-page.tsx';
-import OfferPage from '../pages/offer/offer-page.tsx';
-import NotFoundPage from '../pages/404/not-found-page.tsx';
 import PrivateRoute from './components/private-route.tsx';
 import { HelmetProvider } from 'react-helmet-async';
 import Layout from './components/layout.tsx';
-import MainEmptyPage from '../pages/main-empty/main-empty-page.tsx';
+
 import { checkAuthAction, getFavoriteOffersAction, getOffersAction } from '../store/api-actions.ts';
 import { store } from '../store';
-import FavoritesEmptyPage from '../pages/favorites-empty/favorites-empty-page.tsx';
 
 store.dispatch(checkAuthAction());
 store.dispatch(getOffersAction());

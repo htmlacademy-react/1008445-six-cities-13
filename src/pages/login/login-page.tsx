@@ -7,7 +7,7 @@ import { AppRoute, CityMap, RequestStatus } from '../../const.ts';
 import { setCity } from '../../store/app-process/app-process.ts';
 import { getAuthCheckedStatus, getLoginLoadingStatus } from '../../store/auth-process/selectors.ts';
 import { TAuthData } from '../../types/auth-data.ts';
-import { validateEmail, validatePassword } from '../../utils.ts';
+import { sortByRandom, validateEmail, validatePassword } from '../../utils.ts';
 import { toast } from 'react-toastify';
 import { TAppDispatch } from '../../types/state.ts';
 const formSubmitHandler = (evt: FormEvent<HTMLFormElement>, dispatch: TAppDispatch) => {
@@ -31,6 +31,8 @@ export default function LoginPage() {
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const loginStatus = useAppSelector(getLoginLoadingStatus);
   const isPending = loginStatus === RequestStatus.Pending;
+  const [ entry ] = Object.entries(CityMap).sort(sortByRandom);
+  const [ , city ] = entry;
   if (isAuthChecked) {
     return <Navigate to={ AppRoute.Main }/>;
   }
@@ -49,11 +51,23 @@ export default function LoginPage() {
           >
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">E-mail</label>
-              <input className="login__input form__input" type="email" name="email" placeholder="Email" required/>
+              <input
+                data-testid="loginElement"
+                className="login__input form__input"
+                type="email"
+                name="email"
+                placeholder="Email"
+                required
+              />
             </div>
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">Password</label>
-              <input className="login__input form__input" type="password" name="password" placeholder="Password"
+              <input
+                data-testid="passwordElement"
+                className="login__input form__input"
+                type="password"
+                name="password"
+                placeholder="Password"
                 required
               />
             </div>
@@ -72,11 +86,11 @@ export default function LoginPage() {
               type="button"
               className="locations__item-link"
               onClick={ () => {
-                dispatch(setCity(CityMap.Amsterdam));
+                dispatch(setCity(city));
                 navigate(AppRoute.Main);
               }}
             >
-              <span>Amsterdam</span>
+              <span>{ city.name }</span>
             </button>
           </div>
         </section>

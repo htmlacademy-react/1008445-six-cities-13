@@ -1,6 +1,6 @@
 import { TCity, TLocation } from './map.ts';
 import { TUser } from './comment.ts';
-import { OfferListType } from '../const.ts';
+import { FavoriteOfferUpdateType, OfferListType } from '../const.ts';
 
 export type TOfferRequestData = {
   offerId: string;
@@ -57,4 +57,10 @@ export type TOfferListClassOptions = Record<OfferListType, {
 export type TFavoriteOfferRequestData = {
   offerId: string;
   favoriteStatus: number;
+  favoriteOfferType?: FavoriteOfferUpdateType;
 };
+
+export type TFavoriteOfferResponseData = {
+  offer: TOffer;
+  favoriteOfferType?: FavoriteOfferUpdateType;
+}

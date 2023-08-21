@@ -1,11 +1,12 @@
-import { TPreviewOffer, TOfferItemClassOptions } from '../../../types/offer.ts';
-import { Link, useNavigate } from 'react-router-dom';
-import { AppRoute, OfferType } from '../../../const.ts';
+import { TOfferItemClassOptions, TPreviewOffer } from '../../../types/offer.ts';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AppRoute, FavoriteOfferUpdateType, OfferType } from '../../../const.ts';
 import cn from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getAuthCheckedStatus } from '../../../store/auth-process/selectors.ts';
 import { setCurrentFocusedOffer } from '../../../store/app-process/app-process.ts';
-import { setPreviewOfferFavoriteAction } from '../../../store/api-actions.ts';
+import { setOfferFavoriteAction } from '../../../store/api-actions.ts';
+import { getFavoriteOfferUpdateType } from '../../../utils.ts';
 
 type OfferItemProps = {
   offer: TPreviewOffer;
@@ -14,6 +15,8 @@ type OfferItemProps = {
 
 export default function OfferItem({ offer, classOptions }: OfferItemProps) {
   const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
+  const favoriteOfferType = getFavoriteOfferUpdateType(pathname);
   const {
     placeCardClass,
     placeCardImageWrapperClass,
@@ -35,7 +38,13 @@ export default function OfferItem({ offer, classOptions }: OfferItemProps) {
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const favoriteButtonClickHandler = () => {
     if (isAuthChecked) {
-      dispatch(setPreviewOfferFavoriteAction({ offerId: id, favoriteStatus: isFavorite ? 0 : 1}));
+      //if (!isNearOfferListType) {
+      dispatch(setOfferFavoriteAction({
+        offerId: id,
+        favoriteStatus: isFavorite ? 0 : 1,
+        favoriteOfferType
+      }));
+      //}
     } else {
       navigate(AppRoute.Login);
     }
@@ -43,8 +52,8 @@ export default function OfferItem({ offer, classOptions }: OfferItemProps) {
   return (
     <article
       className={ `${ placeCardClass } place-card` }
-      onMouseOver={ () => dispatch(setCurrentFocusedOffer(offer)) }
-      onMouseOut={ () => dispatch(setCurrentFocusedOffer(undefined)) }
+      onMouseOver={ () => favoriteOfferType === FavoriteOfferUpdateType.MainList && dispatch(setCurrentFocusedOffer(offer)) }
+      onMouseOut={ () => favoriteOfferType === FavoriteOfferUpdateType.MainList && dispatch(setCurrentFocusedOffer(undefined)) }
     >
       { isPremium &&
         <div className="place-card__mark">
@@ -70,6 +79,7 @@ export default function OfferItem({ offer, classOptions }: OfferItemProps) {
           <button
             type="button"
             className={ cn('place-card__bookmark-button button', { 'place-card__bookmark-button--active' : isFavorite }) }
+            //style={{ cursor: !isNearOfferListType ? 'pointer' : 'default' }}
             onClick={ favoriteButtonClickHandler }
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">

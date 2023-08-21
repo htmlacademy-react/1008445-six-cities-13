@@ -22,6 +22,7 @@ import { getCity } from '../../store/app-process/selectors.ts';
 import { getAuthStatus } from '../../store/auth-process/selectors.ts';
 import Loader from '../../app/components/loader.tsx';
 import ErrorRequestReloader from '../../app/components/error-request-reloader.tsx';
+import './style.css';
 
 export default function MainPage() {
   const authorizationStatus = useAppSelector(getAuthStatus);
@@ -64,7 +65,7 @@ export default function MainPage() {
             <section className="cities__map map map--clear">
               <Map
                 offers={ previewOffers }
-                location={ location }
+                center={ location }
                 mapClass={ MapClassOptions[ MapType.Main ] }
               />
             </section>

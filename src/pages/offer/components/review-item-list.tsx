@@ -6,7 +6,7 @@ type ReviewItemListProps = {
 
 export default function ReviewItemList({ reviews }: ReviewItemListProps) {
   return (
-    <ul className="reviews__list">
+    <ul className="reviews__list" data-testid="review-item-list">
       { reviews.map((review) => <ReviewItem key={ review.id } review={ review }/>) }
     </ul>
   );

@@ -1,18 +1,21 @@
-import { AppNameSpace, RequestStatus } from '../../const.ts';
+import {
+  AppNameSpace,
+  RequestStatus,
+  FavoriteOfferUpdateType
+} from '../../const.ts';
 import { TAppData } from '../../types/state.ts';
 import { createSlice } from '@reduxjs/toolkit';
 import {
   addReviewAction,
+  getFavoriteOffersAction,
+  getNearOffersAction,
   getOfferAction,
   getOffersAction,
   getReviewsAction,
-  getNearOffersAction,
   setOfferFavoriteAction,
-  getFavoriteOffersAction,
-  setPreviewOfferFavoriteAction
 } from '../api-actions.ts';
 import { toast } from 'react-toastify';
-import { toggleFavoriteOffer } from '../../utils.ts';
+import { replaceOrToggleOffer, sortByRandom } from '../../utils.ts';
 
 const initialState: TAppData = {
   offers: [],
@@ -20,6 +23,7 @@ const initialState: TAppData = {
   offersLoadingStatus: RequestStatus.Idle,
   offerLoadingStatus: RequestStatus.Idle,
   reviewsLoadingStatus: RequestStatus.Idle,
+  reviewLoadingStatus: RequestStatus.Idle,
   nearOffersLoadingStatus: RequestStatus.Idle,
   favoriteOffersLoadingStatus: RequestStatus.Idle,
   offer: undefined,
@@ -30,7 +34,11 @@ const initialState: TAppData = {
 export const appData = createSlice({
   name: AppNameSpace.AppData,
   initialState,
-  reducers: {},
+  reducers: {
+    sortNearOffers: (state) => {
+      state.nearOffers = state.nearOffers.sort(sortByRandom);
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getOffersAction.pending, (state) => {
@@ -70,28 +78,32 @@ export const appData = createSlice({
         state.nearOffersLoadingStatus = RequestStatus.Pending;
       })
       .addCase(getNearOffersAction.fulfilled, (state, action) => {
-        state.nearOffers = action.payload;
+        state.nearOffers = action.payload.sort(sortByRandom);
         state.nearOffersLoadingStatus = RequestStatus.Success;
+      })
+      .addCase(addReviewAction.rejected, (state) => {
+        state.reviewLoadingStatus = RequestStatus.Error;
+        toast.error('Something go wrong when trying to send your review');
+      })
+      .addCase(addReviewAction.pending, (state) => {
+        state.reviewLoadingStatus = RequestStatus.Pending;
       })
       .addCase(addReviewAction.fulfilled, (state, action) => {
         state.reviews.push(action.payload);
+        state.reviewLoadingStatus = RequestStatus.Success;
         toast.success('Your review successfully added');
       })
       .addCase(setOfferFavoriteAction.fulfilled, (state, action) => {
-        const offer = action.payload;
-        state.offer = offer;
-        toggleFavoriteOffer(state, offer);
-        toast.success(`Successfully ${ offer?.isFavorite ? 'added to ' : 'removed from' } favorites`);
-      })
-      .addCase(setPreviewOfferFavoriteAction.fulfilled, (state, action) => {
-        const offer = action.payload;
-        const oldOffer = state.offers.find(({ id }) => id === offer.id);
-        if (oldOffer) {
-          const offersIndex = state.offers.indexOf(oldOffer);
-          state.offers.splice(offersIndex, 1, offer);
-          toggleFavoriteOffer(state, offer);
-          toast.success(`Successfully ${ offer?.isFavorite ? 'added to ' : 'removed from' } favorites`);
+        const { offer, favoriteOfferType } = action.payload;
+        if (favoriteOfferType === FavoriteOfferUpdateType.Offer) {
+          state.offer = offer;
         }
+        if (favoriteOfferType === FavoriteOfferUpdateType.NearList) {
+          replaceOrToggleOffer(state.nearOffers, offer);
+        }
+        replaceOrToggleOffer(state.offers, offer);
+        replaceOrToggleOffer(state.favoriteOffers, offer, true);
+        toast.success(`Successfully ${ offer?.isFavorite ? 'added to ' : 'removed from' } favorites`);
       })
       .addCase(getFavoriteOffersAction.pending, (state) => {
         state.favoriteOffersLoadingStatus = RequestStatus.Pending;
@@ -106,3 +118,4 @@ export const appData = createSlice({
   }
 });
 
+export const { sortNearOffers } = appData.actions;

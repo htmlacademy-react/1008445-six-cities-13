@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { getNearOffersAction, getOfferAction, getReviewsAction } from '../store/api-actions.ts';
 import { useAppDispatch } from './index.ts';
-
 export default function useOffer(offerId: string | undefined) {
   const dispatch = useAppDispatch();
   useEffect(() => {

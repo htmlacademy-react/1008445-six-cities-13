@@ -19,6 +19,7 @@ export type TAppData = {
   offersLoadingStatus: RequestStatus;
   offerLoadingStatus: RequestStatus;
   reviewsLoadingStatus: RequestStatus;
+  reviewLoadingStatus: RequestStatus;
   nearOffersLoadingStatus: RequestStatus;
   favoriteOffersLoadingStatus: RequestStatus;
   offer: TOffer | undefined;

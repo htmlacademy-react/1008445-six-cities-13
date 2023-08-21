@@ -7,18 +7,17 @@ import { TOfferRequestData } from '../../types/offer.ts';
 import useOffer from '../../hooks/use-offer.ts';
 import { useAppSelector } from '../../hooks';
 import Loader from '../../app/components/loader.tsx';
-import { getNearOffers, getOffer, getOfferLoadingStatus } from '../../store/app-data/selectors.ts';
-import { getMapOffers } from '../../utils.ts';
+import { getOffer, getOfferLoadingStatus } from '../../store/app-data/selectors.ts';
 import OfferInfo from './components/offer-info.tsx';
 import NearOffers from './components/near-offers.tsx';
 import ErrorRequestReloader from '../../app/components/error-request-reloader.tsx';
+import './style.css';
 
 export default function OfferPage() {
   const { offerId } = useParams<TOfferRequestData>();
   const offerLoadingStatus = useAppSelector(getOfferLoadingStatus);
   useOffer(offerId);
   const offer = useAppSelector(getOffer);
-  const nearOffers = useAppSelector(getNearOffers);
   if (offerLoadingStatus === RequestStatus.Error) {
     return <ErrorRequestReloader cause={ ErrorCause.Offer } offerId={ offerId }/>;
   }
@@ -29,7 +28,6 @@ export default function OfferPage() {
     return <Navigate to={ AppRoute.NotFound }/>;
   }
   const { images, location} = offer;
-  const mapOffers = getMapOffers(offer, nearOffers);
   return (
     <>
       <Helmet>
@@ -44,14 +42,13 @@ export default function OfferPage() {
         </div>
         <section className="offer__map map map--clear">
           <Map
-            location={ location }
-            offers={ mapOffers }
+            center={ location }
+            currentMapOffer={ offer }
             mapClass={ MapClassOptions[ MapType.Offer ] }
           />
         </section>
       </section>
       <NearOffers
-        nearOffers={ nearOffers }
         offerId={ offerId }
       />
     </>

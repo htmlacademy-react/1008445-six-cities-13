@@ -7,7 +7,7 @@ type ReviewItemProps = {
 export default function ReviewItem({ review }: ReviewItemProps) {
   const { id, user, rating, comment, date } = review;
   return (
-    <li key={ id } className="reviews__item">
+    <li key={ id } className="reviews__item" data-testid="review-item">
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img
