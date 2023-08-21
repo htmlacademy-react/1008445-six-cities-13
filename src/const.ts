@@ -60,7 +60,7 @@ enum City {
 const OfferType: { [ key: string ]: string} = {
   'apartment': 'Apartment',
   'house': 'House',
-  'room': 'Private room',
+  'room': 'Room',
   'hotel': 'Hotel'
 };
 

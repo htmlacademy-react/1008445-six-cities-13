@@ -30,7 +30,7 @@ export default function MainPage() {
   const [ currentSorting, setCurrentSorting ] = useState<SortType>(SortType.Popular);
   const { name, location } = useAppSelector(getCity);
   const previewOffers = useAppSelector(getFilteredByCityOffers);
-  const placesFoundTitle = `${ previewOffers.length } places to stay in ${ name }`;
+  const placesFoundTitle = `${ previewOffers.length } place${ previewOffers.length > 1 ? 's' : ''} to stay in ${ name }`;
   if (authorizationStatus === AuthorizationStatus.Unknown || [ RequestStatus.Idle, RequestStatus.Pending ].includes(offersLoadingStatus)) {
     return <Loader/>;
   }
