@@ -25,6 +25,12 @@ enum OfferListType {
   Near = 'near',
   Favorites = 'favorites',
 }
+enum FavoriteOfferUpdateType {
+  NearList = 'near-list',
+  Offer = 'offer',
+  MainList = 'main-list',
+  FavoritesList = 'favorites-list',
+}
 enum APIRoute {
   Offers = '/offers',
   Login = '/login',
@@ -54,7 +60,7 @@ enum City {
 const OfferType: { [ key: string ]: string} = {
   'apartment': 'Apartment',
   'house': 'House',
-  'room': 'Private room',
+  'room': 'Room',
   'hotel': 'Hotel'
 };
 
@@ -234,20 +240,12 @@ export enum AppNameSpace {
 }
 
 export enum ErrorCause {
-  NearOffers = 'NearOffers',
+  NearOffers = 'Near Offers',
   Offers = 'Offers',
   Offer = 'Offer',
   Reviews = 'Reviews',
   Favorites = 'Favorites',
 }
-
-const ErrorMessageTitle = {
-  [ ErrorCause.NearOffers ]: 'Near offers',
-  [ ErrorCause.Offers ]: 'Offers',
-  [ ErrorCause.Offer ]: 'Offer',
-  [ ErrorCause.Reviews ]: 'Reviews',
-  [ ErrorCause.Favorites ]: 'Favorites',
-};
 
 export {
   DEFAULT_REVIEW,
@@ -261,6 +259,7 @@ export {
   AuthorizationStatus,
   MapType,
   SortType,
+  FavoriteOfferUpdateType,
   OfferType,
   City,
   APIRoute,
@@ -272,5 +271,4 @@ export {
   RatingStarScores,
   defaultCustomIcon,
   currentCustomIcon,
-  ErrorMessageTitle
 };

@@ -22,6 +22,7 @@ import { getCity } from '../../store/app-process/selectors.ts';
 import { getAuthStatus } from '../../store/auth-process/selectors.ts';
 import Loader from '../../app/components/loader.tsx';
 import ErrorRequestReloader from '../../app/components/error-request-reloader.tsx';
+import './style.css';
 
 export default function MainPage() {
   const authorizationStatus = useAppSelector(getAuthStatus);
@@ -29,7 +30,7 @@ export default function MainPage() {
   const [ currentSorting, setCurrentSorting ] = useState<SortType>(SortType.Popular);
   const { name, location } = useAppSelector(getCity);
   const previewOffers = useAppSelector(getFilteredByCityOffers);
-  const placesFoundTitle = `${ previewOffers.length } places to stay in ${ name }`;
+  const placesFoundTitle = `${ previewOffers.length } place${ previewOffers.length > 1 ? 's' : ''} to stay in ${ name }`;
   if (authorizationStatus === AuthorizationStatus.Unknown || [ RequestStatus.Idle, RequestStatus.Pending ].includes(offersLoadingStatus)) {
     return <Loader/>;
   }
@@ -64,7 +65,7 @@ export default function MainPage() {
             <section className="cities__map map map--clear">
               <Map
                 offers={ previewOffers }
-                location={ location }
+                center={ location }
                 mapClass={ MapClassOptions[ MapType.Main ] }
               />
             </section>

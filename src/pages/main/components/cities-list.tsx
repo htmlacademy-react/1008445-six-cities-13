@@ -11,9 +11,9 @@ type citiesListProps = {
 export default function CitiesList({ currentCityName }: citiesListProps) {
   const dispatch = useAppDispatch();
   return (
-    <ul className="locations__list tabs__list">
+    <ul className="locations__list tabs__list" data-testid="cities-list">
       { Object.entries(CityMap).map(([ , city]) => (
-        <li key={ city.name } className="locations__item">
+        <li key={ city.name } className="locations__item" data-testid="cities-list-item">
           <Link
             className={ cn('locations__item-link tabs__item', { 'tabs__item--active': currentCityName === city.name }) }
             onClick={ () => dispatch(setCity(city)) }

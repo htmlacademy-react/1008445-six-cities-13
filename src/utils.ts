@@ -1,10 +1,14 @@
-import { AppRoute, currentCustomIcon, defaultCustomIcon, LayoutClassOptions, OfferLimits } from './const.ts';
+import {
+  AppRoute,
+  currentCustomIcon,
+  defaultCustomIcon, FavoriteOfferUpdateType,
+  LayoutClassOptions,
+} from './const.ts';
 import * as dayjs from 'dayjs';
 import { TMapOffer, TMapOffers, TOffer, TPreviewOffer, TPreviewOffers } from './types/offer.ts';
 import { TReview } from './types/comment.ts';
 import { matchPath } from 'react-router-dom';
 import { Icon } from 'leaflet';
-import { TAppData } from './types/state.ts';
 const DATE_FORMAT = 'MMM D';
 const TAG_DATE_FORMAT = 'YYYY-MM-DD';
 const RANDOM_INIT_VALUE = 0.5;
@@ -23,6 +27,13 @@ const getLayoutClassOptions = (pathname: string) => {
     default: return LayoutClassOptions[ AppRoute.NotFound ];
   }
 };
+const getFavoriteOfferUpdateType = (pathname: string) => {
+  switch (pathname) {
+    case AppRoute.Main: return FavoriteOfferUpdateType.MainList;
+    case AppRoute.Favorites: return FavoriteOfferUpdateType.FavoritesList;
+    default: return FavoriteOfferUpdateType.NearList;
+  }
+};
 const sortByHighToLow = (a: TPreviewOffer, b: TPreviewOffer) => b.price - a.price;
 const sortByLowToHigh = (a: TPreviewOffer, b: TPreviewOffer) => a.price - b.price;
 const sortByTopRated = (a: TPreviewOffer, b: TPreviewOffer) => b.rating - a.rating;
@@ -33,9 +44,9 @@ const sortReviewsByDateDesc = (a: TReview, b: TReview) => {
 };
 const sortByRandom = () => RANDOM_INIT_VALUE - Math.random();
 const getMapOffers = ({ title, location }: TOffer, nearOffers: TPreviewOffers): TMapOffers => {
-  const temp = nearOffers.slice(0, OfferLimits.nearOffersVisibleCount) as TMapOffers;
-  temp.push({ title, location, isCurrentOffer: true });
-  return temp;
+  const mapOffers = nearOffers.slice(0) as TMapOffers;
+  mapOffers.push({ title, location, isCurrentOffer: true });
+  return mapOffers;
 };
 const getIsFocused = (currentOffer: TPreviewOffer | undefined, offer: TMapOffer) => {
   const { title, location: { latitude, longitude} } = offer;
@@ -53,18 +64,22 @@ const getCurrentIcon = (currentOffer: TPreviewOffer | undefined, offer: TMapOffe
 const validateEmail = (email: string) => email
   .toLowerCase()
   .match(
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|.(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
 const validatePassword = (password: string) => password.match(/^(?=.*[a-z])(?=.*[0-9]).{2,64}$/);
-const toggleFavoriteOffer = (state: TAppData, changedOffer: TPreviewOffer) => {
-  const oldFavoriteOffer = state.favoriteOffers.find(({ id }) => id === changedOffer.id);
-  if (oldFavoriteOffer) {
-    const favoriteOffersIndex = state.favoriteOffers.indexOf(oldFavoriteOffer);
-    state.favoriteOffers.splice(favoriteOffersIndex, 1);
-  } else {
-    state.favoriteOffers.push(changedOffer);
+const replaceOrToggleOffer = (offers: TPreviewOffers, changedOffer: TPreviewOffer, isToggle?: boolean) => {
+  const oldOffer = offers.find(({ id }) => id === changedOffer.id);
+  if (oldOffer) {
+    const offerIndex = offers.indexOf(oldOffer);
+    if (isToggle) {
+      offers.splice(offerIndex, 1);
+    } else {
+      offers.splice(offerIndex, 1, changedOffer);
+    }
+  } else if (isToggle) {
+    offers.push(changedOffer);
   }
-}
+};
 export {
   validateEmail,
   validatePassword,
@@ -78,5 +93,6 @@ export {
   sortByRandom,
   getMapOffers,
   getCurrentIcon,
-  toggleFavoriteOffer
+  replaceOrToggleOffer,
+  getFavoriteOfferUpdateType
 };

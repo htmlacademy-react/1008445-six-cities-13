@@ -1,0 +1,12 @@
+.request__reloader {
+  width: fit-content;
+  margin: 15px auto;
+  cursor: pointer;
+}
+
+button.locations__item-link, button.header__nav-link {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+}

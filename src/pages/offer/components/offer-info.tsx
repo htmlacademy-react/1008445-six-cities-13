@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { AppRoute, OfferType } from '../../../const.ts';
+import { AppRoute, FavoriteOfferUpdateType, OfferType } from '../../../const.ts';
 import InsideItemList from './inside-item-list.tsx';
 import { TOffer } from '../../../types/offer.ts';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -18,9 +18,15 @@ export default function OfferInfo({ offer }: TOfferInfo) {
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const navigate = useNavigate();
   const { name, avatarUrl, isPro } = host;
+  const bedroomsTitle = `${ bedrooms } Bedroom${ bedrooms > 1 ? 's' : ''}`;
+  const maxAdultsTitle = `Max ${ maxAdults } adult${ maxAdults > 1 ? 's' : ''}`;
   const favoriteButtonClickHandler = () => {
     if (isAuthChecked) {
-      dispatch(setOfferFavoriteAction({ offerId: id, favoriteStatus: isFavorite ? 0 : 1 }));
+      dispatch(setOfferFavoriteAction({
+        offerId: id,
+        favoriteStatus: isFavorite ? 0 : 1,
+        favoriteOfferType: FavoriteOfferUpdateType.Offer
+      }));
     } else {
       navigate(AppRoute.Login);
     }
@@ -49,15 +55,15 @@ export default function OfferInfo({ offer }: TOfferInfo) {
         </div>
         <div className="offer__rating rating">
           <div className="offer__stars rating__stars">
-            <span style={{ width: `${ rating * 20 }%` }}></span>
+            <span style={{ width: `${ Math.round(rating) * 20 }%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
           <span className="offer__rating-value rating__value">{ rating }</span>
         </div>
         <ul className="offer__features">
           <li className="offer__feature offer__feature--entire">{ OfferType[ type ] }</li>
-          <li className="offer__feature offer__feature--bedrooms">{ bedrooms } Bedrooms</li>
-          <li className="offer__feature offer__feature--adults">Max { maxAdults } adults</li>
+          <li className="offer__feature offer__feature--bedrooms">{ bedroomsTitle }</li>
+          <li className="offer__feature offer__feature--adults">{ maxAdultsTitle }</li>
         </ul>
         <div className="offer__price">
           <b className="offer__price-value">&euro;{ price }</b>

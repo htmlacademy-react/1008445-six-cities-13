@@ -9,6 +9,6 @@ type PrivateRouteProps = {
 }
 
 export default function PrivateRoute({ children }: PrivateRouteProps) {
-  const isChecked = useAppSelector(getAuthCheckedStatus);
-  return isChecked ? children : <Navigate to={ AppRoute.Login }/>;
+  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
+  return isAuthChecked ? children : <Navigate to={ AppRoute.Login }/>;
 }

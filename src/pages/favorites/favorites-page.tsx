@@ -5,7 +5,6 @@ import { getFavoriteOffers, getFavoriteOffersLoadingStatus } from '../../store/a
 import { AppRoute, ErrorCause, RequestStatus } from '../../const.ts';
 import Loader from '../../app/components/loader.tsx';
 import ErrorRequestReloader from '../../app/components/error-request-reloader.tsx';
-
 import { Navigate } from 'react-router-dom';
 
 function FavoritesPage() {

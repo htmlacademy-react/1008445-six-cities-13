@@ -1,39 +1,28 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import useMap from '../../hooks/use-map.tsx';
-import { layerGroup, Marker } from 'leaflet';
 import { TLocation } from '../../types/map.ts';
 import 'leaflet/dist/leaflet.css';
-import { TMapOffers } from '../../types/offer.ts';
+import { TMapOffers, TOffer } from '../../types/offer.ts';
 import { useAppSelector } from '../../hooks';
 import { getCurrentFocusedOffer } from '../../store/app-process/selectors.ts';
-import { getCurrentIcon } from '../../utils.ts';
-
+import { getMapOffers } from '../../utils.ts';
+import { getNearOffers } from '../../store/app-data/selectors.ts';
+import useMapMarkers from '../../hooks/use-map-markers.tsx';
 type MapProps = {
-  location: TLocation;
-  offers: TMapOffers;
+  center: TLocation;
+  offers?: TMapOffers;
   mapClass: string;
+  currentMapOffer?: TOffer;
 }
-
-export default function Map({ location, offers, mapClass }: MapProps) {
+export default function Map({ center, offers, currentMapOffer, mapClass }: MapProps) {
   const mapRef = useRef(null);
-  const map = useMap(mapRef, location);
+  const map = useMap(mapRef, center);
   const currentOffer = useAppSelector(getCurrentFocusedOffer);
-  useEffect(() => {
-    if (map) {
-      const markerLayer = layerGroup().addTo(map);
-      for (const offer of offers) {
-        const { location: { latitude, longitude} } = offer;
-        const marker = new Marker({ lat: latitude, lng: longitude });
-        marker.setIcon(getCurrentIcon(currentOffer, offer)).addTo(markerLayer);
-      }
-      const { latitude , longitude , zoom} = location;
-      map.setView({ lat: latitude, lng: longitude }, zoom);
-      return () => {
-        map.removeLayer(markerLayer);
-      };
-    }
-  }, [ map, offers, currentOffer, location ]);
-
+  const nearOffers = useAppSelector(getNearOffers);
+  if (!offers && currentMapOffer) {
+    offers = getMapOffers(currentMapOffer, nearOffers);
+  }
+  useMapMarkers(map, offers, currentOffer, center);
   return (
     <div id="map" className={ mapClass } ref={ mapRef }></div>
   );
