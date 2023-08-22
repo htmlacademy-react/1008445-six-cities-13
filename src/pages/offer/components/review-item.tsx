@@ -16,14 +16,15 @@ export default function ReviewItem({ review }: ReviewItemProps) {
             width="54"
             height="54"
             alt="Reviews avatar"
+            data-testid="user-avatar"
           />
         </div>
-        <span className="reviews__user-name">
+        <span className="reviews__user-name" data-testid="user-name">
           { user.name }
         </span>
       </div>
       <div className="reviews__info">
-        <div className="reviews__rating rating">
+        <div className="reviews__rating rating" data-testid="review-rating">
           <div className="reviews__stars rating__stars">
             <span style={{ width: `${ rating * 20 }%` }}></span>
             <span className="visually-hidden">Rating</span>

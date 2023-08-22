@@ -25,7 +25,7 @@ export default function Reviews({ offerId }: ReviewsProps) {
   }
   return (
     <div className="offer__wrapper">
-      <section className="offer__reviews reviews">
+      <section className="offer__reviews reviews" data-testid="reviews">
         <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{ reviews.length }</span></h2>
         <ReviewItemList reviews={ slicedReviews }/>
         { isAuthChecked && <CommentForm offerId={ offerId }/> }

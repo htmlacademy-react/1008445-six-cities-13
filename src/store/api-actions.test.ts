@@ -208,6 +208,7 @@ describe('Async actions', () => {
 
       expect(actions).toEqual([
         checkAuthAction.pending.type,
+        getFavoriteOffersAction.pending.type,
         checkAuthAction.fulfilled.type,
       ]);
     });
@@ -236,6 +237,7 @@ describe('Async actions', () => {
       expect(actions).toEqual([
         loginAction.pending.type,
         redirectToRoute.type,
+        getOffersAction.pending.type,
         getFavoriteOffersAction.pending.type,
         loginAction.fulfilled.type,
       ]);
@@ -262,6 +264,7 @@ describe('Async actions', () => {
 
       expect(actions).toEqual([
         logoutAction.pending.type,
+        getOffersAction.pending.type,
         logoutAction.fulfilled.type,
       ]);
     });

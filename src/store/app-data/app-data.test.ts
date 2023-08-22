@@ -1,5 +1,5 @@
 import { describe } from 'vitest';
-import { FavoriteOfferUpdateType, RequestStatus } from '../../const.ts';
+import { DEFAULT_REVIEW, FavoriteOfferUpdateType, RequestStatus } from '../../const.ts';
 import { appData } from './app-data.ts';
 import {
   addReviewAction,
@@ -27,6 +27,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(expectedState, emptyAction);
@@ -47,6 +48,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(undefined, emptyAction);
@@ -66,6 +68,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const expectedState = {
       offers: [],
@@ -79,6 +82,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const result = appData.reducer(initialState, getOffersAction.pending);
     expect(result).toEqual(expectedState);
@@ -98,6 +102,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(
@@ -121,6 +126,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(undefined, getOffersAction.rejected);
@@ -141,6 +147,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const expectedState = {
       offers: [],
@@ -154,6 +161,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const result = appData.reducer(initialState, getOfferAction.pending);
     expect(result).toEqual(expectedState);
@@ -173,6 +181,7 @@ describe('AppData Slice', () => {
       offer: mockOffer,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(
@@ -196,6 +205,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(undefined, getOfferAction.rejected);
@@ -216,6 +226,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const expectedState = {
       offers: [],
@@ -229,6 +240,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const result = appData.reducer(initialState, getReviewsAction.pending);
     expect(result).toEqual(expectedState);
@@ -249,6 +261,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [ mockReview ],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(
@@ -272,6 +285,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(undefined, getReviewsAction.rejected);
@@ -292,6 +306,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const expectedState = {
       offers: [],
@@ -305,6 +320,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const result = appData.reducer(initialState, getNearOffersAction.pending);
     expect(result).toEqual(expectedState);
@@ -324,6 +340,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [ mockOffer ],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(
@@ -347,6 +364,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(undefined, getNearOffersAction.rejected);
@@ -367,6 +385,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const expectedState = {
       offers: [],
@@ -380,6 +399,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const result = appData.reducer(initialState, getFavoriteOffersAction.pending);
     expect(result).toEqual(expectedState);
@@ -399,6 +419,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(
@@ -422,6 +443,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(undefined, getFavoriteOffersAction.rejected);
@@ -442,6 +464,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const expectedState = {
       offers: [],
@@ -455,6 +478,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const result = appData.reducer(initialState, addReviewAction.pending);
     expect(result).toEqual(expectedState);
@@ -476,6 +500,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [ mockReview ],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(
@@ -499,6 +524,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(undefined, addReviewAction.rejected);
@@ -521,6 +547,7 @@ describe('AppData Slice', () => {
       offer: favoriteMockOffer,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(
@@ -553,6 +580,7 @@ describe('AppData Slice', () => {
       offer: favoriteMockOffer,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const expectedState = {
       offers: [ mockOffer ],
@@ -566,6 +594,7 @@ describe('AppData Slice', () => {
       offer: mockOffer,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(
@@ -598,6 +627,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const expectedState = {
       offers: [ mockOffer ],
@@ -611,6 +641,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(
@@ -643,6 +674,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [ favoriteMockOffer ],
+      review: DEFAULT_REVIEW
     };
     const expectedState = {
       offers: [ mockOffer ],
@@ -656,6 +688,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [ mockOffer ],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(
@@ -688,6 +721,7 @@ describe('AppData Slice', () => {
       offer: mockOffer,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const expectedState = {
       offers: [ favoriteMockOffer ],
@@ -701,6 +735,7 @@ describe('AppData Slice', () => {
       offer: favoriteMockOffer,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(
@@ -733,6 +768,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
     const expectedState = {
       offers: [ favoriteMockOffer ],
@@ -746,6 +782,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(
@@ -778,6 +815,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [ mockOffer ],
+      review: DEFAULT_REVIEW
     };
     const expectedState = {
       offers: [ favoriteMockOffer ],
@@ -791,6 +829,7 @@ describe('AppData Slice', () => {
       offer: undefined,
       reviews: [],
       nearOffers: [ favoriteMockOffer ],
+      review: DEFAULT_REVIEW
     };
 
     const result = appData.reducer(

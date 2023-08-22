@@ -16,7 +16,7 @@ export default function FavoriteList({ offers }: FavoriteListProps) {
     <ul className="favorites__list">
       {
         cities.map((cityName) => (
-          <li key={ cityName } className="favorites__locations-items">
+          <li key={ cityName } className="favorites__locations-items" data-testid="city-name">
             <div className="favorites__locations locations locations--current">
               <div className="locations__item">
                 <button

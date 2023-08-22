@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryHistory, createMemoryHistory } from 'history';
-import { AppRoute, AuthorizationStatus, City, CityMap, RequestStatus } from '../const.ts';
+import { AppRoute, AuthorizationStatus, City, CityMap, DEFAULT_REVIEW, RequestStatus } from '../const.ts';
 import App from './app.tsx';
 import { withHistory, withStore } from '../mocks/mock-component.tsx';
 import { makeFakePreviewOffer, makeFakeStore } from '../mocks/test-mocks.ts';
@@ -27,6 +27,7 @@ describe('Application Routing', () => {
         offer: undefined,
         reviews: [],
         nearOffers: [],
+        review: DEFAULT_REVIEW
       },
       APPLICATION: {
         city: CityMap[ City.Amsterdam ],
@@ -37,7 +38,7 @@ describe('Application Routing', () => {
 
     render(withStoreComponent);
 
-    expect(screen.getByText(/places to stay in /i)).toBeInTheDocument();
+    expect(screen.getByText(/place to stay in /i)).toBeInTheDocument();
   });
 
   it('should render "Main Empty Page" when user navigate to "/"', () => {
@@ -81,6 +82,7 @@ describe('Application Routing', () => {
         offer: undefined,
         reviews: [],
         nearOffers: [],
+        review: DEFAULT_REVIEW
       }
     }));
     mockHistory.push(AppRoute.Favorites);
@@ -105,6 +107,7 @@ describe('Application Routing', () => {
         offer: undefined,
         reviews: [],
         nearOffers: [],
+        review: DEFAULT_REVIEW
       }
     }));
     mockHistory.push(AppRoute.Favorites);

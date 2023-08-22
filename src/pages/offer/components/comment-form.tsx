@@ -1,25 +1,30 @@
-import { useState } from 'react';
 import RatingStarList from './rating-star-list.tsx';
 import { addReviewAction } from '../../../store/api-actions.ts';
 import {
-  DEFAULT_RATING,
-  DEFAULT_REVIEW,
+  DEFAULT_RATING, DEFAULT_REVIEW,
   MAX_COMMENT_LENGTH,
   MIN_COMMENT_LENGTH,
   RequestStatus
 } from '../../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { TReviewData } from '../../../types/comment.ts';
 import { TOfferRequestData } from '../../../types/offer.ts';
-import { getReviewLoadingStatus } from '../../../store/app-data/selectors.ts';
+import { getReview, getReviewLoadingStatus } from '../../../store/app-data/selectors.ts';
+import { setReview } from '../../../store/app-data/app-data.ts';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export default function CommentForm({ offerId }: TOfferRequestData) {
   const dispatch = useAppDispatch();
-  const [ review, setReview] = useState<TReviewData>(DEFAULT_REVIEW);
+  const location = useLocation();
+  const review = useAppSelector(getReview);
   const { comment, rating } = review;
-  const isEnabled = comment.length >= MIN_COMMENT_LENGTH && rating !== DEFAULT_RATING;
+  const isEnabled = comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating !== DEFAULT_RATING;
   const reviewLoadingStatus = useAppSelector(getReviewLoadingStatus);
-  const buttonTitle = reviewLoadingStatus === RequestStatus.Pending ? 'Submitting...' : 'Submit';
+  const isPending = reviewLoadingStatus === RequestStatus.Pending;
+  const buttonTitle = isPending ? 'Submitting...' : 'Submit';
+  useEffect(() => {
+    dispatch(setReview(DEFAULT_REVIEW));
+  }, [ location, dispatch ]);
   return (
     <form
       className="reviews__form form"
@@ -27,21 +32,22 @@ export default function CommentForm({ offerId }: TOfferRequestData) {
       onSubmit={ (evt) => {
         evt.preventDefault();
         dispatch(addReviewAction({ offerId, ...review }));
-        setReview(DEFAULT_REVIEW);
       }}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <RatingStarList review={ review } setReview={ setReview } />
+      <RatingStarList isPending={ isPending }/>
       <textarea
         className="reviews__textarea form__textarea"
+        data-testid="comment-text"
         id="review"
         maxLength={ MAX_COMMENT_LENGTH }
         minLength={ MIN_COMMENT_LENGTH }
         name="review"
         value={ review.comment }
+        disabled={ isPending }
         onChange={
           ({ target}) => {
-            setReview({ ...review, comment: target.value });
+            dispatch(setReview({ ...review, comment: target.value }));
           }
         }
         placeholder="Tell how was your stay, what you like and what can be improved"
@@ -55,7 +61,8 @@ export default function CommentForm({ offerId }: TOfferRequestData) {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={ !isEnabled }
+          disabled={ !isEnabled || isPending }
+          data-testid="submit-button"
         >
           { buttonTitle }
         </button>
