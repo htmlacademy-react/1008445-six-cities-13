@@ -5,17 +5,11 @@ import { getFavoriteOffers, getFavoriteOffersLoadingStatus } from '../../store/a
 import { AppRoute, ErrorCause, RequestStatus } from '../../const.ts';
 import Loader from '../../app/components/loader.tsx';
 import ErrorRequestReloader from '../../app/components/error-request-reloader.tsx';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { getAuthCheckedStatus } from '../../store/auth-process/selectors.ts';
+import { Navigate } from 'react-router-dom';
 
 function FavoritesPage() {
-  const navigate = useNavigate();
   const favoriteOffersLoadingStatus = useAppSelector(getFavoriteOffersLoadingStatus);
-  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const offers = useAppSelector(getFavoriteOffers);
-  if (!isAuthChecked) {
-    return navigate(AppRoute.Main);
-  }
   if ([ RequestStatus.Idle, RequestStatus.Pending ].includes(favoriteOffersLoadingStatus)) {
     return <Loader/>;
   }
