@@ -208,6 +208,7 @@ describe('Async actions', () => {
 
       expect(actions).toEqual([
         checkAuthAction.pending.type,
+        getFavoriteOffersAction.pending.type,
         checkAuthAction.fulfilled.type,
       ]);
     });
