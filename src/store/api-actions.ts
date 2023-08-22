@@ -105,8 +105,9 @@ const checkAuthAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>(
   `${ AppNameSpace.Auth }/checkAuth`,
-  async (_arg, { extra: api }) => {
+  async (_arg, { dispatch, extra: api }) => {
     await api.get(APIRoute.Login);
+    dispatch(getFavoriteOffersAction());
   },
 );
 const loginAction = createAsyncThunk<TUserData, TAuthData, {

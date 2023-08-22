@@ -10,7 +10,6 @@ store.dispatch(checkAuthAction());
 store.dispatch(getOffersAction());
 
 export default function App() {
-
   return (
     <HelmetProvider>
       <Routes>
@@ -27,9 +26,9 @@ export default function App() {
           <Route
             path={ AppRoute.Favorites }
             element={
-              <PrivateRoute>
+              /*<PrivateRoute>*/
                 <FavoritesPage/>
-              </PrivateRoute>
+             /* </PrivateRoute>*/
             }
           />
           <Route

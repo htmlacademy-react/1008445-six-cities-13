@@ -225,7 +225,6 @@ const OfferLimits = {
   nearOffersVisibleCount: 3,
   imageVisibleCount: 6,
 };
-
 enum RequestStatus {
   Idle = 'Idle',
   Error = 'Error',
