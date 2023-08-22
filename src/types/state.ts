@@ -1,7 +1,7 @@
 import { store } from '../store';
 import { AuthorizationStatus, RequestStatus } from '../const.ts';
 import { TOffer, TPreviewOffer, TPreviewOffers } from './offer.ts';
-import { TReviews } from './comment.ts';
+import { TReviewData, TReviews } from './comment.ts';
 import { TCity } from './map.ts';
 
 export type TState = ReturnType<typeof store.getState>;
@@ -25,6 +25,7 @@ export type TAppData = {
   offer: TOffer | undefined;
   reviews: TReviews;
   nearOffers: TPreviewOffers;
+  review: TReviewData;
 }
 
 export type TAppProcess = {

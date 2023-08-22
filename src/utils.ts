@@ -9,7 +9,7 @@ import { TMapOffer, TMapOffers, TOffer, TPreviewOffer, TPreviewOffers } from './
 import { TReview } from './types/comment.ts';
 import { matchPath } from 'react-router-dom';
 import { Icon } from 'leaflet';
-const DATE_FORMAT = 'MMM D';
+const DATE_FORMAT = 'MMMM D';
 const TAG_DATE_FORMAT = 'YYYY-MM-DD';
 const RANDOM_INIT_VALUE = 0.5;
 const getHumanDate = (date: string): string => date ? dayjs(date).format(DATE_FORMAT) : '';

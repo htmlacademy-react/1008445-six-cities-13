@@ -4,15 +4,13 @@ import { AppRoute } from '../const.ts';
 import PrivateRoute from './components/private-route.tsx';
 import { HelmetProvider } from 'react-helmet-async';
 import Layout from './components/layout.tsx';
-
-import { checkAuthAction, getFavoriteOffersAction, getOffersAction } from '../store/api-actions.ts';
+import { checkAuthAction, getOffersAction } from '../store/api-actions.ts';
 import { store } from '../store';
-
 store.dispatch(checkAuthAction());
 store.dispatch(getOffersAction());
-store.dispatch(getFavoriteOffersAction());
 
 export default function App() {
+
   return (
     <HelmetProvider>
       <Routes>

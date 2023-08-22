@@ -5,7 +5,7 @@ import { TState } from '../types/state.ts';
 import { createAPI } from '../services/api.ts';
 import { Action } from 'redux';
 import { TUserData } from '../types/user-data.ts';
-import { AuthorizationStatus, City, CityMap, RequestStatus } from '../const.ts';
+import { AuthorizationStatus, City, CityMap, DEFAULT_REVIEW, RequestStatus } from '../const.ts';
 
 export const makeFakePreviewOffer = (): TPreviewOffer => ({
   id: '6af6f711-c28d-4121-82cd-e0b462a27f00',
@@ -97,7 +97,7 @@ export const makeFakeServerReplay = (): TUserData => ({
 export const makeFakeStore = (initialState?: Partial<TState>): TState => ({
   AUTH: {
     authStatus: AuthorizationStatus.Auth,
-    loginLoadingStatus: RequestStatus.Idle
+    loginLoadingStatus: RequestStatus.Idle,
   },
   DATA: {
     offers: [ makeFakePreviewOffer() ],
@@ -111,6 +111,7 @@ export const makeFakeStore = (initialState?: Partial<TState>): TState => ({
     offer: undefined,
     reviews: [],
     nearOffers: [],
+    review: DEFAULT_REVIEW
   },
   APPLICATION: {
     city: CityMap[ City.Paris ],

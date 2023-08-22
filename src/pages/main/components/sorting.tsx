@@ -8,7 +8,7 @@ type SortingProps = {
   setCurrentSorting: (sorting: SortType) => void;
 }
 
-function Sorting({ currentSorting, setCurrentSorting }: SortingProps) {
+export default function Sorting({ currentSorting, setCurrentSorting }: SortingProps) {
   const [ isOpened, setOpened ] = useState(false);
   const sortingRef = useRef(null);
   useOutsideClick(sortingRef, isOpened, setOpened);
@@ -32,10 +32,12 @@ function Sorting({ currentSorting, setCurrentSorting }: SortingProps) {
       <ul
         className={ `places__options places__options--custom ${ isOpened ? 'places__options--opened' : 'places__options--closed'} ` }
         ref={ sortingRef }
+        data-testid="sort-options"
       >
         {
           Object.values(SortType).map((sorting) => (
             <li
+              data-testid="sort-option"
               key={ sorting }
               className={ cn('places__option', { 'places__option--active': currentSorting === sorting }) }
               onClick={ () => sortingOnClickHandler(sorting) }

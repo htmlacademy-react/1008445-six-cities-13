@@ -38,13 +38,11 @@ export default function OfferItem({ offer, classOptions }: OfferItemProps) {
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const favoriteButtonClickHandler = () => {
     if (isAuthChecked) {
-      //if (!isNearOfferListType) {
       dispatch(setOfferFavoriteAction({
         offerId: id,
         favoriteStatus: isFavorite ? 0 : 1,
         favoriteOfferType
       }));
-      //}
     } else {
       navigate(AppRoute.Login);
     }
@@ -59,7 +57,7 @@ export default function OfferItem({ offer, classOptions }: OfferItemProps) {
         <div className="place-card__mark">
           <span>Premium</span>
         </div> }
-      <div className={ `${ placeCardImageWrapperClass } place-card__image-wrapper` }>
+      <div className={ `${ placeCardImageWrapperClass } place-card__image-wrapper` } >
         <a>
           <img
             className="place-card__image"
@@ -67,19 +65,19 @@ export default function OfferItem({ offer, classOptions }: OfferItemProps) {
             width={ imageWith }
             height={ imageHeight }
             alt={ type }
+            data-testid="offer-preview-image"
           />
         </a>
       </div>
       <div className={ `place-card__info ${ placeCardInfoClass }` }>
         <div className="place-card__price-wrapper">
-          <div className="place-card__price">
+          <div className="place-card__price" data-testid="offer-price">
             <b className="place-card__price-value">&euro;{ price }</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
             type="button"
             className={ cn('place-card__bookmark-button button', { 'place-card__bookmark-button--active' : isFavorite }) }
-            //style={{ cursor: !isNearOfferListType ? 'pointer' : 'default' }}
             onClick={ favoriteButtonClickHandler }
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
@@ -88,16 +86,16 @@ export default function OfferItem({ offer, classOptions }: OfferItemProps) {
             <span className="visually-hidden">To bookmarks</span>
           </button>
         </div>
-        <div className="place-card__rating rating">
+        <div className="place-card__rating rating" data-testid="offer-rating">
           <div className="place-card__stars rating__stars">
             <span style={{ width: `${ Math.round(rating) * 20 }%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <h2 className="place-card__name">
-          <Link to={ `${ AppRoute.Offer }/${ id }` }>{ title }</Link>
+        <h2 className="place-card__name" data-testid="offer-name">
+          <Link to={ `${ AppRoute.Offer }/${ id }` } data-testid="offer-link">{ title }</Link>
         </h2>
-        <p className="place-card__type">{ OfferType[ type ] }</p>
+        <p className="place-card__type" data-testid="offer-type">{ OfferType[ type ] }</p>
       </div>
     </article>
   );

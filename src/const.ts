@@ -189,7 +189,7 @@ const RatingStarScores = [
   { score: 4, title: 'good'},
   { score: 3, title: 'not bad' },
   { score: 2, title: 'badly' },
-  { score: 1, title: 'terrible' }
+  { score: 1, title: 'terribly' }
 ];
 const ICON_SIZE: [ number, number ] = [ 40, 40 ];
 const defaultCustomIcon = new Icon({

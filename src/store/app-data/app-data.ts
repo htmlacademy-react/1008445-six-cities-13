@@ -1,10 +1,10 @@
 import {
   AppNameSpace,
   RequestStatus,
-  FavoriteOfferUpdateType
+  FavoriteOfferUpdateType, DEFAULT_REVIEW
 } from '../../const.ts';
 import { TAppData } from '../../types/state.ts';
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   addReviewAction,
   getFavoriteOffersAction,
@@ -16,6 +16,7 @@ import {
 } from '../api-actions.ts';
 import { toast } from 'react-toastify';
 import { replaceOrToggleOffer, sortByRandom } from '../../utils.ts';
+import { TReviewData } from '../../types/comment.ts';
 
 const initialState: TAppData = {
   offers: [],
@@ -29,14 +30,15 @@ const initialState: TAppData = {
   offer: undefined,
   reviews: [],
   nearOffers: [],
+  review: DEFAULT_REVIEW,
 };
 
 export const appData = createSlice({
   name: AppNameSpace.AppData,
   initialState,
   reducers: {
-    sortNearOffers: (state) => {
-      state.nearOffers = state.nearOffers.sort(sortByRandom);
+    setReview: (state, action: PayloadAction<TReviewData>) => {
+      state.review = action.payload;
     },
   },
   extraReducers(builder) {
@@ -90,6 +92,7 @@ export const appData = createSlice({
       })
       .addCase(addReviewAction.fulfilled, (state, action) => {
         state.reviews.push(action.payload);
+        state.review = DEFAULT_REVIEW;
         state.reviewLoadingStatus = RequestStatus.Success;
         toast.success('Your review successfully added');
       })
@@ -118,4 +121,4 @@ export const appData = createSlice({
   }
 });
 
-export const { sortNearOffers } = appData.actions;
+export const { setReview } = appData.actions;

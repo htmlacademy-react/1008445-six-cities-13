@@ -46,6 +46,7 @@ export default function OfferInfo({ offer }: TOfferInfo) {
             className={ cn('offer__bookmark-button button', { 'offer__bookmark-button--active' : isFavorite }) }
             type="button"
             onClick={ favoriteButtonClickHandler }
+            data-testid="favorite-button"
           >
             <svg className="offer__bookmark-icon" width="31" height="33">
               <use xlinkHref="#icon-bookmark"></use>
@@ -53,7 +54,7 @@ export default function OfferInfo({ offer }: TOfferInfo) {
             <span className="visually-hidden">To bookmarks</span>
           </button>
         </div>
-        <div className="offer__rating rating">
+        <div className="offer__rating rating" data-testid="offer-rating">
           <div className="offer__stars rating__stars">
             <span style={{ width: `${ Math.round(rating) * 20 }%` }}></span>
             <span className="visually-hidden">Rating</span>
@@ -74,7 +75,7 @@ export default function OfferInfo({ offer }: TOfferInfo) {
           <InsideItemList goods={ goods }/>
         </div>
         <div className="offer__host">
-          <h2 className="offer__host-title">Meet the host</h2>
+          <h2 className="offer__host-title" data-testid="host-header">Meet the host</h2>
           <div className="offer__host-user user">
             <div className={ cn('offer__avatar-wrapper user__avatar-wrapper', { 'offer__avatar-wrapper--pro' : isPro }) }>
               <img className="offer__avatar user__avatar" src={ avatarUrl } width="74" height="74" alt="Host avatar"/>
@@ -82,7 +83,7 @@ export default function OfferInfo({ offer }: TOfferInfo) {
             <span className="offer__user-name">{ name }</span>
             { isPro && <span className="offer__user-status">Pro</span> }
           </div>
-          <div className="offer__description">
+          <div className="offer__description" data-testid="offer-description">
             <p className="offer__text">
               { description }
             </p>

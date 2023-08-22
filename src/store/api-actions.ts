@@ -13,8 +13,8 @@ import {
 } from '../types/offer.ts';
 import { TReview, TReviewRequestData, TReviews } from '../types/comment.ts';
 import { redirectToRoute } from './actions.ts';
-import { removeUserData, setUserData } from '../services/user-data.ts';
 import { toast } from 'react-toastify';
+import { removeUserData, setUserData } from '../services/user-data.ts';
 
 const getOffersAction = createAsyncThunk<TPreviewOffers, undefined, {
   dispatch: TAppDispatch;
@@ -109,7 +109,7 @@ const checkAuthAction = createAsyncThunk<void, undefined, {
     await api.get(APIRoute.Login);
   },
 );
-const loginAction = createAsyncThunk<void, TAuthData, {
+const loginAction = createAsyncThunk<TUserData, TAuthData, {
   dispatch: TAppDispatch;
   state: TState;
   extra: AxiosInstance;
@@ -120,7 +120,9 @@ const loginAction = createAsyncThunk<void, TAuthData, {
       const { data } = await api.post<TUserData>(APIRoute.Login, { email, password });
       setUserData(data);
       dispatch(redirectToRoute(AppRoute.Main));
+      dispatch(getOffersAction());
       dispatch(getFavoriteOffersAction());
+      return data;
     } catch (e) {
       toast.error('Error while login, please try again later');
       throw e;
@@ -134,10 +136,11 @@ const logoutAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>(
   `${ AppNameSpace.Auth }/logout`,
-  async (_arg, { extra: api }) => {
+  async (_arg, { dispatch, extra: api }) => {
     try {
       await api.delete(APIRoute.Logout);
       removeUserData();
+      dispatch(getOffersAction());
     } catch (e) {
       toast.error('Error while logout, please try again later');
       throw e;

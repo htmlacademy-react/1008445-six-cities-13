@@ -1,57 +1,45 @@
-import React from 'react';
 import { RatingStarScores } from '../../../const.ts';
-import { TReviewData } from '../../../types/comment.ts';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { setReview } from '../../../store/app-data/app-data.ts';
+import { getReview } from '../../../store/app-data/selectors.ts';
+import { Fragment} from 'react';
 
 type RatingStarListProps = {
-  review: TReviewData;
-  setReview: React.Dispatch<React.SetStateAction<TReviewData>>;
+  isPending: boolean;
 }
-
-type RatingStarProps = RatingStarListProps & {
-  score: number;
-  title: string;
-}
-
-function RatingStar({ score, title, review, setReview }: RatingStarProps) {
+export default function RatingStarList({ isPending }: RatingStarListProps) {
+  const dispatch = useAppDispatch();
+  const review = useAppSelector(getReview);
   return (
-    <>
-      <input
-        className="form__rating-input visually-hidden"
-        name="rating"
-        value={ score }
-        id={ `${ score }-stars` }
-        type="radio"
-        checked={ score === review.rating }
-        onChange={
-          ({ target}) => {
-            setReview({
-              ...review,
-              rating: +target.value
-            });
-          }
-        }
-      />
-      <label htmlFor={ `${ score }-stars`} className="reviews__rating-label form__rating-label" title={ title }>
-        <svg className="form__star-image" width="37" height="33">
-          <use xlinkHref="#icon-star"></use>
-        </svg>
-      </label>
-    </>
-  );
-}
-
-export default function RatingStarList({ review, setReview }: RatingStarListProps) {
-  return (
-    <div className="reviews__rating-form form__rating">
+    <div className="reviews__rating-form form__rating" data-testid="comment-rating">
       {
         RatingStarScores.map(({ score, title }) => (
-          <RatingStar
-            key={ score }
-            score={ score }
-            title={ title }
-            review={ review }
-            setReview={ setReview }
-          />)
+          <Fragment key={ title }>
+            <input
+              data-testid="comment-rating-star"
+              key={ title }
+              className="form__rating-input visually-hidden"
+              name="rating"
+              value={ score }
+              id={ `${ score }-stars` }
+              type="radio"
+              disabled={ isPending }
+              checked={ score === review.rating }
+              onChange={
+                ({ target}) => {
+                  dispatch(setReview({
+                    ...review,
+                    rating: +target.value
+                  }));
+                }
+              }
+            />
+            <label htmlFor={ `${ score }-stars`} className="reviews__rating-label form__rating-label" title={ title }>
+              <svg className="form__star-image" width="37" height="33">
+                <use xlinkHref="#icon-star"></use>
+              </svg>
+            </label>
+          </Fragment>)
         )
       }
     </div>

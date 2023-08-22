@@ -34,7 +34,7 @@ export default function ErrorRequestReloader({ cause, offerId }: RequestReloadPr
         className="locations__item-link"
         onClick={ reloadButtonClickHandler }
       >
-        <span>{ message } &#10227;</span>
+        <span>{ message }</span>
       </button>
     </div>
   );
