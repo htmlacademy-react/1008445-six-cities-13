@@ -28,7 +28,7 @@ export default function OfferInfo({ offer }: TOfferInfo) {
         favoriteStatus: isFavorite ? 0 : 1,
         favoriteOfferType: FavoriteOfferUpdateType.Offer
       })).catch(() => toast.error(
-        `Something wrong when trying to ${ isFavorite ? 'add to ' : 'remove from' } favorites, try again later`)
+        `Something wrong when trying to ${ !isFavorite ? 'add to ' : 'remove from' } favorites, try again later`)
       );
     } else {
       navigate(AppRoute.Login);

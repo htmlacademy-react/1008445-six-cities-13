@@ -45,9 +45,9 @@ export default function OfferItem({ offer, classOptions }: OfferItemProps) {
         favoriteOfferType
       }))
         .then(() =>
-          toast.success(`Successfully ${ offer?.isFavorite ? 'added to ' : 'removed from' } favorites`))
+          toast.success(`Successfully ${ !isFavorite ? 'added to ' : 'removed from' } favorites`))
         .catch(() =>
-          toast.error(`Something wrong when trying to ${ isFavorite ? 'add to ' : 'remove from' } favorites, try again later`));
+          toast.error(`Something wrong when trying to ${ !isFavorite ? 'add to ' : 'remove from' } favorites, try again later`));
     } else {
       navigate(AppRoute.Login);
     }
