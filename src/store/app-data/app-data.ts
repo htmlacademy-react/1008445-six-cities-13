@@ -14,7 +14,6 @@ import {
   getReviewsAction,
   setOfferFavoriteAction,
 } from '../api-actions.ts';
-import { toast } from 'react-toastify';
 import { replaceOrToggleOffer, sortByRandom } from '../../utils.ts';
 import { TReviewData } from '../../types/comment.ts';
 
@@ -85,7 +84,6 @@ export const appData = createSlice({
       })
       .addCase(addReviewAction.rejected, (state) => {
         state.reviewLoadingStatus = RequestStatus.Error;
-        toast.error('Something go wrong when trying to send your review');
       })
       .addCase(addReviewAction.pending, (state) => {
         state.reviewLoadingStatus = RequestStatus.Pending;
@@ -94,7 +92,6 @@ export const appData = createSlice({
         state.reviews.push(action.payload);
         state.review = DEFAULT_REVIEW;
         state.reviewLoadingStatus = RequestStatus.Success;
-        toast.success('Your review successfully added');
       })
       .addCase(setOfferFavoriteAction.fulfilled, (state, action) => {
         const { offer, favoriteOfferType } = action.payload;
@@ -106,7 +103,6 @@ export const appData = createSlice({
         }
         replaceOrToggleOffer(state.offers, offer);
         replaceOrToggleOffer(state.favoriteOffers, offer, true);
-        toast.success(`Successfully ${ offer?.isFavorite ? 'added to ' : 'removed from' } favorites`);
       })
       .addCase(getFavoriteOffersAction.pending, (state) => {
         state.favoriteOffersLoadingStatus = RequestStatus.Pending;

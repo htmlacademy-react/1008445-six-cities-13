@@ -193,12 +193,12 @@ const RatingStarScores = [
 ];
 const ICON_SIZE: [ number, number ] = [ 40, 40 ];
 const defaultCustomIcon = new Icon({
-  iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
+  iconUrl: '/img/pin.svg',
   iconSize: ICON_SIZE,
   iconAnchor: ICON_SIZE
 });
 const currentCustomIcon = new Icon({
-  iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg',
+  iconUrl: '/img/pin-active.svg',
   iconSize: ICON_SIZE,
   iconAnchor: ICON_SIZE
 });
@@ -246,7 +246,10 @@ export enum ErrorCause {
   Favorites = 'Favorites',
 }
 
+const USER_DATA_KEY_NAME = 'six-cities/user-data';
+
 export {
+  USER_DATA_KEY_NAME,
   DEFAULT_REVIEW,
   MAX_COMMENT_LENGTH,
   MIN_COMMENT_LENGTH,

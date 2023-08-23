@@ -22,7 +22,6 @@ import {
   loginAction, logoutAction
 } from './api-actions.ts';
 import { TAuthData } from '../types/auth-data.ts';
-import { redirectToRoute } from './actions.ts';
 describe('Async actions', () => {
   const axios = createAPI();
   const mockAxiosAdapter = new MockAdapter(axios);
@@ -236,7 +235,6 @@ describe('Async actions', () => {
 
       expect(actions).toEqual([
         loginAction.pending.type,
-        redirectToRoute.type,
         getOffersAction.pending.type,
         getFavoriteOffersAction.pending.type,
         loginAction.fulfilled.type,

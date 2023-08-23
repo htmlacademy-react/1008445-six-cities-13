@@ -7,6 +7,7 @@ import { getAuthCheckedStatus } from '../../../store/auth-process/selectors.ts';
 import { useNavigate } from 'react-router-dom';
 import Reviews from './reviews.tsx';
 import { setOfferFavoriteAction } from '../../../store/api-actions.ts';
+import { toast } from 'react-toastify';
 
 type TOfferInfo = {
   offer: TOffer;
@@ -26,7 +27,9 @@ export default function OfferInfo({ offer }: TOfferInfo) {
         offerId: id,
         favoriteStatus: isFavorite ? 0 : 1,
         favoriteOfferType: FavoriteOfferUpdateType.Offer
-      }));
+      })).catch(() => toast.error(
+        `Something wrong when trying to ${ isFavorite ? 'add to ' : 'remove from' } favorites, try again later`)
+      );
     } else {
       navigate(AppRoute.Login);
     }

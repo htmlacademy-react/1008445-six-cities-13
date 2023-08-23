@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TAppDispatch, TState } from '../types/state.js';
-import { APIRoute, AppNameSpace, AppRoute } from '../const';
+import { APIRoute, AppNameSpace } from '../const';
 import { TAuthData } from '../types/auth-data';
 import { TUserData } from '../types/user-data';
 import {
@@ -12,8 +12,6 @@ import {
   TPreviewOffers
 } from '../types/offer.ts';
 import { TReview, TReviewRequestData, TReviews } from '../types/comment.ts';
-import { redirectToRoute } from './actions.ts';
-import { toast } from 'react-toastify';
 import { removeUserData, setUserData } from '../services/user-data.ts';
 
 const getOffersAction = createAsyncThunk<TPreviewOffers, undefined, {
@@ -88,15 +86,14 @@ const setOfferFavoriteAction = createAsyncThunk<TFavoriteOfferResponseData, TFav
   extra: AxiosInstance;
 }>(
   `${ AppNameSpace.AppData }/setOfferFavorite`,
-  async ({ offerId, favoriteStatus, favoriteOfferType }, { extra: api}) => {
-    try {
-      const { data} = await api.post<TOffer>(`${ APIRoute.Favorites }/${ offerId }/${ favoriteStatus }`);
-      return { offer: data, favoriteOfferType };
-    } catch (e) {
-      toast.error(
-        `Something wrong when trying to ${ favoriteStatus ? 'add to ' : 'remove from' } favorites, try again later`);
-      throw e;
-    }
+  async ({
+    offerId,
+    favoriteStatus,
+    favoriteOfferType
+  },
+  { extra: api}) => {
+    const { data} = await api.post<TOffer>(`${ APIRoute.Favorites }/${ offerId }/${ favoriteStatus }`);
+    return { offer: data, favoriteOfferType };
   },
 );
 const checkAuthAction = createAsyncThunk<void, undefined, {
@@ -117,17 +114,11 @@ const loginAction = createAsyncThunk<TUserData, TAuthData, {
 }>(
   `${ AppNameSpace.Auth }/login`,
   async ({ email, password }, { dispatch, extra: api}) => {
-    try {
-      const { data } = await api.post<TUserData>(APIRoute.Login, { email, password });
-      setUserData(data);
-      dispatch(redirectToRoute(AppRoute.Main));
-      dispatch(getOffersAction());
-      dispatch(getFavoriteOffersAction());
-      return data;
-    } catch (e) {
-      toast.error('Error while login, please try again later');
-      throw e;
-    }
+    const { data } = await api.post<TUserData>(APIRoute.Login, { email, password });
+    setUserData(data);
+    dispatch(getOffersAction());
+    dispatch(getFavoriteOffersAction());
+    return data;
   },
 );
 
@@ -138,14 +129,9 @@ const logoutAction = createAsyncThunk<void, undefined, {
 }>(
   `${ AppNameSpace.Auth }/logout`,
   async (_arg, { dispatch, extra: api }) => {
-    try {
-      await api.delete(APIRoute.Logout);
-      removeUserData();
-      dispatch(getOffersAction());
-    } catch (e) {
-      toast.error('Error while logout, please try again later');
-      throw e;
-    }
+    await api.delete(APIRoute.Logout);
+    removeUserData();
+    dispatch(getOffersAction());
   },
 );
 

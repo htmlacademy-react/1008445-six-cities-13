@@ -1,7 +1,5 @@
 import { TUserData } from '../types/user-data.ts';
-
-const USER_DATA_KEY_NAME = 'six-cities/user-data';
-
+import { USER_DATA_KEY_NAME } from '../const.ts';
 const getUserData = (): TUserData | undefined => {
   const data = localStorage.getItem(USER_DATA_KEY_NAME);
   return data ? JSON.parse(data) as TUserData : undefined;

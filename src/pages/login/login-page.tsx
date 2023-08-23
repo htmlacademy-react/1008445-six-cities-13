@@ -22,7 +22,9 @@ const formSubmitHandler = (evt: FormEvent<HTMLFormElement>, dispatch: TAppDispat
   if (!validatePassword(password)) {
     return toast.warning('Password not valid, should contain at least one digit and one character');
   }
-  dispatch(loginAction(data));
+  dispatch(loginAction(data))
+    .then(() => toast.success('Successfully login'))
+    .catch(() => toast.error('Error while login, please try again later'));
 };
 
 export default function LoginPage() {
