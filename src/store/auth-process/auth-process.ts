@@ -2,7 +2,6 @@ import { AppNameSpace, AuthorizationStatus, RequestStatus } from '../../const.ts
 import { TAuthProcess } from '../../types/state.ts';
 import { createSlice } from '@reduxjs/toolkit';
 import { checkAuthAction, loginAction, logoutAction } from '../api-actions.ts';
-import { toast } from 'react-toastify';
 
 const initialState : TAuthProcess = {
   authStatus: AuthorizationStatus.Unknown,
@@ -27,7 +26,6 @@ export const authProcess = createSlice({
       .addCase(loginAction.fulfilled, (state) => {
         state.authStatus = AuthorizationStatus.Auth;
         state.loginLoadingStatus = RequestStatus.Success;
-        toast.success('Successfully login');
       })
       .addCase(loginAction.rejected, (state) => {
         state.authStatus = AuthorizationStatus.NoAuth;
@@ -35,7 +33,6 @@ export const authProcess = createSlice({
       })
       .addCase(logoutAction.fulfilled, (state) => {
         state.authStatus = AuthorizationStatus.NoAuth;
-        toast.success('Successfully logout');
       });
   }
 });

@@ -30,6 +30,7 @@ const createAPI = (): AxiosInstance => {
       if (error.response?.status === StatusCodes.NOT_FOUND) {
         browserHistory.push(AppRoute.NotFound);
       }
+
       if (error.response?.status === StatusCodes.BAD_REQUEST) {
         const { message } = error.response.data;
         toast.error(message);

@@ -7,6 +7,7 @@ import { getAuthCheckedStatus } from '../../../store/auth-process/selectors.ts';
 import { setCurrentFocusedOffer } from '../../../store/app-process/app-process.ts';
 import { setOfferFavoriteAction } from '../../../store/api-actions.ts';
 import { getFavoriteOfferUpdateType } from '../../../utils.ts';
+import { toast } from 'react-toastify';
 
 type OfferItemProps = {
   offer: TPreviewOffer;
@@ -42,7 +43,11 @@ export default function OfferItem({ offer, classOptions }: OfferItemProps) {
         offerId: id,
         favoriteStatus: isFavorite ? 0 : 1,
         favoriteOfferType
-      }));
+      }))
+        .then(() =>
+          toast.success(`Successfully ${ !isFavorite ? 'added to ' : 'removed from' } favorites`))
+        .catch(() =>
+          toast.error(`Something wrong when trying to ${ !isFavorite ? 'add to ' : 'remove from' } favorites, try again later`));
     } else {
       navigate(AppRoute.Login);
     }

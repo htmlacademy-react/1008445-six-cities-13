@@ -12,6 +12,7 @@ import { getReview, getReviewLoadingStatus } from '../../../store/app-data/selec
 import { setReview } from '../../../store/app-data/app-data.ts';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function CommentForm({ offerId }: TOfferRequestData) {
   const dispatch = useAppDispatch();
@@ -31,7 +32,9 @@ export default function CommentForm({ offerId }: TOfferRequestData) {
       method="post"
       onSubmit={ (evt) => {
         evt.preventDefault();
-        dispatch(addReviewAction({ offerId, ...review }));
+        dispatch(addReviewAction({ offerId, ...review }))
+          .then(() => toast.success('Your review successfully added'))
+          .catch(() => toast.error('Something go wrong when trying to send your review'));
       }}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
@@ -40,8 +43,6 @@ export default function CommentForm({ offerId }: TOfferRequestData) {
         className="reviews__textarea form__textarea"
         data-testid="comment-text"
         id="review"
-        maxLength={ MAX_COMMENT_LENGTH }
-        minLength={ MIN_COMMENT_LENGTH }
         name="review"
         value={ review.comment }
         disabled={ isPending }
