@@ -44,6 +44,7 @@ export default function OfferItem({ offer, classOptions }: OfferItemProps) {
         favoriteStatus: isFavorite ? 0 : 1,
         favoriteOfferType
       }))
+        .unwrap()
         .then(() =>
           toast.success(`Successfully ${ !isFavorite ? 'added to ' : 'removed from' } favorites`))
         .catch(() =>

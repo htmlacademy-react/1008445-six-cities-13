@@ -33,6 +33,7 @@ export default function CommentForm({ offerId }: TOfferRequestData) {
       onSubmit={ (evt) => {
         evt.preventDefault();
         dispatch(addReviewAction({ offerId, ...review }))
+          .unwrap()
           .then(() => toast.success('Your review successfully added'))
           .catch(() => toast.error('Something go wrong when trying to send your review'));
       }}

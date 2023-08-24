@@ -18,6 +18,7 @@ export default function Nav() {
     evt.preventDefault();
     navigate(AppRoute.Main);
     dispatch(logoutAction())
+      .unwrap()
       .then(() => toast.success('Successfully logout'))
       .catch(() => toast.error('Error while logout, please try again later'));
   };
