@@ -37,7 +37,7 @@ export default function OfferItem({ offer, classOptions }: OfferItemProps) {
   } = offer;
   const navigate = useNavigate();
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
-  const favoriteButtonClickHandler = () => {
+  const handleFavoriteButtonClick = () => {
     if (isAuthChecked) {
       dispatch(setOfferFavoriteAction({
         offerId: id,
@@ -55,6 +55,7 @@ export default function OfferItem({ offer, classOptions }: OfferItemProps) {
   };
   return (
     <article
+      data-testid="offer-item"
       className={ `${ placeCardClass } place-card` }
       onMouseOver={ () => favoriteOfferType === FavoriteOfferUpdateType.MainList && dispatch(setCurrentFocusedOffer(offer)) }
       onMouseOut={ () => favoriteOfferType === FavoriteOfferUpdateType.MainList && dispatch(setCurrentFocusedOffer(undefined)) }
@@ -84,7 +85,7 @@ export default function OfferItem({ offer, classOptions }: OfferItemProps) {
           <button
             type="button"
             className={ cn('place-card__bookmark-button button', { 'place-card__bookmark-button--active' : isFavorite }) }
-            onClick={ favoriteButtonClickHandler }
+            onClick={ handleFavoriteButtonClick }
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

@@ -4,16 +4,16 @@ export default function useOutsideClick(
   isOpened: boolean,
   setOpened: React.Dispatch<React.SetStateAction<boolean>>) {
   useEffect(() => {
-    const outsideSortingClickHandler = ({ target }: MouseEvent) => {
+    const handleOutsideSortingClick = ({ target }: MouseEvent) => {
       if (isOpened && !ref.current?.contains(target as Node)) {
         setOpened(false);
       }
     };
     if (isOpened) {
-      document.addEventListener('mousedown', outsideSortingClickHandler);
+      document.addEventListener('mousedown', handleOutsideSortingClick);
     }
     return () => {
-      document.removeEventListener('mousedown', outsideSortingClickHandler);
+      document.removeEventListener('mousedown', handleOutsideSortingClick);
     };
   }, [ ref, isOpened, setOpened ]);
 }

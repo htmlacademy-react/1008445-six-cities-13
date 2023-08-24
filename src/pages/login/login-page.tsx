@@ -10,7 +10,7 @@ import { TAuthData } from '../../types/auth-data.ts';
 import { sortByRandom, validateEmail, validatePassword } from '../../utils.ts';
 import { toast } from 'react-toastify';
 import { TAppDispatch } from '../../types/state.ts';
-const formSubmitHandler = (evt: FormEvent<HTMLFormElement>, dispatch: TAppDispatch) => {
+const handleFormSubmit = (evt: FormEvent<HTMLFormElement>, dispatch: TAppDispatch) => {
   evt.preventDefault();
   const form = evt.currentTarget;
   const formData = new FormData(form);
@@ -50,7 +50,7 @@ export default function LoginPage() {
           <form
             className="login__form form"
             method="post"
-            onSubmit={ (evt) => formSubmitHandler(evt, dispatch) }
+            onSubmit={ (evt) => handleFormSubmit(evt, dispatch) }
           >
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">E-mail</label>
