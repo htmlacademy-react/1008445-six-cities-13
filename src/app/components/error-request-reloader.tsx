@@ -23,7 +23,7 @@ export default function ErrorRequestReloader({ cause, offerId }: RequestReloadPr
     [ ErrorCause.Reviews ]: () => offerId && dispatch(getReviewsAction({ offerId })),
     [ ErrorCause.Favorites ]: () => dispatch(getFavoriteOffersAction()),
   };
-  const reloadButtonClickHandler = () => {
+  const handleReloadButtonClick = () => {
     ErrorFunction[ cause ]();
   };
   const message = `${ cause } loading error, please try again`;
@@ -32,7 +32,7 @@ export default function ErrorRequestReloader({ cause, offerId }: RequestReloadPr
       <button
         type="button"
         className="locations__item-link"
-        onClick={ reloadButtonClickHandler }
+        onClick={ handleReloadButtonClick }
       >
         <span>{ message }</span>
       </button>

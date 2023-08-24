@@ -9,7 +9,7 @@ type OfferListProps = {
 export default function OfferList({ offers, classOption }: OfferListProps) {
   const { placeListClass } = classOption;
   return (
-    <div className={ placeListClass }>
+    <div className={ placeListClass } data-testid="offer-list">
       { offers.map((offer) => (
         <OfferItem
           key={ offer.id }

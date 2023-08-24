@@ -9,6 +9,7 @@ import { store } from '../store';
 import Loader from './components/loader.tsx';
 import { useAppSelector } from '../hooks';
 import { getAuthStatus } from '../store/auth-process/selectors.ts';
+
 store.dispatch(checkAuthAction());
 store.dispatch(getOffersAction());
 

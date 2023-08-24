@@ -11,7 +11,7 @@ import { Provider } from 'react-redux';
 import HistoryRouter from '../history-route/history-route.tsx';
 import { ReactElement } from 'react';
 
-export function withHistory(component: JSX.Element, history?: MemoryHistory) {
+export function withHistory(component: ReactElement, history?: MemoryHistory) {
   const memoryHistory = history ?? createMemoryHistory();
 
   return (

@@ -12,7 +12,7 @@ export default function Sorting({ currentSorting, setCurrentSorting }: SortingPr
   const [ isOpened, setOpened ] = useState(false);
   const sortingRef = useRef(null);
   useOutsideClick(sortingRef, isOpened, setOpened);
-  const sortingOnClickHandler = (option: SortType) => {
+  const handleSortingOnClick = (option: SortType) => {
     setCurrentSorting(option);
     setOpened(false);
   };
@@ -40,7 +40,7 @@ export default function Sorting({ currentSorting, setCurrentSorting }: SortingPr
               data-testid="sort-option"
               key={ sorting }
               className={ cn('places__option', { 'places__option--active': currentSorting === sorting }) }
-              onClick={ () => sortingOnClickHandler(sorting) }
+              onClick={ () => handleSortingOnClick(sorting) }
             >
               { sorting }
             </li>

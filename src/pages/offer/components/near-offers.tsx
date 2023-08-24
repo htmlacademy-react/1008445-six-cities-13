@@ -8,7 +8,6 @@ import ErrorRequestReloader from '../../../app/components/error-request-reloader
 export type NearOffersProps = {
   offerId: string;
 }
-
 export default function NearOffers({ offerId }: NearOffersProps) {
   const nearOffersLoadingStatus = useAppSelector(getNearOffersLoadingStatus);
   const nearOffers = useAppSelector(getNearOffers);

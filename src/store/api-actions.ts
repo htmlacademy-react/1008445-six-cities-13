@@ -13,6 +13,7 @@ import {
 } from '../types/offer.ts';
 import { TReview, TReviewRequestData, TReviews } from '../types/comment.ts';
 import { removeUserData, setUserData } from '../services/user-data.ts';
+import { sortByRandom } from '../utils.ts';
 
 const getOffersAction = createAsyncThunk<TPreviewOffers, undefined, {
   dispatch: TAppDispatch;
@@ -55,7 +56,7 @@ const getNearOffersAction = createAsyncThunk<TPreviewOffers, TOfferRequestData, 
   `${ AppNameSpace.AppData }/getNearOffers`,
   async ({ offerId }, { extra: api }) => {
     const { data } = await api.get<TPreviewOffers>(`${ APIRoute.Offers }/${ offerId }/nearby`);
-    return data;
+    return data.sort(sortByRandom);
   },
 );
 const getFavoriteOffersAction = createAsyncThunk<TPreviewOffers, undefined, {

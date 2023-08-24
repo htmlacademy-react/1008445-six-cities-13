@@ -11,7 +11,6 @@ import ErrorRequestReloader from '../../../app/components/error-request-reloader
 export type ReviewsProps = {
   offerId: string;
 }
-
 export default function Reviews({ offerId }: ReviewsProps) {
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const reviewsLoadingStatus = useAppSelector(getReviewsLoadingStatus);

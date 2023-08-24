@@ -21,7 +21,7 @@ export default function OfferInfo({ offer }: TOfferInfo) {
   const { name, avatarUrl, isPro } = host;
   const bedroomsTitle = `${ bedrooms } Bedroom${ bedrooms > 1 ? 's' : ''}`;
   const maxAdultsTitle = `Max ${ maxAdults } adult${ maxAdults > 1 ? 's' : ''}`;
-  const favoriteButtonClickHandler = () => {
+  const handleFavoriteButtonClick = () => {
     if (isAuthChecked) {
       dispatch(setOfferFavoriteAction({
         offerId: id,
@@ -52,7 +52,7 @@ export default function OfferInfo({ offer }: TOfferInfo) {
           <button
             className={ cn('offer__bookmark-button button', { 'offer__bookmark-button--active' : isFavorite }) }
             type="button"
-            onClick={ favoriteButtonClickHandler }
+            onClick={ handleFavoriteButtonClick }
             data-testid="favorite-button"
           >
             <svg className="offer__bookmark-icon" width="31" height="33">

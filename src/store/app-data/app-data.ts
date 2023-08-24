@@ -14,7 +14,7 @@ import {
   getReviewsAction,
   setOfferFavoriteAction,
 } from '../api-actions.ts';
-import { replaceOrToggleOffer, sortByRandom } from '../../utils.ts';
+import { replaceOrToggleOffer } from '../../utils.ts';
 import { TReviewData } from '../../types/comment.ts';
 
 const initialState: TAppData = {
@@ -31,7 +31,6 @@ const initialState: TAppData = {
   nearOffers: [],
   review: DEFAULT_REVIEW,
 };
-
 export const appData = createSlice({
   name: AppNameSpace.AppData,
   initialState,
@@ -79,7 +78,7 @@ export const appData = createSlice({
         state.nearOffersLoadingStatus = RequestStatus.Pending;
       })
       .addCase(getNearOffersAction.fulfilled, (state, action) => {
-        state.nearOffers = action.payload.sort(sortByRandom);
+        state.nearOffers = action.payload;
         state.nearOffersLoadingStatus = RequestStatus.Success;
       })
       .addCase(addReviewAction.rejected, (state) => {

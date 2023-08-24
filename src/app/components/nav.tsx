@@ -14,7 +14,7 @@ export default function Nav() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const data = getUserData();
-  const singOutButtonClickHandler = (evt: MouseEvent) => {
+  const handleLogOutButtonClick = (evt: MouseEvent) => {
     evt.preventDefault();
     navigate(AppRoute.Main);
     dispatch(logoutAction())
@@ -39,7 +39,7 @@ export default function Nav() {
             <button
               type="button"
               className="header__nav-link"
-              onClick={ singOutButtonClickHandler }
+              onClick={ handleLogOutButtonClick }
             >
               <span className="header__signout" data-testid="logout-button">Log Out</span>
             </button>
