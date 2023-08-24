@@ -27,9 +27,13 @@ export default function OfferInfo({ offer }: TOfferInfo) {
         offerId: id,
         favoriteStatus: isFavorite ? 0 : 1,
         favoriteOfferType: FavoriteOfferUpdateType.Offer
-      })).catch(() => toast.error(
-        `Something wrong when trying to ${ !isFavorite ? 'add to ' : 'remove from' } favorites, try again later`)
-      );
+      }))
+        .unwrap()
+        .then(() =>
+          toast.success(`Successfully ${ !isFavorite ? 'added to ' : 'removed from' } favorites`))
+        .catch(() => toast.error(
+          `Something wrong when trying to ${ !isFavorite ? 'add to ' : 'remove from' } favorites, try again later`)
+        );
     } else {
       navigate(AppRoute.Login);
     }
