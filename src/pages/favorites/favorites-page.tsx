@@ -3,8 +3,8 @@ import FavoriteList from './components/favorite-list.tsx';
 import { useAppSelector } from '../../hooks';
 import { getFavoriteOffers, getFavoriteOffersLoadingStatus } from '../../store/app-data/selectors.ts';
 import { AppRoute, ErrorCause, RequestStatus } from '../../const.ts';
-import Loader from '../../app/components/loader.tsx';
-import ErrorRequestReloader from '../../app/components/error-request-reloader.tsx';
+import Loader from '../../app/components/loader/loader.tsx';
+import ErrorRequestReloader from '../../app/components/error-request-reloader/error-request-reloader.tsx';
 import { Navigate } from 'react-router-dom';
 
 function FavoritesPage() {
@@ -25,7 +25,7 @@ function FavoritesPage() {
         <title>Six cities. Favorites places</title>
       </Helmet>
       <div className="page__favorites-container container">
-        <section className="favorites">
+        <section className="favorites" data-testid="favorites-offers">
           <h1 className="favorites__title">Saved listing</h1>
           <FavoriteList offers={ offers }/>
         </section>

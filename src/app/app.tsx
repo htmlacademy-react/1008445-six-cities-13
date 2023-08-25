@@ -1,12 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
 import { FavoritesPage, LoginPage, MainPage, NotFoundPage, OfferPage, FavoritesEmptyPage, MainEmptyPage } from '../pages/pages.ts';
 import { AppRoute, AuthorizationStatus } from '../const.ts';
-import PrivateRoute from './components/private-route.tsx';
+import PrivateRoute from './components/private-route/private-route.tsx';
 import { HelmetProvider } from 'react-helmet-async';
-import Layout from './components/layout.tsx';
+import Layout from './components/layout/layout.tsx';
 import { checkAuthAction, getOffersAction } from '../store/api-actions.ts';
 import { store } from '../store';
-import Loader from './components/loader.tsx';
+import Loader from './components/loader/loader.tsx';
 import { useAppSelector } from '../hooks';
 import { getAuthStatus } from '../store/auth-process/selectors.ts';
 

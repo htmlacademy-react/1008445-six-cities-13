@@ -12,7 +12,7 @@ import {
   SortType
 } from '../../const.ts';
 import OfferList from './components/offer-list.tsx';
-import Map from '../../app/components/map.tsx';
+import Map from '../../app/components/map/map.tsx';
 import CitiesList from './components/cities-list.tsx';
 import { useAppSelector } from '../../hooks';
 import { MemoizedSorting } from './components/sorting.tsx';
@@ -20,8 +20,8 @@ import { Navigate } from 'react-router-dom';
 import { getFilteredByCityOffers, getOffersLoadingStatus } from '../../store/app-data/selectors.ts';
 import { getCity } from '../../store/app-process/selectors.ts';
 import { getAuthStatus } from '../../store/auth-process/selectors.ts';
-import Loader from '../../app/components/loader.tsx';
-import ErrorRequestReloader from '../../app/components/error-request-reloader.tsx';
+import Loader from '../../app/components/loader/loader.tsx';
+import ErrorRequestReloader from '../../app/components/error-request-reloader/error-request-reloader.tsx';
 import './style.css';
 
 export default function MainPage() {
@@ -50,7 +50,7 @@ export default function MainPage() {
       </div>
       <div className="cities">
         <div className="cities__places-container container">
-          <section className="cities__places places">
+          <section className="cities__places places" data-testid="cities-places">
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">
               { placesFoundTitle }
@@ -62,7 +62,7 @@ export default function MainPage() {
             />
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map map--clear">
+            <section className="cities__map map map--clear" data-testid="map">
               <Map
                 offers={ previewOffers }
                 center={ location }
