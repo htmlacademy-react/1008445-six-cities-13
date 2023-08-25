@@ -8,7 +8,6 @@ export default function useOffer(offerId: string | undefined) {
       dispatch(getOfferAction({ offerId }));
       dispatch(getReviewsAction({ offerId }));
       dispatch(getNearOffersAction({ offerId }));
-      window.scrollTo(0,0);
     }
   }, [ dispatch, offerId ]);
 }

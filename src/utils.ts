@@ -4,7 +4,7 @@ import {
   defaultCustomIcon, FavoriteOfferUpdateType,
   LayoutClassOptions,
 } from './const.ts';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { TMapOffer, TMapOffers, TOffer, TPreviewOffer, TPreviewOffers } from './types/offer.ts';
 import { TReview } from './types/comment.ts';
 import { matchPath } from 'react-router-dom';
